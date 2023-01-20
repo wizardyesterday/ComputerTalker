@@ -336,13 +336,27 @@ void PhonemMaker::acceptEnglishText(std::string& text,
    return;
 
 } // ENG_TO_PH
-   
-/******************************************************************************
 
- IS_ALPHA - RETURN FLAG DETERMINING IF ARGUMENT IS AN ALPHABETIC CHARACTER
+/************************************************************************
 
-******************************************************************************/
+  Name: IS_ALPHA
 
+  Purpose: The purpose of this function is to determine whether or
+  not a character is alphabetic.
+
+  Calling Sequence: result = IS_ALPHA(CH)
+
+  Inputs:
+
+    CH - The character to be evaluated.
+
+  Outputs:
+
+    reault - A flag that indicates the result of the operation.  A value
+    of true indicates that the character is alphabetic, and a value of
+    false indicates that the character is not alphabetic.
+
+*****************************************************************************/
 bool PhonemMaker::IS_ALPHA(char CH)
 {
    bool result;
@@ -354,12 +368,26 @@ bool PhonemMaker::IS_ALPHA(char CH)
 
 } // IS_ALPHA
 
-/*****************************************************************************
+/************************************************************************
 
- IS_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A VOWEL
+  Name: IS_VWL
+
+  Purpose: The purpose of this function is to determine whether or
+  not a character is a vowel.
+
+  Calling Sequence: result = IS_VWL(CH)
+
+  Inputs:
+
+    CH - The character to be evaluated.
+
+  Outputs:
+
+    reault - A flag that indicates the result of the operation.  A value
+    of true indicates that the character is a vowel, and a value of
+    false indicates that the character is not a vowel.
 
 *****************************************************************************/
-
 bool PhonemMaker::IS_VWL(char CH)
 {
    bool result;
@@ -390,12 +418,26 @@ bool PhonemMaker::IS_VWL(char CH)
 
 } // IS_VWL
 
-/****************************************************************************
+/************************************************************************
 
- IS_FR_VWL - RETURN FLAG DETERMINING IF ARGUMENT IS A FRONT VOWEL
+  Name: IS_FR_VWL
 
-****************************************************************************/
+  Purpose: The purpose of this function is to determine whether or
+  not a character is a front vowel.
 
+  Calling Sequence: result = IS_FR_VWL(CH)
+
+  Inputs:
+
+    CH - The character to be evaluated.
+
+  Outputs:
+
+    reault - A flag that indicates the result of the operation.  A value
+    of true indicates that the character is a front vowel, and a value of
+    false indicates that the character is not a front vowel.
+
+*****************************************************************************/
 bool PhonemMaker::IS_FR_VWL(char CH)
 {
    bool result;
@@ -423,13 +465,26 @@ bool PhonemMaker::IS_FR_VWL(char CH)
 
 } // IS_VWL
 
-/*****************************************************************************
+/************************************************************************
 
+  Name: IS_CST
 
- IS_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A CONSONANT
+  Purpose: The purpose of this function is to determine whether or
+  not a character is a consonant.
+
+  Calling Sequence: result = IS_CST(CH)
+
+  Inputs:
+
+    CH - The character to be evaluated.
+
+  Outputs:
+
+    reault - A flag that indicates the result of the operation.  A value
+    of true indicates that the character is a consonant, and a value of
+    false indicates that the character is not a consonant.
 
 *****************************************************************************/
-
 bool PhonemMaker::IS_CST(char CH)
 {
    bool result;
@@ -447,12 +502,26 @@ bool PhonemMaker::IS_CST(char CH)
 
 } // IS_CST
 
-/****************************************************************************
+/************************************************************************
 
- IS_VO_CST - RETURN FLAG DETERMINING IF ARGUMENT IS A VOICED CONSONANT
+  Name: IS_VO_CST
+
+  Purpose: The purpose of this function is to determine whether or
+  not a character is a voiced consonant.
+
+  Calling Sequence: result = IS_VO_CST(CH)
+
+  Inputs:
+
+    CH - The character to be evaluated.
+
+  Outputs:
+
+    reault - A flag that indicates the result of the operation.  A value
+    of true indicates that the character is a voiced consonant, and a
+    value of false indicates that the character is not a voiced consonant.
 
 *****************************************************************************/
-
 bool PhonemMaker::IS_VO_CST(char CH)
 {
    bool result;
@@ -471,14 +540,14 @@ bool PhonemMaker::IS_VO_CST(char CH)
       case 'W':
       case 'Z':
       {
-         // The character is a front vowel.
+         // The character is a voiced consonant.
          result = true;
          break;
       } // case
 
       default:
       {
-         // The character is not a front vowel.
+         // The character is not a voiced consonant.
          result = false;;
          break;
       } // case
@@ -488,13 +557,31 @@ bool PhonemMaker::IS_VO_CST(char CH)
 
 } // IS_VO_CST
 
+/************************************************************************
 
-/*****************************************************************************
+  Name: RT_PS_VWL
 
- RT_PS_VWL - MOVE INDEX RIGHT PAST VOWELS IN ENGLISH BUFFER
+  Purpose: The purpose of this function is to advance the English
+  buffer index to the right past all consecutive vowels in the English
+  buffer.
 
-******************************************************************************/
+  Calling Sequence: RT_PS_VWL(R_INDEX,OCCURED)
 
+  Inputs:
+
+    R_INDEX - A reference to storage for the index into the English
+    buffer.
+
+    OCCURRED - A reference to storage that indicates whether or not
+    a vowel was detected.  A value of true indicates that a vowel was
+    detected, and a value of false indicates that a vowel was not
+    detected.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
@@ -535,12 +622,31 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 
 } // RT_PS_VWL
 
-/*****************************************************************************
+/************************************************************************
 
- RT_PS_CST - MOVE INDEX RIGHT PAST CONSONANTS IN ENGLISH BUFFER
+  Name: RT_PS_CST
 
-******************************************************************************/
+  Purpose: The purpose of this function is to advance the English
+  buffer index to the right past all consecutive consonants in the
+  English buffer.
 
+  Calling Sequence: RT_PS_CST(R_INDEX,OCCURED)
+
+  Inputs:
+
+    R_INDEX - A reference to storage for the index into the English
+    buffer.
+
+    OCCURRED - A reference to storage that indicates whether or not
+    a vowel was detected.  A value of true indicates that a consonant was
+    detected, and a value of false indicates that a consonant was not
+    detected.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
@@ -578,13 +684,31 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 
 } // RT_PS_CST
 
+/************************************************************************
 
-/*****************************************************************************
+  Name: LF_PS_VWL
 
- LF_PS_VWL - MOVE INDEX OF ENGLISH BUFFER LEFT PAST VOWELS
+  Purpose: The purpose of this function is to advance the English
+  buffer index to the left past all consecutive vowels in the English
+  buffer.
 
-******************************************************************************/
+  Calling Sequence: LF_PS_VWL(R_INDEX,OCCURED)
 
+  Inputs:
+
+    R_INDEX - A reference to storage for the index into the English
+    buffer.
+
+    OCCURRED - A reference to storage that indicates whether or not
+    a vowel was detected.  A value of true indicates that a vowel was
+    detected, and a value of false indicates that a vowel was not
+    detected.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
@@ -625,13 +749,31 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
 
 } // LF_PS_VWL
 
+/************************************************************************
 
-/****************************************************************************
+  Name: LF_PS_CST
 
- LF_PS_CST - MOVE INDEX OF ENGLISH BUFFER LEFT PAST CONSONANTS
+  Purpose: The purpose of this function is to advance the English
+  buffer index to the left past all consecutive consonants in the
+  English buffer.
+
+  Calling Sequence: LF_PS_CST(R_INDEX,OCCURED)
+
+  Inputs:
+
+    R_INDEX - A reference to storage for the index into the English
+    buffer.
+
+    OCCURRED - A reference to storage that indicates whether or not
+    a vowel was detected.  A value of true indicates that a consonant was
+    detected, and a value of false indicates that a consonant was not
+    detected.
+
+  Outputs:
+
+    None.
 
 *****************************************************************************/
-
 void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
@@ -669,12 +811,25 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 
 } // LF_PS_CST
 
-/**************************************************************************
+/************************************************************************
 
- BLD_LIT_P - BUILD LITERAL PHONEM STRING IN ARRAY OF PHONEM STRING 
+  Name: BLD_LIT_P
 
-**************************************************************************/
+  Purpose: The purpose of this function is to advance the extract the
+  phonem string on the right side of the equation for a particular
+  rule that is being processed.
+  Calling Sequence: BLD_LIT_P(int RUL_INDX)
 
+  Inputs:
+
+    RUL_INDX - An index into the curent rule for which a phonem string
+    is to be extracted.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 {
    int INDEX;
@@ -739,12 +894,32 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 
 } // BLD_LIT_P
 
-/***************************************************************************
+/************************************************************************
 
-// SC_RT_CTX - SCAN RIGHT CONTEXT OF A RULE
+  Name: SC_RT_CTX
 
-***************************************************************************/
+  Purpose: The purpose of this function is to scan and evaluate the
+  right-hand context of text to be evaluated.
 
+  Calling Sequence: SC_RT_CTX(RT_INDX,RUL_INDX,FOUND)
+
+  Inputs:
+
+    RT_INDX - A reference to storage to the current rule.
+
+    RUL_INDX - A reference to storage to the current rule.  This is
+    a running index.
+
+    FOUND - A reference to storage for a flag that indicates that a
+    right-context rule was satisfied.  A value of true indicates that
+    it was not satisfied, and a value of false indicates that it was
+    not satisfied.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 {
    int R_INDEX;
@@ -871,12 +1046,29 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
 } // SC_RT_CTX
 
-/***************************************************************************
+/************************************************************************
 
- SC_LF_CTX - SCAN LEFT CONTEXT OF A RULE IF IT EXISTS
+  Name: SC_LF_CTX
 
-****************************************************************************/
+  Purpose: The purpose of this function is to scan and evaluate the
+  left-hand context of text to be evaluated.
 
+  Calling Sequence: SC_LF_CTX(LEF_INDX,FOUND)
+
+  Inputs:
+
+    LEF_INDX - An index to storage to the current rule.
+
+    FOUND - A reference to storage for a flag that indicates that a
+    left-context rule was satisfied.  A value of true indicates that
+    it was not satisfied, and a value of false indicates that it was
+    not satisfied.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 {
    int R_INDEX;
@@ -994,13 +1186,27 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 
 } // SC_LF_CTX
 
-/***************************************************************************
+/************************************************************************
 
- CMP_REF_S - COMPARE REFERENCE STRING TO A SEGMENT IN THE ENGLISH STRING
-             RETURN RESULT AS TRUE OR FALSE
+  Name: CMP_REF_S
 
-****************************************************************************/
+  Purpose: The purpose of this function is to scan and evaluate the
+  left-hand context of text to be evaluated.
 
+  Calling Sequence: result = CMP_REF_S()
+
+  Inputs:
+
+    None.
+
+  Outputs:
+
+    result - A flag that indicates the result of the comparison.  A
+    value of true indicates that the reference string matched to the
+    current position in the English buffer, and a value of false
+    indicates that a match was not found.
+
+*****************************************************************************/
 bool PhonemMaker::CMP_REF_S(void)
 {
    bool result;
@@ -1019,7 +1225,6 @@ bool PhonemMaker::CMP_REF_S(void)
 
    while (!DONE)
    {
-//      if (REF_STR[INDEX] != (E_BUFFER[E_INDEX + INDEX - 1]))
       if (REF_STR[INDEX] != (E_BUFFER[E_INDEX + INDEX]))
       {
          DONE = true;
@@ -1050,13 +1255,30 @@ bool PhonemMaker::CMP_REF_S(void)
 
 } // CMP_REF_S
 
-/****************************************************************************
+/************************************************************************
 
- BLD_REF_S - BUILD REFERENCE STRING FROM RULE BUFFER
-             AND RETURN RIGHT PARENT INDEX 
+  Name: BLD_REF_S
 
-****************************************************************************/
+  Purpose: The purpose of this function is to extract the reference
+  string from a rule.  The reference string is the text betweeh the
+  parantheses.  For ecample: (AB) implies that the reference string
+  is "AB".
 
+  Calling Sequence: BLD_REF_S(LEF_INDX,RT_INDX)
+
+  Inputs:
+
+    LEF_INDX - An index that indicates the position of the left
+    '('.
+
+    RT_INDX - A reference to storage for the right-hand index into
+    the current rule entry.
+
+  Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 {
 
@@ -1079,12 +1301,24 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 
 } // BLD_REF_S
 
-/***************************************************************************
+/************************************************************************
 
- FI_LF_PAR - SCAN RULE BUFFER UNTIL LEFT PARENT IS FOUND
+  Name: FI_LF_PAR
 
-***************************************************************************/
+  Purpose: The purpose of this function is to scan the current rule
+  until the left-hand '('. is found.
 
+  Calling Sequence: FI_LF_PAR(LEF_INDX)
+
+  Inputs:
+
+    LEF_INDX - A reference to storage for the index of the left '('.
+
+   Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 {
 
@@ -1101,12 +1335,29 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 
 } // FI_LF_PAR
 
-/***************************************************************************
+/************************************************************************
 
- SCAN - SCAN A RULE STRING AND RETURN RESULT WHETHER FOUND
+  Name: SCAN
 
-***************************************************************************/
+  Purpose: The purpose of this function is to evaluate the current
+  position of the English text when compared to the current rule.
+  Both left and right contexts will be evaluated (if they exist), If
+  the current rule is satisfied, more phonems will be added to the
+  phonem stream.
 
+  Calling Sequence: result = SCAN()
+
+  Inputs:
+
+    None.
+
+   Outputs:
+
+    result - A flag that indicates whether or not the rule was satisfied.
+    A value of true indicates that the rule was satisfied, and a value of
+    false indicates that the rule was not satisfied.
+
+*****************************************************************************/
 bool PhonemMaker::SCAN(void)
 {
    bool result;
@@ -1165,81 +1416,97 @@ bool PhonemMaker::SCAN(void)
 
 } // SCAN
 
+/************************************************************************
 
-/*****************************************************************************
+  Name: RUL_SRC
 
- RUL_SRCH - SCAN RULES OF A LETTER OR NUMBER AND GENERATE PHONEMS
+  Purpose: The purpose of this function is to scan the rules of a
+  letter in the English text and generate a phonem stream.  This text
+  (extracted from the original code follows.
 
- RULE FORMAT - #(SED)!=Z,D;
+  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+  RULE FORMAT - #(SED)!=Z,D;
 
-               # - LEFT CONTEXT
-               ( - LEFT CONTEX DELIMITER
-               SED - STRING TO BE MATCHED
-               ) - RIGHT CONTEXT DELIMITER
-               ! - RIGHT CONTEX
-               = - RIGHT CONTEX TERMINATOR
-               Z - PHONEM CODE
-               , - PHONEM SEPARATOR
-               D - PHONEM CODE
-               ; - RULE TERMINATOR
+    # - LEFT CONTEXT
+    ( - LEFT CONTEX DELIMITER
+    SED - STRING TO BE MATCHED
+    ) - RIGHT CONTEXT DELIMITER
+    ! - RIGHT CONTEX
+    = - RIGHT CONTEX TERMINATOR
+    Z - PHONEM CODE
+    , - PHONEM SEPARATOR
+    D - PHONEM CODE
+     ; - RULE TERMINATOR
 
-MEANING OF RULE SYMBOLS
+    MEANING OF RULE SYMBOLS
 
-              ! - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ANY NONALPHABETIC
-                  CHARACTER IN ENGLISH INPUT STRING. IF MATCH FAILS, REPORTS
-                  FAILURE. IF MATCH SUCCEEDS, MOVES RULE-STRIG POINTER BY
-                  ONE CHARACTER IN RULE AND MOVES INPUT STRING POINTER BY
-                  ONE CHARACTER IN THE ENGLISH STRING. THE DIRECTION OF
-                  MOVEMENT IS DETERMINED AS:
-                                1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-                                2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+      ! - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ANY NONALPHABETIC
+          CHARACTER IN ENGLISH INPUT STRING. IF MATCH FAILS, REPORTS
+          FAILURE. IF MATCH SUCCEEDS, MOVES RULE-STRIG POINTER BY
+          ONE CHARACTER IN RULE AND MOVES INPUT STRING POINTER BY
+          ONE CHARACTER IN THE ENGLISH STRING. THE DIRECTION OF
+          MOVEMENT IS DETERMINED AS:
+            1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
+            2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
 
-             # - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE OR MORE
-                 VOWELS (A,E,I,O,U, OR Y). IF MATCH FAILS, REPORTS FAILURE.
-                 IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN
-                 RULES AND MOVES STRING POINTER BY THE NUMBER OF VOWELS
-                 MATCHED IN ENGLISH STRING. THE DIRECTION OF MOVEMENT IS
-                 DETERMINED AS:
-                               1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-                               2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        # - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE OR MORE
+            VOWELS (A,E,I,O,U, OR Y). IF MATCH FAILS, REPORTS FAILURE.
+            IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN
+            RULES AND MOVES STRING POINTER BY THE NUMBER OF VOWELS
+            MATCHED IN ENGLISH STRING. THE DIRECTION OF MOVEMENT IS
+            DETERMINED AS:
+              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
+              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
 
-            : - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ZERO OR MORE
-                CONSONANTS. MATCH ALWAYS SUCCEEDS. MOVES RULE POINTER BY
-                ONE CHARACTER IN RULES AND MOVES STRING POINTER BY THE
-                NUMBER OF CONSONANTS MATCHED IN ENGLISH INPUT STRING. THE
-                DIRECTION OF MOVEMENT IS DETERMINED AS:
-                              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-                              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        : - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ZERO OR MORE
+            CONSONANTS. MATCH ALWAYS SUCCEEDS. MOVES RULE POINTER BY
+            ONE CHARACTER IN RULES AND MOVES STRING POINTER BY THE
+            NUMBER OF CONSONANTS MATCHED IN ENGLISH INPUT STRING. THE
+            DIRECTION OF MOVEMENT IS DETERMINED AS:
+              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
+              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
 
-           + - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A FRONT VOWEL
-               (E,I, OR Y). IF MATCH FAILS, REPORTS FAILURE. IF MATCH
-               SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
-               AND MOVES STRING POINTER BY ONE CHARACTER IN INPUT STRING.
-               DIRECTION OF MOVEMENT IS DETERMINED AS:
-                             1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-                             2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        + - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A FRONT VOWEL
+            (E,I, OR Y). IF MATCH FAILS, REPORTS FAILURE. IF MATCH
+            SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
+            AND MOVES STRING POINTER BY ONE CHARACTER IN INPUT STRING.
+            DIRECTION OF MOVEMENT IS DETERMINED AS:
+              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
+              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
 
-          $ - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE CONSONANT. IF
-              MATCH FAILS, REPORTS FAILURE. IF MATCH SUCCEEDS, MOVES RULE
-              POINTER BY ONE CHARACTER IN RULES AND MOVES STRING POINTER
-              BY ONE CHARACTER IN ENGLISH INPUT STRING. DIRECTION OF MOVEMENT
-              IS DETERMINED AS:
-                            1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-                            2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        $ - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE CONSONANT. IF
+            MATCH FAILS, REPORTS FAILURE. IF MATCH SUCCEEDS, MOVES RULE
+            POINTER BY ONE CHARACTER IN RULES AND MOVES STRING POINTER
+            BY ONE CHARACTER IN ENGLISH INPUT STRING. DIRECTION OF MOVEMENT
+            IS DETERMINED AS:
+              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
+              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
 
-         . - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A VOICED CONSONANT
-             (B,D,G,J,L,M,N,R,V,W, OR Z). IF MATCH FAILS, REPORTS FAILURE.
-             IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
-             AND MOVES STRING POINTER BY ONE CHARACTER IN ENGLISH INPUT
-             STRING. DIRECTION OF MOVEMENT IS DETERMINED AS:
-                            1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-                            2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        . - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A VOICED CONSONANT
+            (B,D,G,J,L,M,N,R,V,W, OR Z). IF MATCH FAILS, REPORTS FAILURE.
+            IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
+            AND MOVES STRING POINTER BY ONE CHARACTER IN ENGLISH INPUT
+            STRING. DIRECTION OF MOVEMENT IS DETERMINED AS:
+              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
+              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
 
- AFTER A MATCH IS FOUND THE INDEX INTO THE ENGLISH BUFFER IS INCREMENTED
- BY THE NUMBER OF CHARACTERS INSIDE OF THE PARENTHESIS OF THE RULE.
+  AFTER A MATCH IS FOUND THE INDEX INTO THE ENGLISH BUFFER IS INCREMENTED
+  BY THE NUMBER OF CHARACTERS INSIDE OF THE PARENTHESIS OF THE RULE.
+  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+  Calling Sequence: RUL_SRCH(int BLK_OFF, int BLK_SIZ)
+
+  Inputs:
+
+    BLK_OFF - The starting index into the rules to be evaluated.
+
+    BLK_SIZ - The number of rules to evaluate.
+
+   Outputs:
+
+    None.
 
 *****************************************************************************/
-
 void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
 {
    int U_BOUNDS;

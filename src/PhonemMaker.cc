@@ -1551,12 +1551,26 @@ void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
 
 } // RUL_SRCH
 
-/*************************************************************************
+/************************************************************************
 
- STR_T_COD - CONVERT LITERAL PHONEM STRING TO CODE
+  Name: STR_T_COD
 
-*************************************************************************/
+  Purpose: The purpose of this function is to convert a string
+  representation of a phonem into it's binary code.  The code will
+  be added to the phonem buffer.
 
+  Calling Sequence: STR_T_COD(PH_STR)
+
+  Inputs:
+
+    PH_STR - A string representation of a phonem for which its binary
+    equivalent is to be created.
+
+   Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::STR_T_COD(std::string PH_STR)
 {
    int INDEX;
@@ -1595,12 +1609,26 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
 
 } // STR_T_COD
 
-/****************************************************************************
+/************************************************************************
 
- PH_TO_COD - CONVERT ARRAY OF PHONEM STRINGS INTO PHONEM CODES
+  Name: STR_T_COD
 
-****************************************************************************/
+  Purpose: The purpose of this function is to convert an array of
+  string
+  representations of a phonems into it's binary codes.  The code stream
+  will be placed in the phonem buffer.
 
+  Calling Sequence: PH_TO_COD()
+
+  Inputs:
+
+    None.
+
+   Outputs:
+
+    None.
+
+*****************************************************************************/
 void PhonemMaker::PH_TO_COD(void)
 {
    int INDEX;
@@ -1620,6 +1648,3 @@ void PhonemMaker::PH_TO_COD(void)
   return;
 
 } // PH_TO_COD
-
-
-

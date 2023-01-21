@@ -15,3 +15,15 @@ If I find PCM files for the phonems, the speech synthesizer part will be
 fairly easy.  As of right now, the PhonemMaker works, although there is a
 segfault now and then.
 
+To build this app type:
+  sh buildit.sh.
+
+The binary will be in the current directory, and you launch it by typing:
+  ./talker.
+
+If you want input from a file, you type:
+  ./talker < textFileName.
+
+
+
+

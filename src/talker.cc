@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include "PhonemMaker.h"
+#include "SpeechSynthesizer.h"
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // Static storage for temporary information.
@@ -172,7 +173,8 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
 //***********************************************************************
 int main(int argc, char **argv)
 {
-   bool success; 
+   bool success;
+   bool synthesizerInitialized; 
    bool done;
    int ruleCount;
    int phonemCount;
@@ -182,51 +184,60 @@ int main(int argc, char **argv)
    uint32_t phonemBufferLength;
    uint8_t *phonemCodePtr;
    PhonemMaker *makerPtr;
+   SpeechSynthesizer *synthesizerPtr;
 
    // Retrieve the inputs to the PhonemMaker constructure.
    success = getSystemParameters(ruleCount,phonemCount);
 
    if (success)
    {
-      // Instantiate our first object.
+      // Instantiate the text to phonem convertor.
       makerPtr = new PhonemMaker(rules,
                                  ruleCount,
                                  phonemTable,
                                  phonemCount);
 
-      // Set up for loop entry.
-      done = false;
+      // Instiatate the synthesizer.
+      synthesizerPtr = new SpeechSynthesizer(synthesizerInitialized);
 
-      while (!done)
+      if (synthesizerInitialized)
       {
-         statusPtr = fgets(englishBuffer,100,stdin);
+         // Set up for loop entry.
+         done = false;
 
-         if (statusPtr != NULL)
+         while (!done)
          {
-            // Nuke the newline!
-            englishBuffer[strlen(englishBuffer)-1] = '\0';
+            // Read the next line of text.
+            statusPtr = fgets(englishBuffer,100,stdin);
 
-            // Copy this in order to satify the interface.
-            englishText = englishBuffer;
+            if (statusPtr != NULL)
+            {
+               // Nuke the newline!
+               englishBuffer[strlen(englishBuffer)-1] = '\0';
 
-            // Generate the phonems.
-            makerPtr->acceptEnglishText(englishText,
-                                        phonemCodePtr,
-                                        phonemBufferLength);
+               // Copy this in order to satify the interface.
+               englishText = englishBuffer;
 
-            // Send the phonems to the speech synthesizer.
+               // Generate the phonems.
+               makerPtr->acceptEnglishText(englishText,
+                                           phonemCodePtr,
+                                           phonemBufferLength);
 
-         } // if
-         else
-         {
-            // Bail out.
-            done = true;
-         } // else
-      } // while
+               // Send the phonems to the speech synthesizer.
+               synthesizerPtr->talk(phonemCodePtr,phonemBufferLength);
+            } // if
+            else
+            {
+               // Bail out.
+               done = true;
+            } // else
+         } // while
+      } // if
    } // if
 
    // Release resources.
    delete makerPtr;
+   delete synthesizerPtr;
 
    return (0);
 

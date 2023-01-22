@@ -233,7 +233,15 @@ int main(int argc, char **argv)
             } // else
          } // while
       } // if
+      else
+      {
+         fprintf(stderr,"Error: Failed to initialize the speech synthesizer\n");
+      } // else
    } // if
+   else
+   {
+      fprintf(stderr,"Error:A Failed to load configuration files\n");
+   } // else
 
    // Release resources.
    delete makerPtr;

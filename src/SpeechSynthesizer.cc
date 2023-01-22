@@ -1,11 +1,21 @@
 //**********************************************************************
 // file name: SpeechSynthesizer.cc
 //**********************************************************************
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+// This class attempts to emulate a Votrax SC-01 speech
+// synthesizer.  To achieve this, when presented with a stream of
+// phonem codes, each phonem code is mapped to a PCM buffer.  The
+// contents of this buffer is written to stdout where the output
+// can be piped to your favorite audio player.  The format of the
+// audio files are 16-bit signed little endian quantities.  The
+// sample rate is 44100S/s.
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 #include <stdio.h>
 
 #include "SpeechSynthesizer.h"
 
+// Phonem code context.
 struct pcmEntry
 {
    char *fileNamePtr;
@@ -13,13 +23,19 @@ struct pcmEntry
    int32_t numberOfSamples;
 };
 
+
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+// Each entry of this array represents the context of each phonem
+// code.  The comments on the far right indicate the Votrax SC-01
+// phonem code.
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 static pcmEntry pcmBuffers[] =
 {
    {"rawSamples/EH3.raw",{0},0},  // 00
    {"rawSamples/EH2.raw",{0},0},  // 01
    {"rawSamples/EH1.raw",{0},0},  // 02
    {"rawSamples/PA0.raw",{0},0},  // 03,
-   {"rawSamples/DT.raw",{0},0},   // 04, // Copied D.raw to DT.raw
+   {"rawSamples/DT.raw",{0},0},   // 04, // Copied T.raw to DT.raw
    {"rawSamples/A2.raw",{0},0},   // 05
    {"rawSamples/A1.raw",{0},0},   // 06
    {"rawSamples/ZH.raw",{0},0},   // 07
@@ -79,15 +95,17 @@ static pcmEntry pcmBuffers[] =
    {"rawSamples/AW.raw",{0},0},   // 3D
    {"rawSamples/PA0.raw",{0},0},  // 3E,
    {"rawSamples/STOP.raw",{0},0}  // 3F
-
 };
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 /************************************************************************
 
   Name: SpeechSynthesizer
 
   Purpose: The purpose of this function is to serve as the constructor
-  of an SpeechSynthesizer object.
+  of an SpeechSynthesizer object.  The function loads the contents
+  of each phonem into each entry of the phonemBuffers[] array so that
+  the phonem PCM samples can be output at a later time. 
 
   Calling Sequence: SpeechSynthesizer(bool& success)
 
@@ -176,7 +194,7 @@ SpeechSynthesizer::~SpeechSynthesizer(void)
     phonemBuffer - A reference to storage of a binary representation
     of phonems.
 
-    phonemCount - The number of phonems to decod.
+    phonemCount - The number of phonems to decode.
 
   Outputs:
 
@@ -196,7 +214,7 @@ void SpeechSynthesizer::talk(uint8_t*& phonemBuffer,uint32_t phonemCount)
       // Write the PCM samples to stdout.
       fwrite(pcmBuffers[phonemCode].data,
              sizeof(int16_t),
-             pcmBuffers[i].numberOfSamples,
+             pcmBuffers[phonemCode].numberOfSamples,
              stdout);
    } // for
   

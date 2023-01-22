@@ -27,6 +27,8 @@ static char  rule[100];
 // be evident that I used an ancient compiler due to the short variable
 // names and short procedure and function names.  I also used upper case
 // text (we did that back then in the CP/M days).
+// Note that the PCM samples are 16-bit, little endian, with a sample rate
+// of 16000S/s.
 //*************************************************************************
 
 /**************************************************************************
@@ -87,7 +89,7 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
 
       while (!done)
       {
-         statusPtr = fgets(buffer,64,phonemStream);
+         statusPtr = fgets(buffer,80,phonemStream);
 
          if (statusPtr != NULL)
          {

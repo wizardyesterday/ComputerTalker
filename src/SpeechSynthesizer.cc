@@ -8,7 +8,7 @@
 // contents of this buffer is written to stdout where the output
 // can be piped to your favorite audio player.  The format of the
 // audio files are 16-bit signed little endian quantities.  The
-// sample rate is 44100S/s.
+// sample rate is 16000S/s.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 #include <stdio.h>
@@ -19,8 +19,8 @@
 struct pcmEntry
 {
    char *fileNamePtr;
-   int16_t data[40000];
-   int32_t numberOfSamples;
+   int16_t data[8192];
+   uint32_t numberOfSamples;
 };
 
 
@@ -34,8 +34,8 @@ static pcmEntry pcmBuffers[] =
    {"rawSamples/EH3.raw",{0},0},  // 00
    {"rawSamples/EH2.raw",{0},0},  // 01
    {"rawSamples/EH1.raw",{0},0},  // 02
-   {"rawSamples/PA0.raw",{0},0},  // 03,
-   {"rawSamples/DT.raw",{0},0},   // 04, // Copied T.raw to DT.raw
+   {"rawSamples/PA0.raw",{0},0},  // 03
+   {"rawSamples/DT.raw",{0},0},   // 04
    {"rawSamples/A2.raw",{0},0},   // 05
    {"rawSamples/A1.raw",{0},0},   // 06
    {"rawSamples/ZH.raw",{0},0},   // 07
@@ -149,7 +149,7 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
       } // else
    } // for
 
-  return;
+   return;
  
 } // SpeechSynthesizer
 
@@ -174,7 +174,7 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
 SpeechSynthesizer::~SpeechSynthesizer(void)
 {
 
-  return;
+   return;
 
 } // ~SpeechSynthesizer
 
@@ -218,6 +218,6 @@ void SpeechSynthesizer::talk(uint8_t*& phonemBuffer,uint32_t phonemCount)
              stdout);
    } // for
   
-  return;
+   return;
 
 } // talk

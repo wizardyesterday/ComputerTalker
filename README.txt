@@ -37,3 +37,15 @@ just capture the audio with a microphone or hardwire the audio
 output to a sound card.  I'd hate to blow up the synthesizer box,
 though.
 
+--------------------------------------------------------------------
+01/22/2023
+--------------------------------------------------------------------
+Today, I decided to create my own phonems with the aid of
+festital, using their text2wave script to create the example
+words from the Votrax SC-01 data sheet.  I was then able to select
+the speech samples of interest, using Audacity.  The sample rate of
+these raw PCM files is 16000S/s.  The format of the PCM samples is,
+16-bit signed little endian.  The speech is more intelligible than
+that obtained from the original PCM files, but it still could use
+some improvement.
+

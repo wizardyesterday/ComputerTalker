@@ -1,4 +1,4 @@
 #!/bin/sh
 
-g++ -I include -o talker src/talker.cc src/PhonemMaker.cc
+g++ -I include -o talker src/talker.cc src/PhonemMaker.cc src/SpeechSynthesizer.cc
 

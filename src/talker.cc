@@ -75,7 +75,7 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
    ruleCount = 0;
 
    // Open the textual phonem to binary code mapping file.
-   phonemStream = fopen("phonems.txt","r");
+   phonemStream = fopen("configuration/phonems.txt","r");
 
    if (phonemStream != NULL)
    {
@@ -113,7 +113,7 @@ static bool getSystemParameters(int& ruleCount,int& phonemCount)
    } // if
 
    // Open the phonetic rules file.
-   ruleStream = fopen("rules.txt","r");
+   ruleStream = fopen("configuration/rules.txt","r");
 
    if (ruleStream != NULL)
    {

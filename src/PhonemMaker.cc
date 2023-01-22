@@ -1576,9 +1576,6 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
    int INDEX;
    bool MATCH;
 
-   // This will be nuked after the system is fully integrated.
-   fprintf(stderr,"STR_T_COD(), PH_STR: %s\n",PH_STR.c_str());
-
    // Point to begining of phonem table.
    INDEX = 0;
 

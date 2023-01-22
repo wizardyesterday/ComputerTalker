@@ -24,6 +24,16 @@ The binary will be in the current directory, and you launch it by typing:
 If you want input from a file, you type:
   ./talker < textFileName.
 
-
-
+--------------------------------------------------------------------
+01/21/2023
+--------------------------------------------------------------------
+We now have a functioning system.  The phonem files really need
+to be replaced though.  Their duration is excessive to the point
+that speech sounds really slow.  With a stretch of the imagination,
+you can hear some words.  I'll have to capture the utterings of my
+speech synthesizer box.  The BeagleBone Black has enough I/O pins
+so that I can operate the synthesizer box.  I'm not sure if I should
+just capture the audio with a microphone or hardwire the audio
+output to a sound card.  I'd hate to blow up the synthesizer box,
+though.
 

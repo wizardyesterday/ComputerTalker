@@ -93,7 +93,7 @@ static pcmEntry pcmBuffers[] =
    {"rawSamples/EH.raw",{0},0},   // 3B
    {"rawSamples/E1.raw",{0},0},   // 3C
    {"rawSamples/AW.raw",{0},0},   // 3D
-   {"rawSamples/PA0.raw",{0},0},  // 3E,
+   {"rawSamples/PA1.raw",{0},0},  // 3E,
    {"rawSamples/STOP.raw",{0},0}  // 3F
 };
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

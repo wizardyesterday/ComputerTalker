@@ -32,10 +32,7 @@ class PhonemMaker
 {
   public:
 
-  PhonemMaker(std::string theRules[],
-              int numberOfRules,
-              PhonemToCodeEntry *phonemMapPtr,
-              int numberOfPhonems);
+  PhonemMaker(bool& success);
 
   ~PhonemMaker(void);
 
@@ -48,6 +45,8 @@ class PhonemMaker
   //*****************************************
   // Utility functions.
   //*****************************************
+  bool getSystemParameters(void);
+
   bool IS_ALPHA(char CH);
   bool IS_VWL(char CH);
   bool IS_FR_VWL(char CH);

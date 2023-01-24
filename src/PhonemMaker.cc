@@ -11,56 +11,34 @@ e
   Purpose: The purpose of this function is to serve as the constructor
   of a PhonemMaker object.
 
-  Calling Sequence: PhonemMaker(rules,
-                                numberOfRules,
-                                phonemMapPtr,
-                                numberOfPhonems)
+  Calling Sequence: PhonemMaker(success)
 
   Inputs:
 
-    rules - An array of strings that represent the phonetic rules.
-
-    numberOfRules - The number of phonetic rules.
-
-    phonemTable - An array of structures that maps textual phonems to
-    the binary phonem code that is presented to the voice synthesizer.
-
-    numberOfPhonems - The number of phonems in the phonem table.
+    success - A reference to storage for the outcome of initialization.
+    A value of true insicates sucessful initialization, and a value of
+    false indicates unsuccessful initialization.
 
   Outputs:
 
     None.
 
 **************************************************************************/
-PhonemMaker::PhonemMaker(std::string rules[],
-                         int numberOfRules,
-                         PhonemToCodeEntry *phonemMapPtr,
-                         int numberOfPhonems)
+PhonemMaker::PhonemMaker(bool& success)
 {
-   int i;
 
-   // Populate the rule table.
-   for (i = 0; i < numberOfRules; i++)
-   {
-      RUL_TBL[i] = rules[i];
-   } // for
-
-   // Populate the phonem table.
-   for (i = 0; i < numberOfPhonems; i++)
-   {
-      PHO_TBL[i].ALPHA = phonemMapPtr[i].ALPHA;
-      PHO_TBL[i].CODE = phonemMapPtr[i].CODE;
-   } // for
+   // Retrieve the inputs to the PhonemMaker constructure.
+   success = getSystemParameters();
 
 } // PhonemMaker
 
 /************************************************************************
 
-  Name: PhonemMaker
+  Name: ~PhonemMaker
 
   Purpose: The purpose of this function is to serve as the constructor
   of a PhonemMaker object.
-
+synthesizerInitialized
   Calling Sequence: PhonemMaker(rules,
                                 numberOfRules,
                                 phonemMapPtr,
@@ -86,6 +64,143 @@ PhonemMaker::~PhonemMaker(void)
 {
 
 } // ~PhonemMaker
+
+/**************************************************************************
+
+  Name: getSystemParameters
+
+  Purpose: The purpose of this function is to set the operating point
+  of the AGC.
+
+  Calling Sequence: success = getSystemParameters(ruleCount,phonemCount)
+
+  Inputs:
+
+    ruleCount - A reference variable for the number of rules returned by
+    this function.
+
+    phonemCount - A reference variable for the number of phonems returned
+    by this function
+
+  Outputs:
+
+    success - An indicator of the outcome of this function.  A value of
+    true indicates that the system parameters were successfully retrieved,
+    and a value of false indicates failure.
+
+**************************************************************************/
+bool PhonemMaker::getSystemParameters(void)
+{
+   bool success;
+   bool done;
+   FILE *phonemStream;
+   FILE *ruleStream;
+   int phonemCount;
+   int ruleCount;
+   char *statusPtr;
+   char buffer[1000];
+   char rule[100];
+   int code;
+   char alpha[100];
+   int numberOfExistingFiles;
+
+   // Default to failure.
+   success = false;
+   numberOfExistingFiles = 0;
+
+   // We're using zero-based arrays.
+   phonemCount = 0;
+   ruleCount = 0;
+
+   // Open the textual phonem to binary code mapping file.
+   phonemStream = fopen("configuration/phonems.txt","r");
+
+   if (phonemStream != NULL)
+   {
+      // The phonem file exists.
+      numberOfExistingFiles++;
+
+      // Set up for loop entry.
+      done = false;
+
+      while (!done)
+      {
+         statusPtr = fgets(buffer,80,phonemStream);
+
+         if (statusPtr != NULL)
+         {
+            sscanf(buffer,"%d %s",&code,alpha);
+
+            // Populate the phonem structure.
+            PHO_TBL[phonemCount].ALPHA = alpha;
+            PHO_TBL[phonemCount].CODE = code;
+
+            // Reference the next storage element.
+            phonemCount++;
+         } // if
+         else
+         {
+            // Bail out.
+            done = true;
+         } // else
+
+      } // while */
+
+      // We're done with this file.
+      fclose(phonemStream);
+   } // if
+
+   // Open the phonetic rules file.
+   ruleStream = fopen("configuration/rules.txt","r");
+
+   if (ruleStream != NULL)
+   {
+      // The rules file exists.
+      numberOfExistingFiles++;
+
+      // Set up for loop entry.
+      done = false;
+
+      while (!done)
+      {
+         statusPtr = fgets(buffer,100,ruleStream);
+
+         if (statusPtr != NULL)
+         {
+            // Just copy it so deal with literal whitespace.
+            strncpy(rule,buffer,sizeof(rule));
+
+            // Nuke the \n.
+            rule[strlen(rule)-1] = '\0';
+
+            // Populate the rule.
+            RUL_TBL[ruleCount] = rule;
+
+            // Reference the next storage element.
+            ruleCount++;
+         } // if
+         else
+         {
+            // Bail out.
+            done = true;
+         } // else
+
+      } // while */
+
+      // We're done with this file.
+      fclose(ruleStream);
+   } // if
+
+   // Does the phonem file and the phonetic rules exist?
+   if (numberOfExistingFiles == 2)
+   {
+      // We're good to go!
+      success = true;
+   } // if
+
+   return (success);
+
+} // getSystemParameters
 
 /************************************************************************
 

@@ -9,14 +9,6 @@
 #include "PhonemMaker.h"
 #include "SpeechSynthesizer.h"
 
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-// Static storage for temporary information.
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-static PhonemToCodeEntry phonemTable[128];
-static std::string rules[100];
-static char  rule[100];
-//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
 //*************************************************************************
 // This program provides the mainline code for a text-to-speech
 // synthesizer.  It accepts input from stdin so that a user can type a
@@ -36,11 +28,9 @@ static char  rule[100];
 //***********************************************************************
 int main(int argc, char **argv)
 {
-   bool success;
+   bool makerInitialized;
    bool synthesizerInitialized; 
    bool done;
-   int ruleCount;
-   int phonemCount;
    char *statusPtr;
    char englishBuffer[1000];
    std::string englishText;
@@ -49,18 +39,12 @@ int main(int argc, char **argv)
    PhonemMaker *makerPtr;
    SpeechSynthesizer *synthesizerPtr;
 
-   // Retrieve the inputs to the PhonemMaker constructure.
-   success = getSystemParameters(ruleCount,phonemCount);
+   // Instantiate the text to phonem convertor.
+   makerPtr = new PhonemMaker(makerInitialized);
 
-   if (success)
+   if (makerInitialized)
    {
-      // Instantiate the text to phonem convertor.
-      makerPtr = new PhonemMaker(rules,
-                                 ruleCount,
-                                 phonemTable,
-                                 phonemCount);
-
-      // Instiatate the synthesizer.
+       // Instiatate the synthesizer.
       synthesizerPtr = new SpeechSynthesizer(synthesizerInitialized);
 
       if (synthesizerInitialized)
@@ -106,9 +90,19 @@ int main(int argc, char **argv)
       fprintf(stderr,"Error:A Failed to load configuration files\n");
    } // else
 
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
    // Release resources.
-   delete makerPtr;
-   delete synthesizerPtr;
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+   if (makerPtr != NULL)
+   {
+      delete makerPtr;
+   } // if
+
+   if (synthesizerPtr != NULL)
+   {
+     delete synthesizerPtr;
+   } // if
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
    return (0);
 

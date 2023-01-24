@@ -111,9 +111,9 @@ static pcmEntry pcmBuffers[] =
 
   Inputs:
 
-    success - A reference to storage for the outcome of processing.
-    A value of true insicates sucessful processing, and a value of
-    false indicates unsuccessful processing.
+    success - A reference to storage for the outcome of initialization.
+    A value of true insicates sucessful initialization, and a value of
+    false indicates unsuccessful initialization.
 
   Outputs:
 

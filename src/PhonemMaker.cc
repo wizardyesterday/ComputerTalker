@@ -197,133 +197,133 @@ void PhonemMaker::acceptEnglishText(std::string& text,
          case 'I':
          {
             // Process with the rules of I.
-            RUL_SRCH(22,5);
+            RUL_SRCH(22,4);
             break;
          } // case
 
          case 'J':
          {
             // Process with the rules of J.
-            RUL_SRCH(27,1);
+            RUL_SRCH(26,1);
             break;
          } // case
 
          case 'K':
          {
             // Process with the rules of K.
-            RUL_SRCH(28,1);
+            RUL_SRCH(27,1);
             break;
          } // case
 
          case 'L':
          {
             // Process with the rules of L.
-            RUL_SRCH(29,2);
+            RUL_SRCH(28,2);
             break;
          } // case
 
          case 'M':
          {
             // Process with the rules of M.
-            RUL_SRCH(31,1);
+            RUL_SRCH(30,1);
             break;
          } // case
 
          case 'N':
          {
             // Process with the rules of N.
-            RUL_SRCH(32,2);
+            RUL_SRCH(31,2);
             break;
          } // case
 
          case 'O':
          {
             // Process with the rules of O.
-            RUL_SRCH(34,4);
+            RUL_SRCH(33,4);
             break;
          } // case
 
          case 'P':
          {
             // Process with the rules of P.
-            RUL_SRCH(38,1);
+            RUL_SRCH(37,1);
             break;
          } // case
 
          case 'Q':
          {
             // Process with the rules of Q.
-            RUL_SRCH(39,2);
+            RUL_SRCH(38,2);
             break;
          } // case
 
          case 'R':
          {
             // Process with the rules of R.
-            RUL_SRCH(41,1);
+            RUL_SRCH(40,1);
             break;
          } // case
 
          case 'S':
          {
             // Process with the rules of S.
-            RUL_SRCH(42,5);
+            RUL_SRCH(41,5);
             break;
          } // case
 
          case 'T':
          {
             // Process with the rules of T.
-            RUL_SRCH(47,6);
+            RUL_SRCH(46,6);
             break;
          } // case
 
          case 'U':
          {
             // Process with the rules of U.
-            RUL_SRCH(53,2);
+            RUL_SRCH(52,2);
             break;
          } // case
 
          case 'V':
          {
             // Process with the rules of V.
-            RUL_SRCH(55,1);
+            RUL_SRCH(54,1);
             break;
          } // case
 
          case 'W':
          {
             // Process with the rules of W.
-            RUL_SRCH(56,2);
+            RUL_SRCH(55,2);
             break;
          } // case
 
          case 'X':
          {
             // Process with the rules of X.
-            RUL_SRCH(58,1);
+            RUL_SRCH(57,1);
             break;
          } // case
 
          case 'Y':
          {
             // Process with the rules of Y.
-            RUL_SRCH(59,2);
+            RUL_SRCH(58,2);
             break;
          } // case
 
          case 'Z':
          {
             // Process with the rules of Z.
-            RUL_SRCH(61,1);
+            RUL_SRCH(60,1);
             break;
          } // case
 
          default:
          {
             // Process as a digit or symbol.
-            RUL_SRCH(62,15);
+            RUL_SRCH(61,15);
             break;
          } // case
       } // switch

@@ -20,7 +20,6 @@
 (G)=G;
 (H)#=H;
 (H)=;
-(I)!=AH1,E;
 !(IN)=I1,N;
 (I)$+:#=I;
 (I)$+=AH2,I2;
@@ -51,7 +50,7 @@ I(ON)=UH2,N;
 (TH)=TH;
 (TI)O=SH;
 (T)=T;
-(U)$$=UH1;
+(U)$$!=UH1;
 (U)=Y1,IU,U1;
 (V)=V;
 !(WAS)!=W,AH1,Z;

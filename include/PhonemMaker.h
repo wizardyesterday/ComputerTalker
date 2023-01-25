@@ -22,85 +22,85 @@
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-struct PhonemToCodeEntry
-{
-  std::string ALPHA;
-  uint8_t CODE;
-};
-
 class PhonemMaker
 {
-  public:
+   public:
 
-  PhonemMaker(bool& success);
+   struct PhonemToCodeEntry
+   {
+      std::string ALPHA;
+      uint8_t CODE;
+   };
 
-  ~PhonemMaker(void);
+   PhonemMaker(bool& success);
 
-  void acceptEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
-                         uint32_t& phonemCount);
+   ~PhonemMaker(void);
+
+   void acceptEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
+                          uint32_t& phonemCount);
 
 
-  private:
+   private:
 
-  //*****************************************
-  // Utility functions.
-  //*****************************************
-  bool getSystemParameters(void);
+   //*****************************************
+   // Utility functions.
+   //*****************************************
+   bool getSystemParameters(void);
 
-  bool IS_ALPHA(char CH);
-  bool IS_VWL(char CH);
-  bool IS_FR_VWL(char CH);
-  bool IS_CST(char CH);
-  bool IS_VO_CST(char CH);
-  void RT_PS_VWL(int& R_INDEX, bool& OCCURED);
-  void LF_PS_VWL(int& R_INDEX, bool& OCCURED);
-  void RT_PS_CST(int& R_INDEX, bool& OCCURED);
-  void LF_PS_CST(int& R_INDEX, bool& OCCURED);
+   bool IS_ALPHA(char CH);
+   bool IS_VWL(char CH);
+   bool IS_FR_VWL(char CH);
+   bool IS_CST(char CH);
+   bool IS_VO_CST(char CH);
+   void RT_PS_VWL(int& R_INDEX, bool& OCCURED);
+   void LF_PS_VWL(int& R_INDEX, bool& OCCURED);
+   void RT_PS_CST(int& R_INDEX, bool& OCCURED);
+   void LF_PS_CST(int& R_INDEX, bool& OCCURED);
 
-  void BLD_LIT_P(int RUL_INDX);
-  void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
-  void SC_LF_CTX(int LEF_INDX, bool& FOUND);
-  bool CMP_REF_S(void);
-  void BLD_REF_S(int LEF_INDX, int& RT_INDX);
-  void FI_LF_PAR(int& LEF_INDX);
-  bool SCAN(void);
-  void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
+   void BLD_LIT_P(int RUL_INDX);
+   void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
+   void SC_LF_CTX(int LEF_INDX, bool& FOUND);
+   bool CMP_REF_S(void);
+   void BLD_REF_S(int LEF_INDX, int& RT_INDX);
+   void FI_LF_PAR(int& LEF_INDX);
+   bool SCAN(void);
+   void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
 
-  void STR_T_COD(std::string PH_STR);
-  void PH_TO_COD(void);
+   void STR_T_COD(std::string PH_STR);
+   void PH_TO_COD(void);
 
-  //*****************************************
-  // Attributes.
-  //*****************************************
-  // English uppercase English text buffer.
-  char E_BUFFER[MAXLINE];
+   //*****************************************
+   // Attributes.
+   //*****************************************
+   // English uppercase English text buffer.
+   char E_BUFFER[MAXLINE];
 
-  // Buffer used for phonem storage.
-  uint8_t P_BUFFER[MAX_PHO];
+   // Buffer used for phonem storage.
+   uint8_t P_BUFFER[MAX_PHO];
 
-  // This tables contains the textual phonetic rules.
-  std::string RUL_TBL[NUM_RULE];
+   // This table contains the textual phonetic rules.
+   std::string RUL_TBL[NUM_RULE];
 
-  // This table is used to map textual phonems to binary values.
-  PhonemToCodeEntry PHO_TBL[NUM_PHON];
+   // This table is used to map textual phonems to binary values.
+   PhonemToCodeEntry PHO_TBL[NUM_PHON];
 
-  // Storage for the current rule.
-  std::string R_BUFFER;
+   // Storage for the current rule.
+   std::string R_BUFFER;
 
-  // This is used for string comparison with the English buffer.
-  std::string REF_STR;
+   // This is used for string comparison with the English buffer.
+   std::string REF_STR;
 
-  // Storage for a phonem strings to be evaluated.
-  std::string PH_STR[NUM_PH_TOK];
+   // Storage for a phonem strings to be evaluated.
+   std::string PH_STR[NUM_PH_TOK];
 
-  // Number of entries in the English buffer.
-  int E_LEN;
+   // Number of entries in the English buffer.
+   int E_LEN;
 
-  // Next available location in the English buffer.
-  int E_INDEX;
+   // Current location in the English buffer.
+   int E_INDEX;
 
-  // Next available location in the phonem buffer.
-  int P_INDEX;
+   // Next available location in the phonem buffer.
+   int P_INDEX;
 };
 
 #endif // _PHONEMMAKER_H_

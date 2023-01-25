@@ -39,6 +39,10 @@ int main(int argc, char **argv)
    PhonemMaker *makerPtr;
    SpeechSynthesizer *synthesizerPtr;
 
+   // We don't like dangling pointers.
+   makerPtr = (PhonemMaker *)NULL;
+   synthesizerPtr = (SpeechSynthesizer *)NULL;
+
    // Instantiate the text to phonem convertor.
    makerPtr = new PhonemMaker(makerInitialized);
 
@@ -59,8 +63,11 @@ int main(int argc, char **argv)
 
             if (statusPtr != NULL)
             {
-               // Nuke the newline!
-               englishBuffer[strlen(englishBuffer)-1] = '\0';
+               if (englishBuffer[strlen(englishBuffer)-1] == '\n')
+               {
+                 // Nuke the newline!
+                englishBuffer[strlen(englishBuffer)-1] = '\0';
+               } // if
 
                // Copy this in order to satify the interface.
                englishText = englishBuffer;

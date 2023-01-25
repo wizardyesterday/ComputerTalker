@@ -11,23 +11,23 @@
 
 class SpeechSynthesizer
 {
-  public:
+   public:
 
-  SpeechSynthesizer(bool& success);
+   SpeechSynthesizer(bool& success);
 
-  ~SpeechSynthesizer(void);
+   ~SpeechSynthesizer(void);
 
-  void talk(uint8_t*& phonemBuffer,uint32_t phonemCount);
+   void talk(uint8_t*& phonemBuffer,uint32_t phonemCount);
 
-  private:
+   private:
 
-  //*****************************************
-  // Utility functions.
-  //*****************************************
+   //*****************************************
+   // Utility functions.
+   //*****************************************
 
-  //*****************************************
-  // Attributes.
-  //*****************************************
+   //*****************************************
+   // Attributes.
+   //*****************************************
 
 };
 

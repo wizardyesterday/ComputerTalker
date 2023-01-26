@@ -94,7 +94,7 @@ int main(int argc, char **argv)
    } // if
    else
    {
-      fprintf(stderr,"Error:A Failed to load configuration files\n");
+      fprintf(stderr,"Error:A Failed to initialize the phonem maker\n");
    } // else
 
    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

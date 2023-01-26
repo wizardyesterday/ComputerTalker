@@ -979,6 +979,12 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 
     None.
 
+  Globals:
+
+    R_BUFFER - A string that contains the current rule being evaluated.
+
+    PH_STR = The current phonem string being constructed.
+
 *****************************************************************************/
 void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 {
@@ -1068,6 +1074,17 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
   Outputs:
 
     None.
+
+  Globals:
+
+    R_BUFFER - A string that contains the current rule being evaluated.
+
+    RUL_INDX - An index into the current rule being evaluated.
+
+    E_INDEX - The current index into the English buffer for which text
+    is to be evaluated.
+
+    REF_STR - The current reference string being evaluated.
 
 *****************************************************************************/
 void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
@@ -1218,6 +1235,15 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
     None.
 
+  Globals:
+
+    R_BUFFER - A string that contains the current rule being evaluated.
+
+    RUL_INDX - An index into the current rule being evaluated.
+
+    E_INDEX - The current index into the English buffer for which text
+    is to be evaluated.
+
 *****************************************************************************/
 void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 {
@@ -1356,6 +1382,13 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
     current position in the English buffer, and a value of false
     indicates that a match was not found.
 
+  Globals:
+
+    E_INDEX - The current index into the English buffer for which text
+    is to be evaluated.
+
+    REF_STR - The current reference string being evaluated.
+
 *****************************************************************************/
 bool PhonemMaker::CMP_REF_S(void)
 {
@@ -1428,6 +1461,12 @@ bool PhonemMaker::CMP_REF_S(void)
 
     None.
 
+  Globals:
+
+    R_BUFFER - A string that contains the current rule being evaluated.
+
+    REF_STR - The current reference string being constructed.
+
 *****************************************************************************/
 void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 {
@@ -1468,6 +1507,10 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 
     None.
 
+  Globals:
+
+    R_BUFFER - A string that contains the current rule being evaluated.
+
 *****************************************************************************/
 void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 {
@@ -1506,6 +1549,13 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
     result - A flag that indicates whether or not the rule was satisfied.
     A value of true indicates that the rule was satisfied, and a value of
     false indicates that the rule was not satisfied.
+
+  Globals:
+
+    E_INDEX - The current index into the English buffer for which text
+    is to be evaluated.
+
+    REF_STR - The current reference string being evaluated.
 
 *****************************************************************************/
 bool PhonemMaker::SCAN(void)
@@ -1655,6 +1705,16 @@ bool PhonemMaker::SCAN(void)
    Outputs:
 
     None.
+
+  Globals:
+
+    RUL_TBL - A table of rule strings for which English text os to be
+    evaluated.
+
+    R_BUFFER - A string that contains the current rule being evaluated.
+
+    E_INDEX - The current index into the English buffer for which text
+    is to be evaluated.
 
 *****************************************************************************/
 void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)

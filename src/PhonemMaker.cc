@@ -228,7 +228,7 @@ bool PhonemMaker::getSystemParameters(void)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     P_INDEX - The index into the next storage location in the phonem
     buffer. 
@@ -707,7 +707,7 @@ bool PhonemMaker::IS_VO_CST(char CH)
     None.
 
 
-  Globals:
+  Attributes (formerly globals):
 
     R_INDEX - The running index into the English buffer.
 
@@ -778,7 +778,7 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_INDEX - The running index into the English buffer.
 
@@ -846,7 +846,7 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_INDEX - The running index into the English buffer.
 
@@ -917,7 +917,7 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_INDEX - The running index into the English buffer.
 
@@ -979,7 +979,7 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_BUFFER - A string that contains the current rule being evaluated.
 
@@ -1075,7 +1075,7 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_BUFFER - A string that contains the current rule being evaluated.
 
@@ -1084,7 +1084,9 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
     E_INDEX - The current index into the English buffer for which text
     is to be evaluated.
 
-    REF_STR - The current reference string being evaluated.
+    REF_STR - The current reference string being constructed.  The
+    reference string is the text that lies within the parenthesis of
+    a rule.
 
 *****************************************************************************/
 void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
@@ -1235,7 +1237,7 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_BUFFER - A string that contains the current rule being evaluated.
 
@@ -1382,12 +1384,14 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
     current position in the English buffer, and a value of false
     indicates that a match was not found.
 
-  Globals:
+  Attributes (formerly globals):
 
     E_INDEX - The current index into the English buffer for which text
     is to be evaluated.
 
-    REF_STR - The current reference string being evaluated.
+    REF_STR - The current reference string being constructed.  The
+    reference string is the text that lies within the parenthesis of
+    a rule.
 
 *****************************************************************************/
 bool PhonemMaker::CMP_REF_S(void)
@@ -1461,11 +1465,13 @@ bool PhonemMaker::CMP_REF_S(void)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_BUFFER - A string that contains the current rule being evaluated.
 
-    REF_STR - The current reference string being constructed.
+    REF_STR - The current reference string being constructed.  The
+    reference string is the text that lies within the parenthesis of
+    a rule.
 
 *****************************************************************************/
 void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
@@ -1507,7 +1513,7 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     R_BUFFER - A string that contains the current rule being evaluated.
 
@@ -1550,12 +1556,14 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
     A value of true indicates that the rule was satisfied, and a value of
     false indicates that the rule was not satisfied.
 
-  Globals:
+  Attributes (formerly globals):
 
     E_INDEX - The current index into the English buffer for which text
     is to be evaluated.
 
-    REF_STR - The current reference string being evaluated.
+    REF_STR - The current reference string being constructed.  The
+    reference string is the text that lies within the parenthesis of
+    a rule.
 
 *****************************************************************************/
 bool PhonemMaker::SCAN(void)
@@ -1706,7 +1714,7 @@ bool PhonemMaker::SCAN(void)
 
     None.
 
-  Globals:
+  Attributes (formerly globals):
 
     RUL_TBL - A table of rule strings for which English text os to be
     evaluated.
@@ -1780,7 +1788,7 @@ void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
 
     None.
 
-  Globals:P_INDEX
+  Attributes (formerly globals):
 
     PHO_TBL - A table that maps the textual representation of phonems to
     the binary representation.

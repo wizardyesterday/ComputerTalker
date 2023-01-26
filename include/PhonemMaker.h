@@ -90,7 +90,7 @@ class PhonemMaker
    // This is used for string comparison with the English buffer.
    std::string REF_STR;
 
-   // Storage for a phonem strings to be evaluated.
+   // Storage for phonem strings to be evaluated.
    std::string PH_STR[NUM_PH_TOK];
 
    // Number of entries in the English buffer.

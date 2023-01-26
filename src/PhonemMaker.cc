@@ -983,7 +983,9 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 
     R_BUFFER - A string that contains the current rule being evaluated.
 
-    PH_STR = The current phonem string being constructed.
+    PH_STR = The current array of phonem tokens being constructed.  For
+    example, if a rule happens to be "(AR)=AH1,R;" PH_STR will be set
+    to "AH1","R",";".
 
 *****************************************************************************/
 void PhonemMaker::BLD_LIT_P(int RUL_INDX)
@@ -1782,7 +1784,8 @@ void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
   Inputs:
 
     PH_STR - A string representation of a phonem for which its binary
-    equivalent is to be created.
+    equivalent is to be created.  This parameter differs from the
+    attribute, PH_STR[], which is an array of phonem strings.
 
    Outputs:
 
@@ -1856,14 +1859,16 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
     PHO_TBL - A table that maps the textual representation of phonems to
     the binary representation.
 
-    PH_STR - A string representation of the phonem being evaluated.
+    PH_STR = The current array of phonem tokens being evaluated.  For
+    example, if a rule happens to be "(AR)=AH1,R;" PH_STR will be set
+    to "AH1","R",";".
 
 *****************************************************************************/
 void PhonemMaker::PH_TO_COD(void)
 {
    int INDEX;
 
-   // Point to beginning of array.
+   // Point to beginning of array of phonem strings.
    INDEX = 0;
 
    while (PH_STR[INDEX] != ";")

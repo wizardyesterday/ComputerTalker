@@ -228,6 +228,16 @@ bool PhonemMaker::getSystemParameters(void)
 
     None.
 
+  Globals:
+
+    P_INDEX - The index into the next storage location in the phonem
+    buffer. 
+
+    E_INDEX - The current index into the English buffer for which text
+    is to be evaluated.
+
+    P_BUFFER - The buffer where the phonem stream is stored.   
+
 *****************************************************************************/
 void PhonemMaker::acceptEnglishText(std::string& text,
                                     uint8_t*& phonemBuffer,
@@ -467,7 +477,7 @@ void PhonemMaker::acceptEnglishText(std::string& text,
 
   Outputs:
 
-    reault - A flag that indicates the result of the operation.  A value
+    result - A flag that indicates the result of the operation.  A value
     of true indicates that the character is alphabetic, and a value of
     false indicates that the character is not alphabetic.
 
@@ -498,7 +508,7 @@ bool PhonemMaker::IS_ALPHA(char CH)
 
   Outputs:
 
-    reault - A flag that indicates the result of the operation.  A value
+    result - A flag that indicates the result of the operation.  A value
     of true indicates that the character is a vowel, and a value of
     false indicates that the character is not a vowel.
 
@@ -548,7 +558,7 @@ bool PhonemMaker::IS_VWL(char CH)
 
   Outputs:
 
-    reault - A flag that indicates the result of the operation.  A value
+    result - A flag that indicates the result of the operation.  A value
     of true indicates that the character is a front vowel, and a value of
     false indicates that the character is not a front vowel.
 
@@ -595,7 +605,7 @@ bool PhonemMaker::IS_FR_VWL(char CH)
 
   Outputs:
 
-    reault - A flag that indicates the result of the operation.  A value
+    result - A flag that indicates the result of the operation.  A value
     of true indicates that the character is a consonant, and a value of
     false indicates that the character is not a consonant.
 
@@ -632,7 +642,7 @@ bool PhonemMaker::IS_CST(char CH)
 
   Outputs:
 
-    reault - A flag that indicates the result of the operation.  A value
+    result - A flag that indicates the result of the operation.  A value
     of true indicates that the character is a voiced consonant, and a
     value of false indicates that the character is not a voiced consonant.
 
@@ -695,6 +705,13 @@ bool PhonemMaker::IS_VO_CST(char CH)
   Outputs:
 
     None.
+
+
+  Globals:
+
+    R_INDEX - The running index into the English buffer.
+
+    E_LEN - The length of the English string.   
 
 *****************************************************************************/
 void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
@@ -761,6 +778,12 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 
     None.
 
+  Globals:
+
+    R_INDEX - The running index into the English buffer.
+
+    E_LEN - The length of the English string.   
+
 *****************************************************************************/
 void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 {
@@ -822,6 +845,12 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
   Outputs:
 
     None.
+
+  Globals:
+
+    R_INDEX - The running index into the English buffer.
+
+    E_BUFFER - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
 void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
@@ -887,6 +916,12 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
   Outputs:
 
     None.
+
+  Globals:
+
+    R_INDEX - The running index into the English buffer.
+
+    E_BUFFER - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
 void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)

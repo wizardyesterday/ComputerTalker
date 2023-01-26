@@ -1780,6 +1780,16 @@ void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
 
     None.
 
+  Globals:P_INDEX
+
+    PHO_TBL - A table that maps the textual representation of phonems to
+    the binary representation.
+
+    P_INDEX - The index into the next storage location in the phonem
+    buffer. 
+
+    P_BUFFER - The buffer where the phonem stream is stored.   
+
 *****************************************************************************/
 void PhonemMaker::STR_T_COD(std::string PH_STR)
 {
@@ -1834,6 +1844,11 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
    Outputs:
 
     None.
+
+    PHO_TBL - A table that maps the textual representation of phonems to
+    the binary representation.
+
+    PH_STR - A string representation of the phonem being evaluated.
 
 *****************************************************************************/
 void PhonemMaker::PH_TO_COD(void)

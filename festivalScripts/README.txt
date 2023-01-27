@@ -11,3 +11,8 @@ the textual phoneme name files.
 wordToWav.sh - Does the actual creation of a wav file, gtiven a textual
 phoneme name file.
 
+This directory also contains a subdirectory with speech files in .wav
+format.  Each of these files contains the spoken word that is associated
+with a particular phoneme name.  The files are the starting point for
+phoneme extraction.
+

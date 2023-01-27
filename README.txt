@@ -19,7 +19,11 @@ To build this app type:
   sh buildit.sh.
 
 The binary will be in the current directory, and you launch it by typing:
-  ./talker.
+  ./talker > someAudioFile.raw,
+or
+  ./talker | aplay -f S16_LE -r 16000,
+to listen live.  Add a bunch of extra spaces to your line of text to
+deal with the pipeline of ALSA.
 
 If you want input from a file, you type:
   ./talker < textFileName.

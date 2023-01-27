@@ -2,7 +2,7 @@
 
 #_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 # This script creates files of words that are used as examples, in
-# the Votrax SC-01A datasheet, that illustrate how the phonems
+# the Votrax SC-01 datasheet, that illustrate how the phonems
 # sound from the synthesizer.  The comments show the words with
 # the emphasized vowels capitolized and delimited by underscores.
 # This shows the portion of the speech that need to be extracted

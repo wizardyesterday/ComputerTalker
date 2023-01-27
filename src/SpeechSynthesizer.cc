@@ -204,7 +204,7 @@ SpeechSynthesizer::~SpeechSynthesizer(void)
 void SpeechSynthesizer::talk(uint8_t*& phonemBuffer,uint32_t phonemCount)
 {
    uint32_t i;
-   uint32_t phonemCode;
+   uint8_t phonemCode;
 
   for (i = 0; i < phonemCount; i++)
   {

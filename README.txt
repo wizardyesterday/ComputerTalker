@@ -49,3 +49,11 @@ these raw PCM files is 16000S/s.  The format of the PCM samples is,
 that obtained from the original PCM files, but it still could use
 some improvement.
 
+--------------------------------------------------------------------
+01/27/2023
+--------------------------------------------------------------------
+Today, I automated creation of the speech files associated with
+each example word in the Votrax SC-01 datasheet.  These words
+illustrate how a phoneme sounds when spoken.  The PCM files for
+the example words are in the speechFiles/ directory.
+

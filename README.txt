@@ -55,5 +55,7 @@ some improvement.
 Today, I automated creation of the speech files associated with
 each example word in the Votrax SC-01 datasheet.  These words
 illustrate how a phoneme sounds when spoken.  The PCM files for
-the example words are in the speechFiles/ directory.
+the example words are in the research/speechFiles directory.
+Additionally, the festivalScripts directory has been moved
+to the research directory.
 

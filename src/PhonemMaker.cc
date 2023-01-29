@@ -69,18 +69,14 @@ PhonemMaker::~PhonemMaker(void)
 
   Name: getSystemParameters
 
-  Purpose: The purpose of this function is to set the operating point
-  of the AGC.
+  Purpose: The purpose of this function is to retrieve the parameters
+  from the phonem file and rules file.
 
-  Calling Sequence: success = getSystemParameters(ruleCount,phonemCount)
+  Calling Sequence: success = getSystemParameters()
 
   Inputs:
 
-    ruleCount - A reference variable for the number of rules returned by
-    this function.
-
-    phonemCount - A reference variable for the number of phonems returned
-    by this function
+    None.
 
   Outputs:
 

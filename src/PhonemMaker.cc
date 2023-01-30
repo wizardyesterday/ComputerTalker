@@ -92,13 +92,14 @@ bool PhonemMaker::getSystemParameters(void)
    FILE *phonemStream;
    FILE *ruleStream;
    int phonemCount;
-   int ruleCount;
    char *statusPtr;
    char buffer[1000];
    char rule[100];
    int code;
    char alpha[100];
    int numberOfExistingFiles;
+   char key;
+   char *keyPtr;
 
    // Default to failure.
    success = false;
@@ -106,7 +107,6 @@ bool PhonemMaker::getSystemParameters(void)
 
    // We're using zero-based arrays.
    phonemCount = 0;
-   ruleCount = 0;
 
    // Open the textual phonem to binary code mapping file.
    phonemStream = fopen("configuration/phonems.txt","r");
@@ -169,11 +169,14 @@ bool PhonemMaker::getSystemParameters(void)
             // Nuke the \n.
             rule[strlen(rule)-1] = '\0';
 
-            // Populate the rule.
-            RUL_TBL[ruleCount] = rule;
+            keyPtr = index(rule,'(');
 
-            // Reference the next storage element.
-            ruleCount++;
+            if (keyPtr !=  NULL)
+            {
+               // Populate the rule since it is valid.
+               RUL_TBL[keyPtr[1]].push_back(rule);
+            } // if
+
          } // if
          else
          {
@@ -193,6 +196,7 @@ bool PhonemMaker::getSystemParameters(void)
       // We're good to go!
       success = true;
    } // if
+
 
    return (success);
 
@@ -232,7 +236,9 @@ bool PhonemMaker::getSystemParameters(void)
     E_INDEX - The current index into the English buffer for which text
     is to be evaluated.
 
-    P_BUFFER - The buffer where the phonem stream is stored.   
+    P_BUFFER - The buffer where the phonem stream is stored.
+
+    RUL_TBL - The table of text-to-phoneme rules.
 
 *****************************************************************************/
 void PhonemMaker::acceptEnglishText(std::string& text,
@@ -241,6 +247,8 @@ void PhonemMaker::acceptEnglishText(std::string& text,
 
 {
    int INDEX;
+   std::map <char, std::list <std::string> >::iterator i;
+   char key;
 
    // Set to the beginning of the buffers.
    P_INDEX = 0;
@@ -257,197 +265,17 @@ void PhonemMaker::acceptEnglishText(std::string& text,
 
    while (E_INDEX < E_LEN)
    {
-      switch (E_BUFFER[E_INDEX])
+      key = E_BUFFER[E_INDEX];
+
+      // Determine if we have a rule.
+      i = RUL_TBL.find(key);
+
+      if (i != RUL_TBL.end())
       {
-         case 'A':
-         {
-            // Process with the rules of A.
-            RUL_SRCH(0,5);
-            break;
-         } // case
+         // Process the rules.
+         RUL_SRCH(i->second);
+      } // if
 
-         case 'B':
-          {
-            // Process with the rules of B.
-            RUL_SRCH(5,1);
-            break;
-         } // case
-
-         case 'C':
-         {
-            // Process with the rules of C.
-            RUL_SRCH(6,3);
-            break;
-         } // case
-
-         case 'D':
-         {
-            // Process with the rules of D.
-            RUL_SRCH(9,1);
-            break;
-         } // case
-
-         case 'E':
-         {
-            // Process with the rules of E.
-            RUL_SRCH(10,8);
-            break;
-         } // case
-
-         case 'F':
-         {
-            // Process with the rules of F.
-            RUL_SRCH(18,1);
-            break;
-         } // case
-
-         case 'G':
-         {
-            // Process with the rules of G.
-            RUL_SRCH(19,1);
-            break;
-         } // case
-
-         case 'H':
-         {
-            // Process with the rules of H.
-            RUL_SRCH(20,2);
-            break;
-         } // case
-
-         case 'I':
-         {
-            // Process with the rules of I.
-            RUL_SRCH(22,4);
-            break;
-         } // case
-
-         case 'J':
-         {
-            // Process with the rules of J.
-            RUL_SRCH(26,1);
-            break;
-         } // case
-
-         case 'K':
-         {
-            // Process with the rules of K.
-            RUL_SRCH(27,1);
-            break;
-         } // case
-
-         case 'L':
-         {
-            // Process with the rules of L.
-            RUL_SRCH(28,2);
-            break;
-         } // case
-
-         case 'M':
-         {
-            // Process with the rules of M.
-            RUL_SRCH(30,1);
-            break;
-         } // case
-
-         case 'N':
-         {
-            // Process with the rules of N.
-            RUL_SRCH(31,2);
-            break;
-         } // case
-
-         case 'O':
-         {
-            // Process with the rules of O.
-            RUL_SRCH(33,4);
-            break;
-         } // case
-
-         case 'P':
-         {
-            // Process with the rules of P.
-            RUL_SRCH(37,1);
-            break;
-         } // case
-
-         case 'Q':
-         {
-            // Process with the rules of Q.
-            RUL_SRCH(38,2);
-            break;
-         } // case
-
-         case 'R':
-         {
-            // Process with the rules of R.
-            RUL_SRCH(40,1);
-            break;
-         } // case
-
-         case 'S':
-         {
-            // Process with the rules of S.
-            RUL_SRCH(41,5);
-            break;
-         } // case
-
-         case 'T':
-         {
-            // Process with the rules of T.
-            RUL_SRCH(46,6);
-            break;
-         } // case
-
-         case 'U':
-         {
-            // Process with the rules of U.
-            RUL_SRCH(52,2);
-            break;
-         } // case
-
-         case 'V':
-         {
-            // Process with the rules of V.
-            RUL_SRCH(54,1);
-            break;
-         } // case
-
-         case 'W':
-         {
-            // Process with the rules of W.
-            RUL_SRCH(55,2);
-            break;
-         } // case
-
-         case 'X':
-         {
-            // Process with the rules of X.
-            RUL_SRCH(57,1);
-            break;
-         } // case
-
-         case 'Y':
-         {
-            // Process with the rules of Y.
-            RUL_SRCH(58,2);
-            break;
-         } // case
-
-         case 'Z':
-         {
-            // Process with the rules of Z.
-            RUL_SRCH(60,1);
-            break;
-         } // case
-
-         default:
-         {
-            // Process as a digit or symbol.
-            RUL_SRCH(61,15);
-            break;
-         } // case
-      } // switch
    } // while
 
    // Set return values.  Note that references are being used.
@@ -1723,34 +1551,30 @@ bool PhonemMaker::SCAN(void)
     is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
+void PhonemMaker::RUL_SRCH(std::list<std::string> rules)
 {
-   int U_BOUNDS;
-   int BLK_INDX;
    bool DONE;
    bool FOUND;
-
-   // Set upper bounds.
-   U_BOUNDS = BLK_OFF + BLK_SIZ-1;
-
-   // Set lower bounds.
-   BLK_INDX = BLK_OFF;
+   std::list<std::string>::iterator i;
 
    // Set up for loop entry.
    DONE = false;
 
+   // Reference the first rule in the list.
+   i = rules.begin();
+
    while (!DONE)
    {
       // Get current rule.
-      R_BUFFER = RUL_TBL[BLK_INDX];
+      R_BUFFER = *i;
 
       // Scan using current rule.
       FOUND = SCAN();
 
-      // bump to next rule.
-      BLK_INDX = BLK_INDX + 1;
+      // Reference the next rule.
+      i++;
 
-      if ((BLK_INDX > U_BOUNDS) || FOUND)
+      if ((i == rules.end()) || FOUND)
       {
          // Exit scan.
          DONE = true;

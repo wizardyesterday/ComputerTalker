@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <ctype.h>
 #include <string>
+#include <map>
+#include <list>
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // Buffer size defines.
@@ -64,7 +66,7 @@ class PhonemMaker
    void BLD_REF_S(int LEF_INDX, int& RT_INDX);
    void FI_LF_PAR(int& LEF_INDX);
    bool SCAN(void);
-   void RUL_SRCH(int BLK_OFF, int BLK_SIZ);
+   void RUL_SRCH(std::list<std::string> rules);
 
    void STR_T_COD(std::string PH_STR);
    void PH_TO_COD(void);
@@ -79,7 +81,7 @@ class PhonemMaker
    uint8_t P_BUFFER[MAX_PHO];
 
    // This table contains the textual phonetic rules.
-   std::string RUL_TBL[NUM_RULE];
+   std::map <char, std::list <std::string> > RUL_TBL;
 
    // This table is used to map textual phonems to binary values.
    PhonemToCodeEntry PHO_TBL[NUM_PHON];

@@ -207,15 +207,15 @@ bool PhonemMaker::getSystemParameters(void)
 
 /************************************************************************
 
-  Name: acceptEnglishText
+  Name: translateEnglishText
 
   Purpose: The purpose of this function is to accept text and translate
   that text into a stream of phonems.  This function provides the
   interface to the analysis code in this system.
 
-  Calling Sequence: acceptEnglishText(text,
-                                      phonemBuffer,
-                                      phonemCount)
+  Calling Sequence: translateEnglishText(text,
+                                         phonemBuffer,
+                                         phonemCount)
 
   Inputs:
 
@@ -244,9 +244,9 @@ bool PhonemMaker::getSystemParameters(void)
     RUL_TBL - The table of text-to-phoneme rules.
 
 *****************************************************************************/
-void PhonemMaker::acceptEnglishText(std::string& text,
-                                    uint8_t*& phonemBuffer,
-                                    uint32_t& phonemCount)
+void PhonemMaker::translateEnglishText(std::string& text,
+                                       uint8_t*& phonemBuffer,
+                                       uint32_t& phonemCount)
 
 {
    int INDEX;
@@ -1477,55 +1477,61 @@ bool PhonemMaker::SCAN(void)
 
     Meaning of rule symbols
 
-      ! - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ANY NONALPHABETIC
-          CHARACTER IN ENGLISH INPUT STRING. IF MATCH FAILS, REPORTS
-          FAILURE. IF MATCH SUCCEEDS, MOVES RULE-STRIG POINTER BY
-          ONE CHARACTER IN RULE AND MOVES INPUT STRING POINTER BY
-          ONE CHARACTER IN THE ENGLISH STRING. THE DIRECTION OF
-          MOVEMENT IS DETERMINED AS:
-            1. Forward if right context is being scanned
-            2. Backward if left context is being scanned
+      ! - Invokes a procedure that attempts to match any nonalphabetic
+          character in English input string. If match failes, reports
+          feilure. If match succeeds, moves rule string pointer by
+          one character in rule and moves input string pointer by
+          one character in the English string. The direction of
+          movement is determined as:
 
-        # - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE OR MORE
-            VOWELS (A,E,I,O,U, OR Y). IF MATCH FAILS, REPORTS FAILURE.
-            IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN
-            RULES AND MOVES STRING POINTER BY THE NUMBER OF VOWELS
-            MATCHED IN ENGLISH STRING. THE DIRECTION OF MOVEMENT IS
-            DETERMINED AS:
-            1. Forward if right context is being scanned
-            2. Backward if left context is being scanned
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
 
-        : - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ZERO OR MORE
-            CONSONANTS. MATCH ALWAYS SUCCEEDS. MOVES RULE POINTER BY
-            ONE CHARACTER IN RULES AND MOVES STRING POINTER BY THE
-            NUMBER OF CONSONANTS MATCHED IN ENGLISH INPUT STRING. THE
-            DIRECTION OF MOVEMENT IS DETERMINED AS:
-            1. Forward if right context is being scanned
-            2. Backward if left context is being scanned
+        # - Invokes a procedure that attempts to match one or more
+            vowels (A,E,I,O,U, OR Y). If match fails, reports failure.
+            If match succeeds, moves rule pointer by one character in
+            rules and moves string pointer by the number of vowels
+            matched in English string. The direction of movement is
+            determined as:
 
-        + - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A FRONT VOWEL
-            (E,I, OR Y). IF MATCH FAILS, REPORTS FAILURE. IF MATCH
-            SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
-            AND MOVES STRING POINTER BY ONE CHARACTER IN INPUT STRING.
-            DIRECTION OF MOVEMENT IS DETERMINED AS:
-            1. Forward if right context is being scanned
-            2. Backward if left context is being scanned
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
 
-        $ - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE CONSONANT. IF
-            MATCH FAILS, REPORTS FAILURE. IF MATCH SUCCEEDS, MOVES RULE
-            POINTER BY ONE CHARACTER IN RULES AND MOVES STRING POINTER
-            BY ONE CHARACTER IN ENGLISH INPUT STRING. DIRECTION OF MOVEMENT
-            IS DETERMINED AS:
-            1. Forward if right context is being scanned
-            2. Backward if left context is being scanned
+        : - Invokes a procedure that attempts to match zero or more
+            consonants. Match always succeeds. Moves rule pointer by
+            one character in rules and moves string pointer by the
+            number of consonants matched in English input string. The
+            direction of movement is determined as:
 
-        . - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A VOICED CONSONANT
-            (B,D,G,J,L,M,N,R,V,W, OR Z). IF MATCH FAILS, REPORTS FAILURE.
-            IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
-            AND MOVES STRING POINTER BY ONE CHARACTER IN ENGLISH INPUT
-            STRING. DIRECTION OF MOVEMENT IS DETERMINED AS:
-            1. Forward if right context is being scanned
-            2. Backward if left context is being scanned
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
+
+        + - Invokes a procedure that attempts to match a front vowel
+            (E,I, OR Y). If match fails, reports failure. If match
+            succeeds, moves rule pointer by one character in rules
+            and moves string pointer by one character in input string.
+            The direction of movement is determined as:
+
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
+
+        $ - Invokes a procedure that attempts to match one consonant. If
+            match fails, reports failure. If match succeeds, moves rule
+            pointer by one character in rules and moves string pointer
+            by one character in English input string. Direction of movement
+            is determined as:
+
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
+
+        . - Invokes a procedure that attempts to match a voiced consonant
+            (B,D,G,J,L,M,N,R,V,W, OR Z). If match fails, reports failure.
+            If match succeeds, moves rule pointer by one character in rules
+            and moves string pointer by one character in English input
+            string. Direction of movement is determined as:
+
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
 
   After a match is found, the index into the English buffer is incremented
   by the number of characters inside of the parenthesis of the rule.
@@ -1542,9 +1548,6 @@ bool PhonemMaker::SCAN(void)
     None.
 
   Attributes (formerly globals):
-
-    RUL_TBL - A table of rule strings for which English text os to be
-    evaluated.
 
     R_BUFFER - A string that contains the current rule being evaluated.
 

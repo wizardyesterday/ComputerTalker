@@ -37,8 +37,8 @@ class PhonemMaker
 
    ~PhonemMaker(void);
 
-   void acceptEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
-                          uint32_t& phonemCount);
+   void translateEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
+                             uint32_t& phonemCount);
 
 
    private:

@@ -73,9 +73,9 @@ int main(int argc, char **argv)
                englishText = englishBuffer;
 
                // Generate the phonems.
-               makerPtr->acceptEnglishText(englishText,
-                                           phonemCodePtr,
-                                           phonemBufferLength);
+               makerPtr->translateEnglishText(englishText,
+                                              phonemCodePtr,
+                                              phonemBufferLength);
 
                // Send the phonems to the speech synthesizer.
                synthesizerPtr->talk(phonemCodePtr,phonemBufferLength);

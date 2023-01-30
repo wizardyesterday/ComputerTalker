@@ -63,6 +63,9 @@ synthesizerInitialized
 PhonemMaker::~PhonemMaker(void)
 {
 
+   // Release storage
+   RUL_TBL.clear();
+
 } // ~PhonemMaker
 
 /**************************************************************************
@@ -92,13 +95,14 @@ bool PhonemMaker::getSystemParameters(void)
    FILE *phonemStream;
    FILE *ruleStream;
    int phonemCount;
-   int ruleCount;
    char *statusPtr;
    char buffer[1000];
    char rule[100];
    int code;
    char alpha[100];
    int numberOfExistingFiles;
+   char key;
+   char *keyPtr;
 
    // Default to failure.
    success = false;
@@ -106,7 +110,6 @@ bool PhonemMaker::getSystemParameters(void)
 
    // We're using zero-based arrays.
    phonemCount = 0;
-   ruleCount = 0;
 
    // Open the textual phonem to binary code mapping file.
    phonemStream = fopen("configuration/phonems.txt","r");
@@ -169,11 +172,14 @@ bool PhonemMaker::getSystemParameters(void)
             // Nuke the \n.
             rule[strlen(rule)-1] = '\0';
 
-            // Populate the rule.
-            RUL_TBL[ruleCount] = rule;
+            keyPtr = index(rule,'(');
 
-            // Reference the next storage element.
-            ruleCount++;
+            if (keyPtr !=  NULL)
+            {
+               // Populate the rule since it is valid.
+               RUL_TBL[keyPtr[1]].push_back(rule);
+            } // if
+
          } // if
          else
          {
@@ -194,21 +200,22 @@ bool PhonemMaker::getSystemParameters(void)
       success = true;
    } // if
 
+
    return (success);
 
 } // getSystemParameters
 
 /************************************************************************
 
-  Name: acceptEnglishText
+  Name: translateEnglishText
 
   Purpose: The purpose of this function is to accept text and translate
   that text into a stream of phonems.  This function provides the
   interface to the analysis code in this system.
 
-  Calling Sequence: acceptEnglishText(text,
-                                      phonemBuffer,
-                                      phonemCount)
+  Calling Sequence: translateEnglishText(text,
+                                         phonemBuffer,
+                                         phonemCount)
 
   Inputs:
 
@@ -232,15 +239,19 @@ bool PhonemMaker::getSystemParameters(void)
     E_INDEX - The current index into the English buffer for which text
     is to be evaluated.
 
-    P_BUFFER - The buffer where the phonem stream is stored.   
+    P_BUFFER - The buffer where the phonem stream is stored.
+
+    RUL_TBL - The table of text-to-phoneme rules.
 
 *****************************************************************************/
-void PhonemMaker::acceptEnglishText(std::string& text,
-                                    uint8_t*& phonemBuffer,
-                                    uint32_t& phonemCount)
+void PhonemMaker::translateEnglishText(std::string& text,
+                                       uint8_t*& phonemBuffer,
+                                       uint32_t& phonemCount)
 
 {
    int INDEX;
+   std::map <char, std::list <std::string> >::iterator i;
+   char key;
 
    // Set to the beginning of the buffers.
    P_INDEX = 0;
@@ -257,197 +268,17 @@ void PhonemMaker::acceptEnglishText(std::string& text,
 
    while (E_INDEX < E_LEN)
    {
-      switch (E_BUFFER[E_INDEX])
+      key = E_BUFFER[E_INDEX];
+
+      // Determine if we have a rule.
+      i = RUL_TBL.find(key);
+
+      if (i != RUL_TBL.end())
       {
-         case 'A':
-         {
-            // Process with the rules of A.
-            RUL_SRCH(0,5);
-            break;
-         } // case
+         // Process the rules.
+         RUL_SRCH(i->second);
+      } // if
 
-         case 'B':
-          {
-            // Process with the rules of B.
-            RUL_SRCH(5,1);
-            break;
-         } // case
-
-         case 'C':
-         {
-            // Process with the rules of C.
-            RUL_SRCH(6,3);
-            break;
-         } // case
-
-         case 'D':
-         {
-            // Process with the rules of D.
-            RUL_SRCH(9,1);
-            break;
-         } // case
-
-         case 'E':
-         {
-            // Process with the rules of E.
-            RUL_SRCH(10,8);
-            break;
-         } // case
-
-         case 'F':
-         {
-            // Process with the rules of F.
-            RUL_SRCH(18,1);
-            break;
-         } // case
-
-         case 'G':
-         {
-            // Process with the rules of G.
-            RUL_SRCH(19,1);
-            break;
-         } // case
-
-         case 'H':
-         {
-            // Process with the rules of H.
-            RUL_SRCH(20,2);
-            break;
-         } // case
-
-         case 'I':
-         {
-            // Process with the rules of I.
-            RUL_SRCH(22,4);
-            break;
-         } // case
-
-         case 'J':
-         {
-            // Process with the rules of J.
-            RUL_SRCH(26,1);
-            break;
-         } // case
-
-         case 'K':
-         {
-            // Process with the rules of K.
-            RUL_SRCH(27,1);
-            break;
-         } // case
-
-         case 'L':
-         {
-            // Process with the rules of L.
-            RUL_SRCH(28,2);
-            break;
-         } // case
-
-         case 'M':
-         {
-            // Process with the rules of M.
-            RUL_SRCH(30,1);
-            break;
-         } // case
-
-         case 'N':
-         {
-            // Process with the rules of N.
-            RUL_SRCH(31,2);
-            break;
-         } // case
-
-         case 'O':
-         {
-            // Process with the rules of O.
-            RUL_SRCH(33,4);
-            break;
-         } // case
-
-         case 'P':
-         {
-            // Process with the rules of P.
-            RUL_SRCH(37,1);
-            break;
-         } // case
-
-         case 'Q':
-         {
-            // Process with the rules of Q.
-            RUL_SRCH(38,2);
-            break;
-         } // case
-
-         case 'R':
-         {
-            // Process with the rules of R.
-            RUL_SRCH(40,1);
-            break;
-         } // case
-
-         case 'S':
-         {
-            // Process with the rules of S.
-            RUL_SRCH(41,5);
-            break;
-         } // case
-
-         case 'T':
-         {
-            // Process with the rules of T.
-            RUL_SRCH(46,6);
-            break;
-         } // case
-
-         case 'U':
-         {
-            // Process with the rules of U.
-            RUL_SRCH(52,2);
-            break;
-         } // case
-
-         case 'V':
-         {
-            // Process with the rules of V.
-            RUL_SRCH(54,1);
-            break;
-         } // case
-
-         case 'W':
-         {
-            // Process with the rules of W.
-            RUL_SRCH(55,2);
-            break;
-         } // case
-
-         case 'X':
-         {
-            // Process with the rules of X.
-            RUL_SRCH(57,1);
-            break;
-         } // case
-
-         case 'Y':
-         {
-            // Process with the rules of Y.
-            RUL_SRCH(58,2);
-            break;
-         } // case
-
-         case 'Z':
-         {
-            // Process with the rules of Z.
-            RUL_SRCH(60,1);
-            break;
-         } // case
-
-         default:
-         {
-            // Process as a digit or symbol.
-            RUL_SRCH(61,15);
-            break;
-         } // case
-      } // switch
    } // while
 
    // Set return values.  Note that references are being used.
@@ -1631,82 +1462,86 @@ bool PhonemMaker::SCAN(void)
   (extracted from the original code follows.
 
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-  RULE FORMAT - #(SED)!=Z,D;
+  Rule format - #(SED)!=Z,D;
 
-    # - LEFT CONTEXT
-    ( - LEFT CONTEX DELIMITER
-    SED - STRING TO BE MATCHED
-    ) - RIGHT CONTEXT DELIMITER
-    ! - RIGHT CONTEX
-    = - RIGHT CONTEX TERMINATOR
-    Z - PHONEM CODE
-    , - PHONEM SEPARATOR
-    D - PHONEM CODE
-     ; - RULE TERMINATOR
+    # - Left context
+    ( - Left context delimiter
+    SED - String to be matched
+    ) - Right context delimiter
+    ! - Right context
+    = - Right context terminator
+    Z - Phoneme code
+    , - Phoneme separator
+    D - Phoneme code
+    ; - Rule terminator
 
-    MEANING OF RULE SYMBOLS
+    Meaning of rule symbols
 
-      ! - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ANY NONALPHABETIC
-          CHARACTER IN ENGLISH INPUT STRING. IF MATCH FAILS, REPORTS
-          FAILURE. IF MATCH SUCCEEDS, MOVES RULE-STRIG POINTER BY
-          ONE CHARACTER IN RULE AND MOVES INPUT STRING POINTER BY
-          ONE CHARACTER IN THE ENGLISH STRING. THE DIRECTION OF
-          MOVEMENT IS DETERMINED AS:
-            1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-            2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+      ! - Invokes a procedure that attempts to match any nonalphabetic
+          character in English input string. If match failes, reports
+          feilure. If match succeeds, moves rule string pointer by
+          one character in rule and moves input string pointer by
+          one character in the English string. The direction of
+          movement is determined as:
 
-        # - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE OR MORE
-            VOWELS (A,E,I,O,U, OR Y). IF MATCH FAILS, REPORTS FAILURE.
-            IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN
-            RULES AND MOVES STRING POINTER BY THE NUMBER OF VOWELS
-            MATCHED IN ENGLISH STRING. THE DIRECTION OF MOVEMENT IS
-            DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
 
-        : - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ZERO OR MORE
-            CONSONANTS. MATCH ALWAYS SUCCEEDS. MOVES RULE POINTER BY
-            ONE CHARACTER IN RULES AND MOVES STRING POINTER BY THE
-            NUMBER OF CONSONANTS MATCHED IN ENGLISH INPUT STRING. THE
-            DIRECTION OF MOVEMENT IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        # - Invokes a procedure that attempts to match one or more
+            vowels (A,E,I,O,U, OR Y). If match fails, reports failure.
+            If match succeeds, moves rule pointer by one character in
+            rules and moves string pointer by the number of vowels
+            matched in English string. The direction of movement is
+            determined as:
 
-        + - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A FRONT VOWEL
-            (E,I, OR Y). IF MATCH FAILS, REPORTS FAILURE. IF MATCH
-            SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
-            AND MOVES STRING POINTER BY ONE CHARACTER IN INPUT STRING.
-            DIRECTION OF MOVEMENT IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
 
-        $ - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE CONSONANT. IF
-            MATCH FAILS, REPORTS FAILURE. IF MATCH SUCCEEDS, MOVES RULE
-            POINTER BY ONE CHARACTER IN RULES AND MOVES STRING POINTER
-            BY ONE CHARACTER IN ENGLISH INPUT STRING. DIRECTION OF MOVEMENT
-            IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+        : - Invokes a procedure that attempts to match zero or more
+            consonants. Match always succeeds. Moves rule pointer by
+            one character in rules and moves string pointer by the
+            number of consonants matched in English input string. The
+            direction of movement is determined as:
 
-        . - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A VOICED CONSONANT
-            (B,D,G,J,L,M,N,R,V,W, OR Z). IF MATCH FAILS, REPORTS FAILURE.
-            IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
-            AND MOVES STRING POINTER BY ONE CHARACTER IN ENGLISH INPUT
-            STRING. DIRECTION OF MOVEMENT IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
 
-  AFTER A MATCH IS FOUND THE INDEX INTO THE ENGLISH BUFFER IS INCREMENTED
-  BY THE NUMBER OF CHARACTERS INSIDE OF THE PARENTHESIS OF THE RULE.
+        + - Invokes a procedure that attempts to match a front vowel
+            (E,I, OR Y). If match fails, reports failure. If match
+            succeeds, moves rule pointer by one character in rules
+            and moves string pointer by one character in input string.
+            The direction of movement is determined as:
+
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
+
+        $ - Invokes a procedure that attempts to match one consonant. If
+            match fails, reports failure. If match succeeds, moves rule
+            pointer by one character in rules and moves string pointer
+            by one character in English input string. Direction of movement
+            is determined as:
+
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
+
+        . - Invokes a procedure that attempts to match a voiced consonant
+            (B,D,G,J,L,M,N,R,V,W, OR Z). If match fails, reports failure.
+            If match succeeds, moves rule pointer by one character in rules
+            and moves string pointer by one character in English input
+            string. Direction of movement is determined as:
+
+              1. Forward if right context is being scanned
+              2. Backward if left context is being scanned
+
+  After a match is found, the index into the English buffer is incremented
+  by the number of characters inside of the parenthesis of the rule.
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-  Calling Sequence: RUL_SRCH(int BLK_OFF, int BLK_SIZ)
+  Calling Sequence: RUL_SRCH(rules)
 
   Inputs:
 
-    BLK_OFF - The starting index into the rules to be evaluated.
-
-    BLK_SIZ - The number of rules to evaluate.
+    rules - A list of rules that are to be evaluated.
 
    Outputs:
 
@@ -1714,43 +1549,36 @@ bool PhonemMaker::SCAN(void)
 
   Attributes (formerly globals):
 
-    RUL_TBL - A table of rule strings for which English text os to be
-    evaluated.
-
     R_BUFFER - A string that contains the current rule being evaluated.
 
     E_INDEX - The current index into the English buffer for which text
     is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::RUL_SRCH(int BLK_OFF, int BLK_SIZ)
+void PhonemMaker::RUL_SRCH(std::list<std::string> rules)
 {
-   int U_BOUNDS;
-   int BLK_INDX;
    bool DONE;
    bool FOUND;
-
-   // Set upper bounds.
-   U_BOUNDS = BLK_OFF + BLK_SIZ-1;
-
-   // Set lower bounds.
-   BLK_INDX = BLK_OFF;
+   std::list<std::string>::iterator i;
 
    // Set up for loop entry.
    DONE = false;
 
+   // Reference the first rule in the list.
+   i = rules.begin();
+
    while (!DONE)
    {
       // Get current rule.
-      R_BUFFER = RUL_TBL[BLK_INDX];
+      R_BUFFER = *i;
 
       // Scan using current rule.
       FOUND = SCAN();
 
-      // bump to next rule.
-      BLK_INDX = BLK_INDX + 1;
+      // Reference the next rule.
+      i++;
 
-      if ((BLK_INDX > U_BOUNDS) || FOUND)
+      if ((i == rules.end()) || FOUND)
       {
          // Exit scan.
          DONE = true;

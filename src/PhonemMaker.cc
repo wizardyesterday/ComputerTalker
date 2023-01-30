@@ -63,6 +63,9 @@ synthesizerInitialized
 PhonemMaker::~PhonemMaker(void)
 {
 
+   // Release storage
+   RUL_TBL.clear();
+
 } // ~PhonemMaker
 
 /**************************************************************************
@@ -1459,20 +1462,20 @@ bool PhonemMaker::SCAN(void)
   (extracted from the original code follows.
 
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-  RULE FORMAT - #(SED)!=Z,D;
+  Rule format - #(SED)!=Z,D;
 
-    # - LEFT CONTEXT
-    ( - LEFT CONTEX DELIMITER
-    SED - STRING TO BE MATCHED
-    ) - RIGHT CONTEXT DELIMITER
-    ! - RIGHT CONTEX
-    = - RIGHT CONTEX TERMINATOR
-    Z - PHONEM CODE
-    , - PHONEM SEPARATOR
-    D - PHONEM CODE
-     ; - RULE TERMINATOR
+    # - Left context
+    ( - Left context delimiter
+    SED - String to be matched
+    ) - Right context delimiter
+    ! - Right context
+    = - Right context terminator
+    Z - Phoneme code
+    , - Phoneme separator
+    D - Phoneme code
+    ; - Rule terminator
 
-    MEANING OF RULE SYMBOLS
+    Meaning of rule symbols
 
       ! - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ANY NONALPHABETIC
           CHARACTER IN ENGLISH INPUT STRING. IF MATCH FAILS, REPORTS
@@ -1480,8 +1483,8 @@ bool PhonemMaker::SCAN(void)
           ONE CHARACTER IN RULE AND MOVES INPUT STRING POINTER BY
           ONE CHARACTER IN THE ENGLISH STRING. THE DIRECTION OF
           MOVEMENT IS DETERMINED AS:
-            1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-            2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+            1. Forward if right context is being scanned
+            2. Backward if left context is being scanned
 
         # - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE OR MORE
             VOWELS (A,E,I,O,U, OR Y). IF MATCH FAILS, REPORTS FAILURE.
@@ -1489,52 +1492,50 @@ bool PhonemMaker::SCAN(void)
             RULES AND MOVES STRING POINTER BY THE NUMBER OF VOWELS
             MATCHED IN ENGLISH STRING. THE DIRECTION OF MOVEMENT IS
             DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+            1. Forward if right context is being scanned
+            2. Backward if left context is being scanned
 
         : - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ZERO OR MORE
             CONSONANTS. MATCH ALWAYS SUCCEEDS. MOVES RULE POINTER BY
             ONE CHARACTER IN RULES AND MOVES STRING POINTER BY THE
             NUMBER OF CONSONANTS MATCHED IN ENGLISH INPUT STRING. THE
             DIRECTION OF MOVEMENT IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+            1. Forward if right context is being scanned
+            2. Backward if left context is being scanned
 
         + - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A FRONT VOWEL
             (E,I, OR Y). IF MATCH FAILS, REPORTS FAILURE. IF MATCH
             SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
             AND MOVES STRING POINTER BY ONE CHARACTER IN INPUT STRING.
             DIRECTION OF MOVEMENT IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+            1. Forward if right context is being scanned
+            2. Backward if left context is being scanned
 
         $ - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH ONE CONSONANT. IF
             MATCH FAILS, REPORTS FAILURE. IF MATCH SUCCEEDS, MOVES RULE
             POINTER BY ONE CHARACTER IN RULES AND MOVES STRING POINTER
             BY ONE CHARACTER IN ENGLISH INPUT STRING. DIRECTION OF MOVEMENT
             IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+            1. Forward if right context is being scanned
+            2. Backward if left context is being scanned
 
         . - INVOKES PROCEDURE THAT ATTEMPTS TO MATCH A VOICED CONSONANT
             (B,D,G,J,L,M,N,R,V,W, OR Z). IF MATCH FAILS, REPORTS FAILURE.
             IF MATCH SUCCEEDS, MOVES RULE POINTER BY ONE CHARACTER IN RULES
             AND MOVES STRING POINTER BY ONE CHARACTER IN ENGLISH INPUT
             STRING. DIRECTION OF MOVEMENT IS DETERMINED AS:
-              1. FORWARD IF RIGHT CONTEXT IS BEING SCANNED
-              2. BACKWARD IF LEFT CONTEXT IS BEING SCANNED
+            1. Forward if right context is being scanned
+            2. Backward if left context is being scanned
 
-  AFTER A MATCH IS FOUND THE INDEX INTO THE ENGLISH BUFFER IS INCREMENTED
-  BY THE NUMBER OF CHARACTERS INSIDE OF THE PARENTHESIS OF THE RULE.
+  After a match is found, the index into the English buffer is incremented
+  by the number of characters inside of the parenthesis of the rule.
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-  Calling Sequence: RUL_SRCH(int BLK_OFF, int BLK_SIZ)
+  Calling Sequence: RUL_SRCH(rules)
 
   Inputs:
 
-    BLK_OFF - The starting index into the rules to be evaluated.
-
-    BLK_SIZ - The number of rules to evaluate.
+    rules - A list of rules that are to be evaluated.
 
    Outputs:
 

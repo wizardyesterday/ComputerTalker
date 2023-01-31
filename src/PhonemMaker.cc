@@ -99,7 +99,7 @@ bool PhonemMaker::getSystemParameters(void)
    char buffer[1000];
    char rule[100];
    int code;
-   char alpha[100];
+   char name[100];
    int numberOfExistingFiles;
    char key;
    char *keyPtr;
@@ -128,11 +128,11 @@ bool PhonemMaker::getSystemParameters(void)
 
          if (statusPtr != NULL)
          {
-            sscanf(buffer,"%d %s",&code,alpha);
+            sscanf(buffer,"%d %s",&code,name);
 
             // Populate the phonem structure.
-            phonemeTable[phonemCount].ALPHA = alpha;
-            phonemeTable[phonemCount].CODE = code;
+            phonemeTable[phonemCount].phonemeName = name;
+            phonemeTable[phonemCount].phonemeCode = code;
 
             // Reference the next storage element.
             phonemCount++;
@@ -1650,10 +1650,10 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
 
    while (!MATCH)
    {
-      if (phonemeToken == phonemeTable[INDEX].ALPHA)
+      if (phonemeToken == phonemeTable[INDEX].phonemeName)
       {
          // Store phonem code.
-         phonemeBuffer[phonemeBufferIndex] = phonemeTable[INDEX].CODE;
+         phonemeBuffer[phonemeBufferIndex] = phonemeTable[INDEX].phonemeCode;
 
          // Reference the next phonem buffer location.
          phonemeBufferIndex = phonemeBufferIndex + 1;

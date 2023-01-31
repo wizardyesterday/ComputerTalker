@@ -29,8 +29,8 @@ class PhonemMaker
 
    struct PhonemToCodeEntry
    {
-      std::string ALPHA;
-      uint8_t CODE;
+      std::string phonemeName;
+      uint8_t phonemeCode;
    };
 
    PhonemMaker(bool& success);

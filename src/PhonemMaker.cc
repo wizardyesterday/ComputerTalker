@@ -278,6 +278,11 @@ void PhonemMaker::translateEnglishText(std::string& text,
          // Process the rules.
          RUL_SRCH(i->second);
       } // if
+      else
+      {
+         // Don't process this character since it's not in the rules.
+         E_INDEX++;
+      } // else
 
    } // while
 

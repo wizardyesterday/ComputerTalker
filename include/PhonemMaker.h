@@ -16,10 +16,10 @@
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // Buffer size defines.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-#define MAXLINE (80)     // Maximum length of input buffer.
-#define MAX_PHO (1000)   // Size of phonem buffer.
-#define NUM_PHON (64)    // Number of phonems
-#define NUM_PH_TOK (30)  // Maximum number of phonem tokens.
+#define MAXLINE (80)                  // Maximum length of input buffer.
+#define PHOENEME_BUFFER_SIZE (1000)   // 
+#define NUMBER_OF_PHONEMES (64)       // Number of phonems
+#define NUMBER_OF_PHONEME_TOKENS (30) // Maximum number of phonem tokens.
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -29,15 +29,15 @@ class PhonemMaker
 
    struct PhonemToCodeEntry
    {
-      std::string ALPHA;
-      uint8_t CODE;
+      std::string phonemeName;
+      uint8_t phonemeCode;
    };
 
    PhonemMaker(bool& success);
 
    ~PhonemMaker(void);
 
-   void translateEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
+   void translateEnglishText(std::string& text, uint8_t*& phonemBuffer,
                              uint32_t& phonemCount);
 
 
@@ -48,60 +48,61 @@ class PhonemMaker
    //*****************************************
    bool getSystemParameters(void);
 
-   bool isAlpha(char CH);
-   bool isVowel(char CH);
-   bool isFrontVowel(char CH);
-   bool isConsonant(char CH);
-   bool isVoicedConsonant(char CH);
-   void rightPastVowel(int& R_INDEX, bool& OCCURED);
-   void leftPastVowel(int& R_INDEX, bool& OCCURED);
-   void rightPastConsonant(int& R_INDEX, bool& OCCURED);
-   void leftPastConsonant(int& R_INDEX, bool& OCCURED);
+   bool isAlpha(char c);
+   bool isVowel(char c);
+   bool isFrontVowel(char c);
+   bool isConsonant(char c);
+   bool isVoicedConsonant(char c);
 
-   void buildLiteralPhoneme(int RUL_INDX);
-   void scanRightContext(int RT_INDX, int& RUL_INDX, bool& FOUND);
-   void scanLeftContext(int LEF_INDX, bool& FOUND);
+   void rightPastVowel(int& runningIndex, bool& occurred);
+   void leftPastVowel(int& runningIndex, bool& occurred);
+   void rightPastConsonant(int& runningIndex, bool& occurred);
+   void leftPastConsonant(int& runningIndex, bool& occurred);
+
+   void buildLiteralPhoneme(int ruleIndex);
+   void scanRightContext(int rightIndex, int& ruleIndex, bool& found);
+   void scanLeftContext(int leftIndex, bool& found);
    bool compareReferenceString(void);
-   void buildReferenceString(int LEF_INDX, int& RT_INDX);
-   void findLeftParent(int& LEF_INDX);
+   void buildReferenceString(int leftIndex, int& rightIndex);
+   void findLeftParent(int& leftIndex);
    bool evaluateContexts(void);
    void searchRuleList(std::list<std::string> rules);
 
-   void convertPhonemeToCode(std::string PH_STR);
+   void convertPhonemeToCode(std::string phonemeToken);
    void convertPhonemesToCode(void);
 
    //*****************************************
    // Attributes.
    //*****************************************
-   // English uppercase English text buffer.
-   char E_BUFFER[MAXLINE];
+   // Uppercase English text buffer.
+   char englishBuffer[MAXLINE];
 
    // Buffer used for phonem storage.
-   uint8_t P_BUFFER[MAX_PHO];
+   uint8_t phonemeBuffer[PHOENEME_BUFFER_SIZE];
 
    // This table contains the textual phonetic rules.
-   std::map <char, std::list <std::string> > RUL_TBL;
+   std::map <char, std::list <std::string> > ruleTable;
 
-   // This table is used to map textual phonems to binary values.
-   PhonemToCodeEntry PHO_TBL[NUM_PHON];
+   // This table is used to map phoneme names to binary values.
+   PhonemToCodeEntry phonemeTable[NUMBER_OF_PHONEMES];
 
-   // Storage for the current rule.
-   std::string R_BUFFER;
+   // Storage for the current rule being evaluated.
+   std::string currentRule;
 
    // This is used for string comparison with the English buffer.
-   std::string REF_STR;
+   std::string referenceString;
 
    // Storage for phonem strings to be evaluated.
-   std::string PH_STR[NUM_PH_TOK];
+   std::string phonemeTokens[NUMBER_OF_PHONEME_TOKENS];
 
    // Number of entries in the English buffer.
-   int E_LEN;
+   int englishBufferLength;
 
    // Current location in the English buffer.
-   int E_INDEX;
+   int englishBufferIndex;
 
    // Next available location in the phonem buffer.
-   int P_INDEX;
+   int phonemeBufferIndex;
 };
 
 #endif // _PHONEMMAKER_H_

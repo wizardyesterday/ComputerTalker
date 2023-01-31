@@ -53,55 +53,55 @@ class PhonemMaker
    bool isFrontVowel(char CH);
    bool isConsonant(char CH);
    bool isVoicedConsonant(char CH);
-   void rightPastVowel(int& R_INDEX, bool& OCCURED);
-   void leftPastVowel(int& R_INDEX, bool& OCCURED);
-   void rightPastConsonant(int& R_INDEX, bool& OCCURED);
-   void leftPastConsonant(int& R_INDEX, bool& OCCURED);
+   void rightPastVowel(int& R_INDEX, bool& occurred);
+   void leftPastVowel(int& R_INDEX, bool& occurred);
+   void rightPastConsonant(int& R_INDEX, bool& occurred);
+   void leftPastConsonant(int& R_INDEX, bool& occurred);
 
    void buildLiteralPhoneme(int RUL_INDX);
-   void scanRightContext(int RT_INDX, int& RUL_INDX, bool& FOUND);
-   void scanLeftContext(int LEF_INDX, bool& FOUND);
+   void scanRightContext(int RT_INDX, int& RUL_INDX, bool& found);
+   void scanLeftContext(int LEF_INDX, bool& found);
    bool compareReferenceString(void);
    void buildReferenceString(int LEF_INDX, int& RT_INDX);
    void findLeftParent(int& LEF_INDX);
    bool evaluateContexts(void);
    void searchRuleList(std::list<std::string> rules);
 
-   void convertPhonemeToCode(std::string PH_STR);
+   void convertPhonemeToCode(std::string phonemeToken);
    void convertPhonemesToCode(void);
 
    //*****************************************
    // Attributes.
    //*****************************************
    // English uppercase English text buffer.
-   char E_BUFFER[MAXLINE];
+   char englishBuffer[MAXLINE];
 
    // Buffer used for phonem storage.
-   uint8_t P_BUFFER[MAX_PHO];
+   uint8_t phonemeBuffer[MAX_PHO];
 
    // This table contains the textual phonetic rules.
-   std::map <char, std::list <std::string> > RUL_TBL;
+   std::map <char, std::list <std::string> > ruleTable;
 
    // This table is used to map textual phonems to binary values.
-   PhonemToCodeEntry PHO_TBL[NUM_PHON];
+   PhonemToCodeEntry phonemeTable[NUM_PHON];
 
    // Storage for the current rule.
-   std::string R_BUFFER;
+   std::string currentRule;
 
    // This is used for string comparison with the English buffer.
-   std::string REF_STR;
+   std::string referenceString;
 
    // Storage for phonem strings to be evaluated.
-   std::string PH_STR[NUM_PH_TOK];
+   std::string phonemeTokens[NUM_PH_TOK];
 
    // Number of entries in the English buffer.
    int E_LEN;
 
    // Current location in the English buffer.
-   int E_INDEX;
+   int englishBufferIndex;
 
    // Next available location in the phonem buffer.
-   int P_INDEX;
+   int phonemeBufferIndex;
 };
 
 #endif // _PHONEMMAKER_H_

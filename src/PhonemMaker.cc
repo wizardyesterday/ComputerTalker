@@ -231,7 +231,7 @@ bool PhonemMaker::getSystemParameters(void)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     phonemeBufferIndex - The index into the next storage location in the
     phonem buffer. 
@@ -249,7 +249,7 @@ void PhonemMaker::translateEnglishText(std::string& text,
                                        uint32_t& phonemCount)
 
 {
-   int INDEX;
+   int j;
    std::map <char, std::list <std::string> >::iterator i;
    char key;
 
@@ -260,10 +260,10 @@ void PhonemMaker::translateEnglishText(std::string& text,
    // Compute message length.  Yes, this is redundant.
    englishBufferLength = text.length();
 
-   for (INDEX = 0; INDEX < englishBufferLength; INDEX++)
+   for (j = 0; j < englishBufferLength; j++)
    {
       // Convert to upper case.
-      englishBuffer[INDEX] = toupper(text[INDEX]);
+      englishBuffer[j] = toupper(text[j]);
    } // for
 
    while (englishBufferIndex < englishBufferLength)
@@ -292,7 +292,7 @@ void PhonemMaker::translateEnglishText(std::string& text,
 
    return;
 
-} // ENG_TO_PH
+} // translateEnglishText
 
 /************************************************************************
 
@@ -529,7 +529,7 @@ bool PhonemMaker::isVoicedConsonant(char c)
     runningIndex - A reference to storage for the index into the English
     buffer.
 
-    OCCURRED - A reference to storage that indicates whether or not
+    occurred - A reference to storage that indicates whether or not
     a vowel was detected.  A value of true indicates that a vowel was
     detected, and a value of false indicates that a vowel was not
     detected.
@@ -539,7 +539,7 @@ bool PhonemMaker::isVoicedConsonant(char c)
     None.
 
 
-  Attributes (formerly globals):
+  Attributes:
 
     runningIndex - The running index into the English buffer.
 
@@ -601,7 +601,7 @@ void PhonemMaker::rightPastVowel(int& runningIndex, bool& occurred)
     runningIndex - A reference to storage for the index into the English
     buffer.
 
-    OCCURRED - A reference to storage that indicates whether or not
+    occurred - A reference to storage that indicates whether or not
     a vowel was detected.  A value of true indicates that a consonant was
     detected, and a value of false indicates that a consonant was not
     detected.
@@ -610,7 +610,7 @@ void PhonemMaker::rightPastVowel(int& runningIndex, bool& occurred)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     runningIndex - The running index into the English buffer.
 
@@ -669,7 +669,7 @@ void PhonemMaker::rightPastConsonant(int& runningIndex, bool& occurred)
     runningIndex - A reference to storage for the index into the English
     buffer.
 
-    OCCURRED - A reference to storage that indicates whether or not
+    occurred - A reference to storage that indicates whether or not
     a vowel was detected.  A value of true indicates that a vowel was
     detected, and a value of false indicates that a vowel was not
     detected.
@@ -678,7 +678,7 @@ void PhonemMaker::rightPastConsonant(int& runningIndex, bool& occurred)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     runningIndex - The running index into the English buffer.
 
@@ -740,7 +740,7 @@ void PhonemMaker::leftPastVowel(int& runningIndex, bool& occurred)
     runningIndex - A reference to storage for the index into the English
     buffer.
 
-    OCCURRED - A reference to storage that indicates whether or not
+    occurred - A reference to storage that indicates whether or not
     a vowel was detected.  A value of true indicates that a consonant was
     detected, and a value of false indicates that a consonant was not
     detected.
@@ -749,7 +749,7 @@ void PhonemMaker::leftPastVowel(int& runningIndex, bool& occurred)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     runningIndex - The running index into the English buffer.
 
@@ -811,7 +811,7 @@ void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     currentRule - A string that contains the current rule being evaluated.
 
@@ -822,23 +822,23 @@ void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
 *****************************************************************************/
 void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
 {
-   int INDEX;
-   int RES_INDX;
+   int i;
+   int resultIndex;
    int runningIndex;
    bool done;
 
    // Point to beginning of result buffer.
-   RES_INDX = 0;
+   resultIndex = 0;
 
    // Point past '=' sign.
    runningIndex = ruleIndex + 1;
 
    if (currentRule[runningIndex] != ';')
    {
-      for (INDEX = 0; INDEX < NUM_PH_TOK; INDEX++)
+      for (i = 0; i < NUMBER_OF_PHONEME_TOKENS; i++)
       {
          // Clear phonem string array.
-         phonemeTokens[INDEX] = "";
+         phonemeTokens[i] = "";
       } // for
 
       do
@@ -850,8 +850,8 @@ void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
          {
             if (currentRule[runningIndex] != ';')
             {
-               phonemeTokens[RES_INDX] =
-                  phonemeTokens[RES_INDX] + currentRule[runningIndex];
+               phonemeTokens[resultIndex] =
+                  phonemeTokens[resultIndex] + currentRule[runningIndex];
 
                // Bump rule index.
                runningIndex = runningIndex + 1;
@@ -873,13 +873,13 @@ void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
          } // while
 
          // Bump result index.
-         RES_INDX = RES_INDX + 1;
+         resultIndex = resultIndex + 1;
 
       } while (currentRule[runningIndex] != ';');
    } // if
 
    // Store terminator.
-   phonemeTokens[RES_INDX] = ';';
+   phonemeTokens[resultIndex] = ';';
 
   return;
 
@@ -910,7 +910,7 @@ void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     currentRule - A string that contains the current rule being evaluated.
 
@@ -930,7 +930,7 @@ void PhonemMaker::scanRightContext(int rightIndex,
 {
    int runningIndex;
    bool withinRules;
-   bool EITHER;
+   bool either;
    bool occurred;
    bool done;
 
@@ -1010,7 +1010,7 @@ void PhonemMaker::scanRightContext(int rightIndex,
             } // if
 
             // Accept either case.
-            EITHER = ((withinRules) || (occurred));
+            either = ((withinRules) || (occurred));
 
             // Clear flags.
             withinRules = false;
@@ -1024,11 +1024,11 @@ void PhonemMaker::scanRightContext(int rightIndex,
                if (currentRule[ruleIndex] != '=')
                {
                   // Return false.
-                  EITHER = false;
+                  either = false;
                } // if
             } // if
 
-            if (!EITHER)
+            if (!either)
             {
                // Exit loop if no match for rule.
                done = true;
@@ -1036,7 +1036,7 @@ void PhonemMaker::scanRightContext(int rightIndex,
          } // while
 
          // Return result.
-         found = EITHER;
+         found = either;
       } // if
       else
       {
@@ -1075,7 +1075,7 @@ void PhonemMaker::scanRightContext(int rightIndex,
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     currentRule - A string that contains the current rule being evaluated.
 
@@ -1089,7 +1089,7 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
 {
    int runningIndex;
    int ruleIndex;
-   bool EITHER;
+   bool either;
    bool occurred;
    bool done;
    bool withinRules;
@@ -1164,7 +1164,7 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
          } // if
 
          // Save either true result.
-         EITHER = withinRules || occurred;
+         either = withinRules || occurred;
 
          // Clear flags.
          withinRules = false;
@@ -1180,11 +1180,11 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
 
             if (ruleIndex >= 0)
             {
-               EITHER = false;
+               either = false;
             } // if
          } // if
 
-         if (!EITHER)
+         if (!either)
          {
             // Exit if scan failed.
             done = true;
@@ -1192,7 +1192,7 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
       } // while
 
       // Return result.
-      found = EITHER;
+      found = either;
    } // if
    else
    {
@@ -1223,7 +1223,7 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
     current position in the English buffer, and a value of false
     indicates that a match was not found.
 
-  Attributes (formerly globals):
+  Attributes:
 
     englishBufferIndex - The current index into the English buffer for which
     text is to be evaluated.
@@ -1236,32 +1236,32 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
 bool PhonemMaker::compareReferenceString(void)
 {
    bool result;
-   int INDEX;
-   int LIMIT;
+   int i;
+   int upperLimit;
    bool done;
 
    // Point to the beginning of the reference string.
-   INDEX = 0;
+   i = 0;
 
    // Set upper limit.
-   LIMIT = referenceString.length() - 1;
+   upperLimit = referenceString.length() - 1;
 
    // Set up for loop entry.
    done = false;
 
    while (!done)
    {
-      if (referenceString[INDEX] != 
-            (englishBuffer[englishBufferIndex + INDEX]))
+      if (referenceString[i] != 
+            (englishBuffer[englishBufferIndex + i]))
       {
          done = true;
       } // if
       else
       {
          // Reference next item.
-         INDEX = INDEX + 1;
+         i = i + 1;
 
-         if (INDEX > LIMIT)
+         if (i > upperLimit)
          {
             // Exit from loop.
             done = true;
@@ -1269,7 +1269,7 @@ bool PhonemMaker::compareReferenceString(void)
       } // else
    } // while
 
-   if (INDEX > LIMIT)
+   if (i > upperLimit)
    {
       result = true;
    } // if
@@ -1305,7 +1305,7 @@ bool PhonemMaker::compareReferenceString(void)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     currentRule - A string that contains the current rule being evaluated.
 
@@ -1353,7 +1353,7 @@ void PhonemMaker::buildReferenceString(int leftIndex, int& rightIndex)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     currentRule - A string that contains the current rule being evaluated.
 
@@ -1396,7 +1396,7 @@ void PhonemMaker::findLeftParent(int& leftIndex)
     A value of true indicates that the rule was satisfied, and a value of
     false indicates that the rule was not satisfied.
 
-  Attributes (formerly globals):
+  Attributes:
 
     englishBufferIndex - The current index into the English buffer for which
     text is to be evaluated.
@@ -1558,7 +1558,7 @@ bool PhonemMaker::evaluateContexts(void)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     currentRule - A string that contains the current rule being evaluated.
 
@@ -1626,7 +1626,7 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
 
     None.
 
-  Attributes (formerly globals):
+  Attributes:
 
     phonemeTable - A table that maps the textual representation of phonems to
     the binary representation.
@@ -1639,32 +1639,32 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
 *****************************************************************************/
 void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
 {
-   int INDEX;
-   bool MATCH;
+   int i;
+   bool match;
 
    // Point to begining of phonem table.
-   INDEX = 0;
+   i = 0;
 
    // Clear initially.
-   MATCH = false;
+   match = false;
 
-   while (!MATCH)
+   while (!match)
    {
-      if (phonemeToken == phonemeTable[INDEX].phonemeName)
+      if (phonemeToken == phonemeTable[i].phonemeName)
       {
          // Store phonem code.
-         phonemeBuffer[phonemeBufferIndex] = phonemeTable[INDEX].phonemeCode;
+         phonemeBuffer[phonemeBufferIndex] = phonemeTable[i].phonemeCode;
 
          // Reference the next phonem buffer location.
          phonemeBufferIndex = phonemeBufferIndex + 1;
 
          // Exit loop.
-         MATCH = true;
+         match = true;
       } // if
       else
       {
          // Reference the next item.
-         INDEX = INDEX + 1;
+         i = i + 1;
       } // else
    } // while
 
@@ -1691,25 +1691,27 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
 
     None.
 
-    phonemeTokens = The current array of phonem tokens being evaluated.  For
+  Attributes:
+
+     phonemeTokens = The current array of phonem tokens being evaluated.  For
     example, if a rule happens to be "(AR)=AH1,R;" phonemeTokens will be set
     to "AH1","R",";".
 
 *****************************************************************************/
 void PhonemMaker::convertPhonemesToCode(void)
 {
-   int INDEX;
+   int i;
 
    // Point to beginning of array of phonem strings.
-   INDEX = 0;
+   i = 0;
 
-   while (phonemeTokens[INDEX] != ";")
+   while (phonemeTokens[i] != ";")
    {
       // Convert phonems to codes.
-      convertPhonemeToCode(phonemeTokens[INDEX]);
+      convertPhonemeToCode(phonemeTokens[i]);
 
       // Reference next entry.
-      INDEX = INDEX + 1;
+      i = i + 1;
    } // while
 
   return;

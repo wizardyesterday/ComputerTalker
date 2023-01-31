@@ -16,10 +16,10 @@
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // Buffer size defines.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-#define MAXLINE (80)     // Maximum length of input buffer.
-#define MAX_PHO (1000)   // Size of phonem buffer.
-#define NUM_PHON (64)    // Number of phonems
-#define NUM_PH_TOK (30)  // Maximum number of phonem tokens.
+#define MAXLINE (80)                  // Maximum length of input buffer.
+#define PHOENEME_BUFFER_SIZE (1000)   // 
+#define NUMBER_OF_PHONEMES (64)       // Number of phonems
+#define NUMBER_OF_PHONEME_TOKENS (30) // Maximum number of phonem tokens.
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -53,6 +53,7 @@ class PhonemMaker
    bool isFrontVowel(char c);
    bool isConsonant(char c);
    bool isVoicedConsonant(char c);
+
    void rightPastVowel(int& runningIndex, bool& occurred);
    void leftPastVowel(int& runningIndex, bool& occurred);
    void rightPastConsonant(int& runningIndex, bool& occurred);
@@ -73,26 +74,26 @@ class PhonemMaker
    //*****************************************
    // Attributes.
    //*****************************************
-   // English uppercase English text buffer.
+   // Uppercase English text buffer.
    char englishBuffer[MAXLINE];
 
    // Buffer used for phonem storage.
-   uint8_t phonemeBuffer[MAX_PHO];
+   uint8_t phonemeBuffer[PHOENEME_BUFFER_SIZE];
 
    // This table contains the textual phonetic rules.
    std::map <char, std::list <std::string> > ruleTable;
 
-   // This table is used to map textual phonems to binary values.
-   PhonemToCodeEntry phonemeTable[NUM_PHON];
+   // This table is used to map phoneme names to binary values.
+   PhonemToCodeEntry phonemeTable[NUMBER_OF_PHONEMES];
 
-   // Storage for the current rule.
+   // Storage for the current rule being evaluated.
    std::string currentRule;
 
    // This is used for string comparison with the English buffer.
    std::string referenceString;
 
    // Storage for phonem strings to be evaluated.
-   std::string phonemeTokens[NUM_PH_TOK];
+   std::string phonemeTokens[NUMBER_OF_PHONEME_TOKENS];
 
    // Number of entries in the English buffer.
    int englishBufferLength;

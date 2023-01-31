@@ -5,7 +5,7 @@
 #include "PhonemMaker.h"
 
 /************************************************************************
-e
+
   Name: PhonemMaker
 
   Purpose: The purpose of this function is to serve as the constructor
@@ -276,7 +276,7 @@ void PhonemMaker::translateEnglishText(std::string& text,
       if (i != RUL_TBL.end())
       {
          // Process the rules.
-         RUL_SRCH(i->second);
+         searchRuleList(i->second);
       } // if
       else
       {
@@ -296,12 +296,12 @@ void PhonemMaker::translateEnglishText(std::string& text,
 
 /************************************************************************
 
-  Name: IS_ALPHA
+  Name: isAlpha
 
   Purpose: The purpose of this function is to determine whether or
   not a character is alphabetic.
 
-  Calling Sequence: result = IS_ALPHA(CH)
+  Calling Sequence: result = isAlpha(CH)
 
   Inputs:
 
@@ -314,7 +314,7 @@ void PhonemMaker::translateEnglishText(std::string& text,
     false indicates that the character is not alphabetic.
 
 *****************************************************************************/
-bool PhonemMaker::IS_ALPHA(char CH)
+bool PhonemMaker::isAlpha(char CH)
 {
    bool result;
 
@@ -323,16 +323,16 @@ bool PhonemMaker::IS_ALPHA(char CH)
 
    return (result);
 
-} // IS_ALPHA
+} // isAlpha
 
 /************************************************************************
 
-  Name: IS_VWL
+  Name: isVowel
 
   Purpose: The purpose of this function is to determine whether or
   not a character is a vowel.
 
-  Calling Sequence: result = IS_VWL(CH)
+  Calling Sequence: result = isVowel(CH)
 
   Inputs:
 
@@ -345,7 +345,7 @@ bool PhonemMaker::IS_ALPHA(char CH)
     false indicates that the character is not a vowel.
 
 *****************************************************************************/
-bool PhonemMaker::IS_VWL(char CH)
+bool PhonemMaker::isVowel(char CH)
 {
    bool result;
 
@@ -373,16 +373,16 @@ bool PhonemMaker::IS_VWL(char CH)
 
    return (result);
 
-} // IS_VWL
+} // isVowel
 
 /************************************************************************
 
-  Name: IS_FR_VWL
+  Name: isFrontVowel
 
   Purpose: The purpose of this function is to determine whether or
   not a character is a front vowel.
 
-  Calling Sequence: result = IS_FR_VWL(CH)
+  Calling Sequence: result = isFrontVowel(CH)
 
   Inputs:
 
@@ -395,7 +395,7 @@ bool PhonemMaker::IS_VWL(char CH)
     false indicates that the character is not a front vowel.
 
 *****************************************************************************/
-bool PhonemMaker::IS_FR_VWL(char CH)
+bool PhonemMaker::isFrontVowel(char CH)
 {
    bool result;
 
@@ -420,16 +420,16 @@ bool PhonemMaker::IS_FR_VWL(char CH)
 
    return (result);
 
-} // IS_VWL
+} // isVowel
 
 /************************************************************************
 
-  Name: IS_CST
+  Name: isConsonant
 
   Purpose: The purpose of this function is to determine whether or
   not a character is a consonant.
 
-  Calling Sequence: result = IS_CST(CH)
+  Calling Sequence: result = isConsonant(CH)
 
   Inputs:
 
@@ -442,11 +442,11 @@ bool PhonemMaker::IS_FR_VWL(char CH)
     false indicates that the character is not a consonant.
 
 *****************************************************************************/
-bool PhonemMaker::IS_CST(char CH)
+bool PhonemMaker::isConsonant(char CH)
 {
    bool result;
 
-   if (IS_ALPHA(CH) && (!IS_VWL(CH)))
+   if (isAlpha(CH) && (!isVowel(CH)))
    {
       result = true;
    } // if
@@ -457,16 +457,16 @@ bool PhonemMaker::IS_CST(char CH)
 
    return (result);
 
-} // IS_CST
+} // isConsonant
 
 /************************************************************************
 
-  Name: IS_VO_CST
+  Name: isVoicedConsonant
 
   Purpose: The purpose of this function is to determine whether or
   not a character is a voiced consonant.
 
-  Calling Sequence: result = IS_VO_CST(CH)
+  Calling Sequence: result = isVoicedConsonant(CH)
 
   Inputs:
 
@@ -479,7 +479,7 @@ bool PhonemMaker::IS_CST(char CH)
     value of false indicates that the character is not a voiced consonant.
 
 *****************************************************************************/
-bool PhonemMaker::IS_VO_CST(char CH)
+bool PhonemMaker::isVoicedConsonant(char CH)
 {
    bool result;
 
@@ -512,17 +512,17 @@ bool PhonemMaker::IS_VO_CST(char CH)
 
    return (result);
 
-} // IS_VO_CST
+} // isVoicedConsonant
 
 /************************************************************************
 
-  Name: RT_PS_VWL
+  Name: rightPastVowel
 
   Purpose: The purpose of this function is to advance the English
   buffer index to the right past all consecutive vowels in the English
   buffer.
 
-  Calling Sequence: RT_PS_VWL(R_INDEX,OCCURED)
+  Calling Sequence: rightPastVowel(R_INDEX,OCCURED)
 
   Inputs:
 
@@ -546,7 +546,7 @@ bool PhonemMaker::IS_VO_CST(char CH)
     E_LEN - The length of the English string.   
 
 *****************************************************************************/
-void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
+void PhonemMaker::rightPastVowel(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
 
@@ -560,7 +560,7 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 
       while (!DONE)
       {
-         if (IS_VWL(E_BUFFER[R_INDEX]))
+         if (isVowel(E_BUFFER[R_INDEX]))
          {
             // Indicate occurance.
             OCCURED = true;
@@ -584,17 +584,17 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
 
    return;
 
-} // RT_PS_VWL
+} // rightPastVowel
 
 /************************************************************************
 
-  Name: RT_PS_CST
+  Name: rightPastConsonant
 
   Purpose: The purpose of this function is to advance the English
   buffer index to the right past all consecutive consonants in the
   English buffer.
 
-  Calling Sequence: RT_PS_CST(R_INDEX,OCCURED)
+  Calling Sequence: rightPastConsonant(R_INDEX,OCCURED)
 
   Inputs:
 
@@ -617,7 +617,7 @@ void PhonemMaker::RT_PS_VWL(int& R_INDEX, bool& OCCURED)
     E_LEN - The length of the English string.   
 
 *****************************************************************************/
-void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
+void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
 
@@ -628,7 +628,7 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 
       while (!DONE)
       {
-         if (!IS_CST(E_BUFFER[R_INDEX]))
+         if (!isConsonant(E_BUFFER[R_INDEX]))
          {
             // Bail out of scan.
             DONE = true;
@@ -652,17 +652,17 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
 
    return;
 
-} // RT_PS_CST
+} // rightPastConsonant
 
 /************************************************************************
 
-  Name: LF_PS_VWL
+  Name: leftPastVowel
 
   Purpose: The purpose of this function is to advance the English
   buffer index to the left past all consecutive vowels in the English
   buffer.
 
-  Calling Sequence: LF_PS_VWL(R_INDEX,OCCURED)
+  Calling Sequence: leftPastVowel(R_INDEX,OCCURED)
 
   Inputs:
 
@@ -685,7 +685,7 @@ void PhonemMaker::RT_PS_CST(int& R_INDEX, bool& OCCURED)
     E_BUFFER - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
-void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
+void PhonemMaker::leftPastVowel(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
 
@@ -699,7 +699,7 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
 
       while (!DONE)
       {
-         if (IS_VWL(E_BUFFER[R_INDEX]))
+         if (isVowel(E_BUFFER[R_INDEX]))
          {
             // Indicate occurance.
             OCCURED = true;
@@ -723,17 +723,17 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
 
    return;
 
-} // LF_PS_VWL
+} // leftPastVowel
 
 /************************************************************************
 
-  Name: LF_PS_CST
+  Name: leftPastConsonant
 
   Purpose: The purpose of this function is to advance the English
   buffer index to the left past all consecutive consonants in the
   English buffer.
 
-  Calling Sequence: LF_PS_CST(R_INDEX,OCCURED)
+  Calling Sequence: leftPastConsonant(R_INDEX,OCCURED)
 
   Inputs:
 
@@ -756,7 +756,7 @@ void PhonemMaker::LF_PS_VWL(int& R_INDEX, bool& OCCURED)
     E_BUFFER - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
-void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
+void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& OCCURED)
 {
    bool DONE;
 
@@ -767,7 +767,7 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 
       while (!DONE)
       {
-         if (!IS_CST(E_BUFFER[R_INDEX]))
+         if (!isConsonant(E_BUFFER[R_INDEX]))
          {
             // Bail out of scan.
             DONE = true;
@@ -791,16 +791,16 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
 
    return;
 
-} // LF_PS_CST
+} // leftPastConsonant
 
 /************************************************************************
 
-  Name: BLD_LIT_P
+  Name: buildLiteralPhoneme
 
   Purpose: The purpose of this function is to advance the extract the
   phonem string on the right side of the equation for a particular
   rule that is being processed.
-  Calling Sequence: BLD_LIT_P(int RUL_INDX)
+  Calling Sequence: buildLiteralPhoneme(int RUL_INDX)
 
   Inputs:
 
@@ -820,7 +820,7 @@ void PhonemMaker::LF_PS_CST(int& R_INDEX, bool& OCCURED)
     to "AH1","R",";".
 
 *****************************************************************************/
-void PhonemMaker::BLD_LIT_P(int RUL_INDX)
+void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
 {
    int INDEX;
    int RES_INDX;
@@ -882,16 +882,16 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
 
   return;
 
-} // BLD_LIT_P
+} // buildLiteralPhoneme
 
 /************************************************************************
 
-  Name: SC_RT_CTX
+  Name: scanRightContext
 
   Purpose: The purpose of this function is to scan and evaluate the
   right-hand context of text to be evaluated.
 
-  Calling Sequence: SC_RT_CTX(RT_INDX,RUL_INDX,FOUND)
+  Calling Sequence: scanRightContext(RT_INDX,RUL_INDX,FOUND)
 
   Inputs:
 
@@ -923,7 +923,7 @@ void PhonemMaker::BLD_LIT_P(int RUL_INDX)
     a rule.
 
 *****************************************************************************/
-void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
+void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& FOUND)
 {
    int R_INDEX;
    bool WI_RULES;
@@ -954,38 +954,38 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
             {
                case '!':
                {
-                  WI_RULES = !IS_ALPHA(E_BUFFER[R_INDEX]);
+                  WI_RULES = !isAlpha(E_BUFFER[R_INDEX]);
                   break;
                } // case
 
                case '#':
                {
-                  RT_PS_VWL(R_INDEX,OCCURED);
+                  rightPastVowel(R_INDEX,OCCURED);
                   break;
                } // case
 
                case ':':
                {
-                  RT_PS_CST(R_INDEX,OCCURED);
+                  rightPastConsonant(R_INDEX,OCCURED);
                   break;
                } // case
 
 
                case '+':
                {
-                  WI_RULES = IS_FR_VWL(E_BUFFER[R_INDEX]);
+                  WI_RULES = isFrontVowel(E_BUFFER[R_INDEX]);
                   break;
                } // case
 
                case '$':
                {
-                  WI_RULES = IS_CST(E_BUFFER[R_INDEX]);
+                  WI_RULES = isConsonant(E_BUFFER[R_INDEX]);
                   break;
                } // case
 
                case '.':
                {
-                  WI_RULES = IS_VO_CST(E_BUFFER[R_INDEX]);
+                  WI_RULES = isVoicedConsonant(E_BUFFER[R_INDEX]);
                   break;
                } // case
 
@@ -1047,16 +1047,16 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
 
    return;
 
-} // SC_RT_CTX
+} // scanRightContext
 
 /************************************************************************
 
-  Name: SC_LF_CTX
+  Name: scanLeftContext
 
   Purpose: The purpose of this function is to scan and evaluate the
   left-hand context of text to be evaluated.
 
-  Calling Sequence: SC_LF_CTX(LEF_INDX,FOUND)
+  Calling Sequence: scanLeftContext(LEF_INDX,FOUND)
 
   Inputs:
 
@@ -1081,7 +1081,7 @@ void PhonemMaker::SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND)
     is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
+void PhonemMaker::scanLeftContext(int LEF_INDX, bool& FOUND)
 {
    int R_INDEX;
    int RUL_INDX;
@@ -1111,37 +1111,37 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
          {
             case '!':
             {
-               WI_RULES = !IS_ALPHA(E_BUFFER[R_INDEX]);
+               WI_RULES = !isAlpha(E_BUFFER[R_INDEX]);
                break;
             }  // case
 
             case '#':
             {
-               LF_PS_VWL(R_INDEX,OCCURED);
+               leftPastVowel(R_INDEX,OCCURED);
                break;
             }  // case
 
             case ':':
             {
-               LF_PS_CST(R_INDEX,OCCURED);
+               leftPastConsonant(R_INDEX,OCCURED);
                break;
             }  // case
 
             case '+':
             {
-               WI_RULES = IS_FR_VWL(E_BUFFER[R_INDEX]);
+               WI_RULES = isFrontVowel(E_BUFFER[R_INDEX]);
                break;
             }  // case
 
             case '$':
             {
-               WI_RULES = IS_CST(E_BUFFER[R_INDEX]);
+               WI_RULES = isConsonant(E_BUFFER[R_INDEX]);
                break;
             }  // case
 
             case'.':
             {
-               WI_RULES = IS_VO_CST(E_BUFFER[R_INDEX]);
+               WI_RULES = isVoicedConsonant(E_BUFFER[R_INDEX]);
             }  // case
                break;
 
@@ -1196,16 +1196,16 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
 
    return;
 
-} // SC_LF_CTX
+} // scanLeftContext
 
 /************************************************************************
 
-  Name: CMP_REF_S
+  Name: compareReferenceString
 
   Purpose: The purpose of this function is to scan and evaluate the
   left-hand context of text to be evaluated.
 
-  Calling Sequence: result = CMP_REF_S()
+  Calling Sequence: result = compareReferenceString()
 
   Inputs:
 
@@ -1228,7 +1228,7 @@ void PhonemMaker::SC_LF_CTX(int LEF_INDX, bool& FOUND)
     a rule.
 
 *****************************************************************************/
-bool PhonemMaker::CMP_REF_S(void)
+bool PhonemMaker::compareReferenceString(void)
 {
    bool result;
    int INDEX;
@@ -1274,18 +1274,18 @@ bool PhonemMaker::CMP_REF_S(void)
 
    return (result);
 
-} // CMP_REF_S
+} // compareReferenceString
 
 /************************************************************************
 
-  Name: BLD_REF_S
+  Name: buildReferenceString
 
   Purpose: The purpose of this function is to extract the reference
   string from a rule.  The reference string is the text betweeh the
   parantheses.  For ecample: (AB) implies that the reference string
   is "AB".
 
-  Calling Sequence: BLD_REF_S(LEF_INDX,RT_INDX)
+  Calling Sequence: buildReferenceString(LEF_INDX,RT_INDX)
 
   Inputs:
 
@@ -1308,7 +1308,7 @@ bool PhonemMaker::CMP_REF_S(void)
     a rule.
 
 *****************************************************************************/
-void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
+void PhonemMaker::buildReferenceString(int LEF_INDX, int& RT_INDX)
 {
 
    // Clear initially.
@@ -1328,16 +1328,16 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
 
    return;
 
-} // BLD_REF_S
+} // buildReferenceString
 
 /************************************************************************
 
-  Name: FI_LF_PAR
+  Name: findLeftParent
 
   Purpose: The purpose of this function is to scan the current rule
   until the left-hand '('. is found.
 
-  Calling Sequence: FI_LF_PAR(LEF_INDX)
+  Calling Sequence: findLeftParent(LEF_INDX)
 
   Inputs:
 
@@ -1352,7 +1352,7 @@ void PhonemMaker::BLD_REF_S(int LEF_INDX, int& RT_INDX)
     R_BUFFER - A string that contains the current rule being evaluated.
 
 *****************************************************************************/
-void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
+void PhonemMaker::findLeftParent(int& LEF_INDX)
 {
 
    // Point to beginning of buffer.
@@ -1366,11 +1366,11 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
 
    return;
 
-} // FI_LF_PAR
+} // findLeftParent
 
 /************************************************************************
 
-  Name: SCAN
+  Name: evaluateContexts
 
   Purpose: The purpose of this function is to evaluate the current
   position of the English text when compared to the current rule.
@@ -1378,7 +1378,7 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
   the current rule is satisfied, more phonems will be added to the
   phonem stream.
 
-  Calling Sequence: result = SCAN()
+  Calling Sequence: result = evaluateContexts()
 
   Inputs:
 
@@ -1400,7 +1400,7 @@ void PhonemMaker::FI_LF_PAR(int& LEF_INDX)
     a rule.
 
 *****************************************************************************/
-bool PhonemMaker::SCAN(void)
+bool PhonemMaker::evaluateContexts(void)
 {
    bool result;
    int LEF_INDX;
@@ -1412,40 +1412,40 @@ bool PhonemMaker::SCAN(void)
    WI_RULES = false;
 
    // Find left parent.
-   FI_LF_PAR(LEF_INDX);
+   findLeftParent(LEF_INDX);
 
    // Build reference string, and return right parent.
-   BLD_REF_S(LEF_INDX,RT_INDX);
+   buildReferenceString(LEF_INDX,RT_INDX);
 
    // Compare reference string to English.
-   if (CMP_REF_S())
+   if (compareReferenceString())
    {
       if (LEF_INDX > 0)
       {
          // Scan left context.
-         SC_LF_CTX(LEF_INDX,WI_RULES);
+         scanLeftContext(LEF_INDX,WI_RULES);
 
          // If there is a left context.
          if (WI_RULES)
          {
             // Scan right context.
-            SC_RT_CTX(RT_INDX,RUL_INDX,WI_RULES);
+            scanRightContext(RT_INDX,RUL_INDX,WI_RULES);
          } // if
       } // if
       else
       {
          // Scan right context.
-         SC_RT_CTX(RT_INDX,RUL_INDX,WI_RULES);
+         scanRightContext(RT_INDX,RUL_INDX,WI_RULES);
       } // else
    } // if
 
    if (WI_RULES)
    {
       // Build literal phonem string.
-      BLD_LIT_P(RUL_INDX);
+      buildLiteralPhoneme(RUL_INDX);
 
       // Convert to phonem codes.
-      PH_TO_COD();
+      convertPhonemesToCode();
 
       // Bump English index.
       E_INDEX = E_INDEX + REF_STR.length();
@@ -1456,11 +1456,11 @@ bool PhonemMaker::SCAN(void)
 
    return (result);
 
-} // SCAN
+} // evaluateContexts
 
 /************************************************************************
 
-  Name: RUL_SRC
+  Name: searchRuleList
 
   Purpose: The purpose of this function is to scan the rules of a
   letter in the English text and generate a phonem stream.  This text
@@ -1542,7 +1542,7 @@ bool PhonemMaker::SCAN(void)
   by the number of characters inside of the parenthesis of the rule.
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-  Calling Sequence: RUL_SRCH(rules)
+  Calling Sequence: searchRuleList(rules)
 
   Inputs:
 
@@ -1560,7 +1560,7 @@ bool PhonemMaker::SCAN(void)
     is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::RUL_SRCH(std::list<std::string> rules)
+void PhonemMaker::searchRuleList(std::list<std::string> rules)
 {
    bool DONE;
    bool FOUND;
@@ -1578,7 +1578,7 @@ void PhonemMaker::RUL_SRCH(std::list<std::string> rules)
       R_BUFFER = *i;
 
       // Scan using current rule.
-      FOUND = SCAN();
+      FOUND = evaluateContexts();
 
       // Reference the next rule.
       i++;
@@ -1598,17 +1598,17 @@ void PhonemMaker::RUL_SRCH(std::list<std::string> rules)
 
    return;
 
-} // RUL_SRCH
+} // searchRuleList
 
 /************************************************************************
 
-  Name: STR_T_COD
+  Name: convertPhonemeToCode
 
   Purpose: The purpose of this function is to convert a string
   representation of a phonem into it's binary code.  The code will
   be added to the phonem buffer.
 
-  Calling Sequence: STR_T_COD(PH_STR)
+  Calling Sequence: convertPhonemeToCode(PH_STR)
 
   Inputs:
 
@@ -1631,7 +1631,7 @@ void PhonemMaker::RUL_SRCH(std::list<std::string> rules)
     P_BUFFER - The buffer where the phonem stream is stored.   
 
 *****************************************************************************/
-void PhonemMaker::STR_T_COD(std::string PH_STR)
+void PhonemMaker::convertPhonemeToCode(std::string PH_STR)
 {
    int INDEX;
    bool MATCH;
@@ -1664,18 +1664,18 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
 
   return;
 
-} // STR_T_COD
+} // convertPhonemeToCode
 
 /************************************************************************
 
-  Name: STR_T_COD
+  Name: convertPhonemeToCode
 
   Purpose: The purpose of this function is to convert an array of
   string
   representations of a phonems into it's binary codes.  The code stream
   will be placed in the phonem buffer.
 
-  Calling Sequence: PH_TO_COD()
+  Calling Sequence: convertPhonemesToCode()
 
   Inputs:
 
@@ -1693,7 +1693,7 @@ void PhonemMaker::STR_T_COD(std::string PH_STR)
     to "AH1","R",";".
 
 *****************************************************************************/
-void PhonemMaker::PH_TO_COD(void)
+void PhonemMaker::convertPhonemesToCode(void)
 {
    int INDEX;
 
@@ -1703,7 +1703,7 @@ void PhonemMaker::PH_TO_COD(void)
    while (PH_STR[INDEX] != ";")
    {
       // Convert phonems to codes.
-      STR_T_COD(PH_STR[INDEX]);
+      convertPhonemeToCode(PH_STR[INDEX]);
 
       // Reference next entry.
       INDEX = INDEX + 1;
@@ -1711,4 +1711,4 @@ void PhonemMaker::PH_TO_COD(void)
 
   return;
 
-} // PH_TO_COD
+} // convertPhonemesToCode

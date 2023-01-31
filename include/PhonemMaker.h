@@ -48,11 +48,11 @@ class PhonemMaker
    //*****************************************
    bool getSystemParameters(void);
 
-   bool isAlpha(char CH);
-   bool isVowel(char CH);
-   bool isFrontVowel(char CH);
-   bool isConsonant(char CH);
-   bool isVoicedConsonant(char CH);
+   bool isAlpha(char c);
+   bool isVowel(char c);
+   bool isFrontVowel(char c);
+   bool isConsonant(char c);
+   bool isVoicedConsonant(char c);
    void rightPastVowel(int& R_INDEX, bool& occurred);
    void leftPastVowel(int& R_INDEX, bool& occurred);
    void rightPastConsonant(int& R_INDEX, bool& occurred);
@@ -95,7 +95,7 @@ class PhonemMaker
    std::string phonemeTokens[NUM_PH_TOK];
 
    // Number of entries in the English buffer.
-   int E_LEN;
+   int englishBufferLength;
 
    // Current location in the English buffer.
    int englishBufferIndex;

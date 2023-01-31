@@ -258,15 +258,15 @@ void PhonemMaker::translateEnglishText(std::string& text,
    englishBufferIndex = 0;
 
    // Compute message length.  Yes, this is redundant.
-   E_LEN = text.length();
+   englishBufferLength = text.length();
 
-   for (INDEX = 0; INDEX < E_LEN; INDEX++)
+   for (INDEX = 0; INDEX < englishBufferLength; INDEX++)
    {
       // Convert to upper case.
       englishBuffer[INDEX] = toupper(text[INDEX]);
    } // for
 
-   while (englishBufferIndex < E_LEN)
+   while (englishBufferIndex < englishBufferLength)
    {
       key = englishBuffer[englishBufferIndex];
 
@@ -301,11 +301,11 @@ void PhonemMaker::translateEnglishText(std::string& text,
   Purpose: The purpose of this function is to determine whether or
   not a character is alphabetic.
 
-  Calling Sequence: result = isAlpha(CH)
+  Calling Sequence: result = isAlpha(c)
 
   Inputs:
 
-    CH - The character to be evaluated.
+    c - The character to be evaluated.
 
   Outputs:
 
@@ -314,12 +314,12 @@ void PhonemMaker::translateEnglishText(std::string& text,
     false indicates that the character is not alphabetic.
 
 *****************************************************************************/
-bool PhonemMaker::isAlpha(char CH)
+bool PhonemMaker::isAlpha(char c)
 {
    bool result;
 
    // Leverage the standard library function.
-   result = isalpha((int)CH);
+   result = isalpha((int)c);
 
    return (result);
 
@@ -332,11 +332,11 @@ bool PhonemMaker::isAlpha(char CH)
   Purpose: The purpose of this function is to determine whether or
   not a character is a vowel.
 
-  Calling Sequence: result = isVowel(CH)
+  Calling Sequence: result = isVowel(c)
 
   Inputs:
 
-    CH - The character to be evaluated.
+    c - The character to be evaluated.
 
   Outputs:
 
@@ -345,11 +345,11 @@ bool PhonemMaker::isAlpha(char CH)
     false indicates that the character is not a vowel.
 
 *****************************************************************************/
-bool PhonemMaker::isVowel(char CH)
+bool PhonemMaker::isVowel(char c)
 {
    bool result;
 
-   switch(CH)
+   switch(c)
    {
       case 'A':
       case 'E':
@@ -382,11 +382,11 @@ bool PhonemMaker::isVowel(char CH)
   Purpose: The purpose of this function is to determine whether or
   not a character is a front vowel.
 
-  Calling Sequence: result = isFrontVowel(CH)
+  Calling Sequence: result = isFrontVowel(c)
 
   Inputs:
 
-    CH - The character to be evaluated.
+    c - The character to be evaluated.
 
   Outputs:
 
@@ -395,11 +395,11 @@ bool PhonemMaker::isVowel(char CH)
     false indicates that the character is not a front vowel.
 
 *****************************************************************************/
-bool PhonemMaker::isFrontVowel(char CH)
+bool PhonemMaker::isFrontVowel(char c)
 {
    bool result;
 
-   switch(CH)
+   switch(c)
    {
       case 'E':
       case 'I':
@@ -429,11 +429,11 @@ bool PhonemMaker::isFrontVowel(char CH)
   Purpose: The purpose of this function is to determine whether or
   not a character is a consonant.
 
-  Calling Sequence: result = isConsonant(CH)
+  Calling Sequence: result = isConsonant(c)
 
   Inputs:
 
-    CH - The character to be evaluated.
+    c - The character to be evaluated.
 
   Outputs:
 
@@ -442,11 +442,11 @@ bool PhonemMaker::isFrontVowel(char CH)
     false indicates that the character is not a consonant.
 
 *****************************************************************************/
-bool PhonemMaker::isConsonant(char CH)
+bool PhonemMaker::isConsonant(char c)
 {
    bool result;
 
-   if (isAlpha(CH) && (!isVowel(CH)))
+   if (isAlpha(c) && (!isVowel(c)))
    {
       result = true;
    } // if
@@ -466,11 +466,11 @@ bool PhonemMaker::isConsonant(char CH)
   Purpose: The purpose of this function is to determine whether or
   not a character is a voiced consonant.
 
-  Calling Sequence: result = isVoicedConsonant(CH)
+  Calling Sequence: result = isVoicedConsonant(c)
 
   Inputs:
 
-    CH - The character to be evaluated.
+    c - The character to be evaluated.
 
   Outputs:
 
@@ -479,11 +479,11 @@ bool PhonemMaker::isConsonant(char CH)
     value of false indicates that the character is not a voiced consonant.
 
 *****************************************************************************/
-bool PhonemMaker::isVoicedConsonant(char CH)
+bool PhonemMaker::isVoicedConsonant(char c)
 {
    bool result;
 
-   switch(CH)
+   switch(c)
    {
       case 'B':
       case 'D':
@@ -543,22 +543,22 @@ bool PhonemMaker::isVoicedConsonant(char CH)
 
     R_INDEX - The running index into the English buffer.
 
-    E_LEN - The length of the English string.   
+    englishBufferLength - The length of the English string.   
 
 *****************************************************************************/
 void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
 {
-   bool DONE;
+   bool done;
 
   // Clear initially.
    occurred = false;
 
-   if (R_INDEX < E_LEN)
+   if (R_INDEX < englishBufferLength)
    {
       // Clear initially.
-      DONE = false;
+      done = false;
 
-      while (!DONE)
+      while (!done)
       {
          if (isVowel(englishBuffer[R_INDEX]))
          {
@@ -571,13 +571,13 @@ void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
          else
          {
             // Bail out of scan.
-            DONE = true;
+            done = true;
          } // else
 
-         if (R_INDEX > E_LEN-1)
+         if (R_INDEX > englishBufferLength-1)
          {
             // Bail out if past buffer limits.
-            DONE = true;
+            done = true;
          } // if
       } // while
    } // if
@@ -614,24 +614,24 @@ void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
 
     R_INDEX - The running index into the English buffer.
 
-    E_LEN - The length of the English string.   
+    englishBufferLength - The length of the English string.   
 
 *****************************************************************************/
 void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
 {
-   bool DONE;
+   bool done;
 
-   if (R_INDEX < E_LEN)
+   if (R_INDEX < englishBufferLength)
    {
       // Set up for loop entry.
-      DONE = false;
+      done = false;
 
-      while (!DONE)
+      while (!done)
       {
          if (!isConsonant(englishBuffer[R_INDEX]))
          {
             // Bail out of scan.
-            DONE = true;
+            done = true;
          } // if
          else
          {
@@ -639,10 +639,10 @@ void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
             R_INDEX = R_INDEX + 1;
          } // else
 
-         if (R_INDEX > E_LEN-1)
+         if (R_INDEX > englishBufferLength-1)
          {
             // Bail out if past buffer limits.
-            DONE = true;
+            done = true;
          } // if
       } // while
    } // if
@@ -687,7 +687,7 @@ void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
 *****************************************************************************/
 void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
 {
-   bool DONE;
+   bool done;
 
    // Clear initially.
    occurred = false;
@@ -695,9 +695,9 @@ void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
    if (R_INDEX >= 0)
    {
       // Set up for loop entry.
-      DONE = false;
+      done = false;
 
-      while (!DONE)
+      while (!done)
       {
          if (isVowel(englishBuffer[R_INDEX]))
          {
@@ -710,13 +710,13 @@ void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
          else
          {
             // Bail out of scan.
-            DONE = true;
+            done = true;
          } // else
 
          if (R_INDEX < 0)
          {
             // Bail out if past lower bounds.
-            DONE = true;
+            done = true;
          } // if
       } // while
    } // if
@@ -758,19 +758,19 @@ void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
 *****************************************************************************/
 void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& occurred)
 {
-   bool DONE;
+   bool done;
 
    if (R_INDEX >= 0)
    {
       // Set up for loop entry.
-      DONE = false;
+      done = false;
 
-      while (!DONE)
+      while (!done)
       {
          if (!isConsonant(englishBuffer[R_INDEX]))
          {
             // Bail out of scan.
-            DONE = true;
+            done = true;
          } // if
          else
          {
@@ -781,7 +781,7 @@ void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& occurred)
          if (R_INDEX < 0)
          {
             // Bail out if past lower bounds.
-            DONE = true;
+            done = true;
          } // if
       } // while
    } // if
@@ -825,7 +825,7 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
    int INDEX;
    int RES_INDX;
    int R_INDEX;
-   bool DONE;
+   bool done;
 
    // Point to beginning of result buffer.
    RES_INDX = 0;
@@ -844,9 +844,9 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
       do
       {
          // Set up for loop entry.
-         DONE = false;
+         done = false;
 
-         while (!DONE)
+         while (!done)
          {
             if (currentRule[R_INDEX] != ';')
             {
@@ -861,13 +861,13 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
                   R_INDEX = R_INDEX + 1;
 
                   // Exit comma scan.
-                  DONE = true;
+                  done = true;
                } // if
             } // if
             else
             {
                // Exit rule scan.
-               DONE = true;
+               done = true;
             } // else
          } // while
 
@@ -929,7 +929,7 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
    bool withinRules;
    bool EITHER;
    bool occurred;
-   bool DONE;
+   bool done;
 
    // Clear initially.
    withinRules = false;
@@ -940,15 +940,15 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
 
    if (currentRule[RUL_INDX] != '=')
    {
-      if ((englishBufferIndex + referenceString.length()) < E_LEN)
+      if ((englishBufferIndex + referenceString.length()) < englishBufferLength)
       {
          // Set up running index.
          R_INDEX = englishBufferIndex + referenceString.length();
 
          // Set up for loop entry.
-         DONE = false;
+         done = false;
 
-         while ((!DONE) && (currentRule[RUL_INDX] != '='))
+         while ((!done) && (currentRule[RUL_INDX] != '='))
          {          
             switch (currentRule[RUL_INDX])
             {
@@ -1012,10 +1012,10 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
             withinRules = false;
             occurred = false;
 
-            if (R_INDEX > E_LEN)
+            if (R_INDEX > englishBufferLength)
             {
                // Exit scan loop..
-               DONE = true;
+               done = true;
 
                if (currentRule[RUL_INDX] != '=')
                {
@@ -1027,7 +1027,7 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
             if (!EITHER)
             {
                // Exit loop if no match for rule.
-               DONE = true;
+               done = true;
             } // if
          } // while
 
@@ -1087,7 +1087,7 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
    int RUL_INDX;
    bool EITHER;
    bool occurred;
-   bool DONE;
+   bool done;
    bool withinRules;
 
    // Clear initially.
@@ -1103,9 +1103,9 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
       R_INDEX = englishBufferIndex - 1;
 
       // Clear initially.
-      DONE = false;
+      done = false;
 
-      while ((!DONE) && (RUL_INDX >= 0))
+      while ((!done) && (RUL_INDX >= 0))
       {
          switch (currentRule[RUL_INDX])
          {
@@ -1171,7 +1171,7 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
          if (R_INDEX < 0)
          {
             // Exit scan loop.
-            DONE = true;
+            done = true;
 
             if (RUL_INDX >= 0)
             {
@@ -1182,7 +1182,7 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
          if (!EITHER)
          {
             // Exit if scan failed.
-            DONE = true;
+            done = true;
          } // if
       } // while
 
@@ -1233,7 +1233,7 @@ bool PhonemMaker::compareReferenceString(void)
    bool result;
    int INDEX;
    int LIMIT;
-   bool DONE;
+   bool done;
 
    // Point to the beginning of the reference string.
    INDEX = 0;
@@ -1242,13 +1242,13 @@ bool PhonemMaker::compareReferenceString(void)
    LIMIT = referenceString.length() - 1;
 
    // Set up for loop entry.
-   DONE = false;
+   done = false;
 
-   while (!DONE)
+   while (!done)
    {
       if (referenceString[INDEX] != (englishBuffer[englishBufferIndex + INDEX]))
       {
-         DONE = true;
+         done = true;
       } // if
       else
       {
@@ -1258,7 +1258,7 @@ bool PhonemMaker::compareReferenceString(void)
          if (INDEX > LIMIT)
          {
             // Exit from loop.
-            DONE = true;
+            done = true;
          } // if
       } // else
    } // while
@@ -1562,17 +1562,17 @@ bool PhonemMaker::evaluateContexts(void)
 *****************************************************************************/
 void PhonemMaker::searchRuleList(std::list<std::string> rules)
 {
-   bool DONE;
+   bool done;
    bool found;
    std::list<std::string>::iterator i;
 
    // Set up for loop entry.
-   DONE = false;
+   done = false;
 
    // Reference the first rule in the list.
    i = rules.begin();
 
-   while (!DONE)
+   while (!done)
    {
       // Get current rule.
       currentRule = *i;
@@ -1586,7 +1586,7 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
       if ((i == rules.end()) || found)
       {
          // Exit scan.
-         DONE = true;
+         done = true;
       } // if
    } // while
 

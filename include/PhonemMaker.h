@@ -48,27 +48,27 @@ class PhonemMaker
    //*****************************************
    bool getSystemParameters(void);
 
-   bool IS_ALPHA(char CH);
-   bool IS_VWL(char CH);
-   bool IS_FR_VWL(char CH);
-   bool IS_CST(char CH);
-   bool IS_VO_CST(char CH);
-   void RT_PS_VWL(int& R_INDEX, bool& OCCURED);
-   void LF_PS_VWL(int& R_INDEX, bool& OCCURED);
-   void RT_PS_CST(int& R_INDEX, bool& OCCURED);
-   void LF_PS_CST(int& R_INDEX, bool& OCCURED);
+   bool isAlpha(char CH);
+   bool isVowel(char CH);
+   bool isFrontVowel(char CH);
+   bool isConsonant(char CH);
+   bool isVoicedConsonant(char CH);
+   void rightPastVowel(int& R_INDEX, bool& OCCURED);
+   void leftPastVowel(int& R_INDEX, bool& OCCURED);
+   void rightPastConsonant(int& R_INDEX, bool& OCCURED);
+   void leftPastConsonant(int& R_INDEX, bool& OCCURED);
 
-   void BLD_LIT_P(int RUL_INDX);
-   void SC_RT_CTX(int RT_INDX, int& RUL_INDX, bool& FOUND);
-   void SC_LF_CTX(int LEF_INDX, bool& FOUND);
-   bool CMP_REF_S(void);
-   void BLD_REF_S(int LEF_INDX, int& RT_INDX);
-   void FI_LF_PAR(int& LEF_INDX);
-   bool SCAN(void);
-   void RUL_SRCH(std::list<std::string> rules);
+   void buildLiteralPhoneme(int RUL_INDX);
+   void scanRightContext(int RT_INDX, int& RUL_INDX, bool& FOUND);
+   void scanLeftContext(int LEF_INDX, bool& FOUND);
+   bool compareReferenceString(void);
+   void buildReferenceString(int LEF_INDX, int& RT_INDX);
+   void findLeftParent(int& LEF_INDX);
+   bool evaluateContexts(void);
+   void searchRuleList(std::list<std::string> rules);
 
-   void STR_T_COD(std::string PH_STR);
-   void PH_TO_COD(void);
+   void convertPhonemeToCode(std::string PH_STR);
+   void convertPhonemesToCode(void);
 
    //*****************************************
    // Attributes.

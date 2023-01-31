@@ -233,11 +233,11 @@ bool PhonemMaker::getSystemParameters(void)
 
   Attributes (formerly globals):
 
-    phonemeBufferIndex - The index into the next storage location in the phonem
-    buffer. 
+    phonemeBufferIndex - The index into the next storage location in the
+    phonem buffer. 
 
-    englishBufferIndex - The current index into the English buffer for which text
-    is to be evaluated.
+    englishBufferIndex - The current index into the English buffer for which
+    text is to be evaluated.
 
     phonemeBuffer - The buffer where the phonem stream is stored.
 
@@ -522,11 +522,11 @@ bool PhonemMaker::isVoicedConsonant(char c)
   buffer index to the right past all consecutive vowels in the English
   buffer.
 
-  Calling Sequence: rightPastVowel(R_INDEX,occurred)
+  Calling Sequence: rightPastVowel(runningIndex,occurred)
 
   Inputs:
 
-    R_INDEX - A reference to storage for the index into the English
+    runningIndex - A reference to storage for the index into the English
     buffer.
 
     OCCURRED - A reference to storage that indicates whether or not
@@ -541,32 +541,32 @@ bool PhonemMaker::isVoicedConsonant(char c)
 
   Attributes (formerly globals):
 
-    R_INDEX - The running index into the English buffer.
+    runningIndex - The running index into the English buffer.
 
     englishBufferLength - The length of the English string.   
 
 *****************************************************************************/
-void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
+void PhonemMaker::rightPastVowel(int& runningIndex, bool& occurred)
 {
    bool done;
 
   // Clear initially.
    occurred = false;
 
-   if (R_INDEX < englishBufferLength)
+   if (runningIndex < englishBufferLength)
    {
       // Clear initially.
       done = false;
 
       while (!done)
       {
-         if (isVowel(englishBuffer[R_INDEX]))
+         if (isVowel(englishBuffer[runningIndex]))
          {
             // Indicate occurance.
             occurred = true;
 
             // Reference next character.
-            R_INDEX = R_INDEX + 1;
+            runningIndex = runningIndex + 1;
          } // if
          else
          {
@@ -574,7 +574,7 @@ void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
             done = true;
          } // else
 
-         if (R_INDEX > englishBufferLength-1)
+         if (runningIndex > englishBufferLength-1)
          {
             // Bail out if past buffer limits.
             done = true;
@@ -594,11 +594,11 @@ void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
   buffer index to the right past all consecutive consonants in the
   English buffer.
 
-  Calling Sequence: rightPastConsonant(R_INDEX,occurred)
+  Calling Sequence: rightPastConsonant(runningIndex,occurred)
 
   Inputs:
 
-    R_INDEX - A reference to storage for the index into the English
+    runningIndex - A reference to storage for the index into the English
     buffer.
 
     OCCURRED - A reference to storage that indicates whether or not
@@ -612,23 +612,23 @@ void PhonemMaker::rightPastVowel(int& R_INDEX, bool& occurred)
 
   Attributes (formerly globals):
 
-    R_INDEX - The running index into the English buffer.
+    runningIndex - The running index into the English buffer.
 
     englishBufferLength - The length of the English string.   
 
 *****************************************************************************/
-void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
+void PhonemMaker::rightPastConsonant(int& runningIndex, bool& occurred)
 {
    bool done;
 
-   if (R_INDEX < englishBufferLength)
+   if (runningIndex < englishBufferLength)
    {
       // Set up for loop entry.
       done = false;
 
       while (!done)
       {
-         if (!isConsonant(englishBuffer[R_INDEX]))
+         if (!isConsonant(englishBuffer[runningIndex]))
          {
             // Bail out of scan.
             done = true;
@@ -636,10 +636,10 @@ void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
          else
          {
             // Reference next character.
-            R_INDEX = R_INDEX + 1;
+            runningIndex = runningIndex + 1;
          } // else
 
-         if (R_INDEX > englishBufferLength-1)
+         if (runningIndex > englishBufferLength-1)
          {
             // Bail out if past buffer limits.
             done = true;
@@ -662,11 +662,11 @@ void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
   buffer index to the left past all consecutive vowels in the English
   buffer.
 
-  Calling Sequence: leftPastVowel(R_INDEX,occurred)
+  Calling Sequence: leftPastVowel(runningIndex,occurred)
 
   Inputs:
 
-    R_INDEX - A reference to storage for the index into the English
+    runningIndex - A reference to storage for the index into the English
     buffer.
 
     OCCURRED - A reference to storage that indicates whether or not
@@ -680,32 +680,32 @@ void PhonemMaker::rightPastConsonant(int& R_INDEX, bool& occurred)
 
   Attributes (formerly globals):
 
-    R_INDEX - The running index into the English buffer.
+    runningIndex - The running index into the English buffer.
 
     englishBuffer - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
-void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
+void PhonemMaker::leftPastVowel(int& runningIndex, bool& occurred)
 {
    bool done;
 
    // Clear initially.
    occurred = false;
 
-   if (R_INDEX >= 0)
+   if (runningIndex >= 0)
    {
       // Set up for loop entry.
       done = false;
 
       while (!done)
       {
-         if (isVowel(englishBuffer[R_INDEX]))
+         if (isVowel(englishBuffer[runningIndex]))
          {
             // Indicate occurance.
             occurred = true;
 
             // Reference character to the left.
-            R_INDEX = R_INDEX - 1;
+            runningIndex = runningIndex - 1;
          } // if
          else
          {
@@ -713,7 +713,7 @@ void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
             done = true;
          } // else
 
-         if (R_INDEX < 0)
+         if (runningIndex < 0)
          {
             // Bail out if past lower bounds.
             done = true;
@@ -733,11 +733,11 @@ void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
   buffer index to the left past all consecutive consonants in the
   English buffer.
 
-  Calling Sequence: leftPastConsonant(R_INDEX,occurred)
+  Calling Sequence: leftPastConsonant(runningIndex,occurred)
 
   Inputs:
 
-    R_INDEX - A reference to storage for the index into the English
+    runningIndex - A reference to storage for the index into the English
     buffer.
 
     OCCURRED - A reference to storage that indicates whether or not
@@ -751,23 +751,23 @@ void PhonemMaker::leftPastVowel(int& R_INDEX, bool& occurred)
 
   Attributes (formerly globals):
 
-    R_INDEX - The running index into the English buffer.
+    runningIndex - The running index into the English buffer.
 
     englishBuffer - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
-void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& occurred)
+void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
 {
    bool done;
 
-   if (R_INDEX >= 0)
+   if (runningIndex >= 0)
    {
       // Set up for loop entry.
       done = false;
 
       while (!done)
       {
-         if (!isConsonant(englishBuffer[R_INDEX]))
+         if (!isConsonant(englishBuffer[runningIndex]))
          {
             // Bail out of scan.
             done = true;
@@ -775,10 +775,10 @@ void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& occurred)
          else
          {
             // Reference character to the left.
-            R_INDEX = R_INDEX - 1;
+            runningIndex = runningIndex - 1;
          } // else
 
-         if (R_INDEX < 0)
+         if (runningIndex < 0)
          {
             // Bail out if past lower bounds.
             done = true;
@@ -800,11 +800,11 @@ void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& occurred)
   Purpose: The purpose of this function is to advance the extract the
   phonem string on the right side of the equation for a particular
   rule that is being processed.
-  Calling Sequence: buildLiteralPhoneme(int RUL_INDX)
+  Calling Sequence: buildLiteralPhoneme(int ruleIndex)
 
   Inputs:
 
-    RUL_INDX - An index into the curent rule for which a phonem string
+    ruleIndex - An index into the curent rule for which a phonem string
     is to be extracted.
 
   Outputs:
@@ -815,25 +815,25 @@ void PhonemMaker::leftPastConsonant(int& R_INDEX, bool& occurred)
 
     currentRule - A string that contains the current rule being evaluated.
 
-    phonemeTokens = The current array of phonem tokens being constructed.  For
-    example, if a rule happens to be "(AR)=AH1,R;" phonemeTokens will be set
-    to "AH1","R",";".
+    phonemeTokens = The current array of phonem tokens being constructed.
+    For example, if a rule happens to be "(AR)=AH1,R;" phonemeTokens will
+    be set to "AH1","R",";".
 
 *****************************************************************************/
-void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
+void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
 {
    int INDEX;
    int RES_INDX;
-   int R_INDEX;
+   int runningIndex;
    bool done;
 
    // Point to beginning of result buffer.
    RES_INDX = 0;
 
    // Point past '=' sign.
-   R_INDEX = RUL_INDX + 1;
+   runningIndex = ruleIndex + 1;
 
-   if (currentRule[R_INDEX] != ';')
+   if (currentRule[runningIndex] != ';')
    {
       for (INDEX = 0; INDEX < NUM_PH_TOK; INDEX++)
       {
@@ -848,17 +848,18 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
 
          while (!done)
          {
-            if (currentRule[R_INDEX] != ';')
+            if (currentRule[runningIndex] != ';')
             {
-               phonemeTokens[RES_INDX] = phonemeTokens[RES_INDX] + currentRule[R_INDEX];
+               phonemeTokens[RES_INDX] =
+                  phonemeTokens[RES_INDX] + currentRule[runningIndex];
 
                // Bump rule index.
-               R_INDEX = R_INDEX + 1;
+               runningIndex = runningIndex + 1;
 
-               if (currentRule[R_INDEX] == ',')
+               if (currentRule[runningIndex] == ',')
                {
                   // bump index past comma.
-                  R_INDEX = R_INDEX + 1;
+                  runningIndex = runningIndex + 1;
 
                   // Exit comma scan.
                   done = true;
@@ -874,7 +875,7 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
          // Bump result index.
          RES_INDX = RES_INDX + 1;
 
-      } while (currentRule[R_INDEX] != ';');
+      } while (currentRule[runningIndex] != ';');
    } // if
 
    // Store terminator.
@@ -891,13 +892,13 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
   Purpose: The purpose of this function is to scan and evaluate the
   right-hand context of text to be evaluated.
 
-  Calling Sequence: scanRightContext(RT_INDX,RUL_INDX,found)
+  Calling Sequence: scanRightContext(rightIndex,ruleIndex,found)
 
   Inputs:
 
-    RT_INDX - A reference to storage to the current rule.
+    rightIndex - A reference to storage to the current rule.
 
-    RUL_INDX - A reference to storage to the current rule.  This is
+    ruleIndex - A reference to storage to the current rule.  This is
     a running index.
 
     found - A reference to storage for a flag that indicates that a
@@ -913,19 +914,21 @@ void PhonemMaker::buildLiteralPhoneme(int RUL_INDX)
 
     currentRule - A string that contains the current rule being evaluated.
 
-    RUL_INDX - An index into the current rule being evaluated.
+    ruleIndex - An index into the current rule being evaluated.
 
-    englishBufferIndex - The current index into the English buffer for which text
-    is to be evaluated.
+    englishBufferIndex - The current index into the English buffer for which
+    text is to be evaluated.
 
     referenceString - The current reference string being constructed.  The
     reference string is the text that lies within the parenthesis of
     a rule.
 
 *****************************************************************************/
-void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
+void PhonemMaker::scanRightContext(int rightIndex,
+                                   int& ruleIndex,
+                                   bool& found)
 {
-   int R_INDEX;
+   int runningIndex;
    bool withinRules;
    bool EITHER;
    bool occurred;
@@ -936,73 +939,74 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
    occurred = false;
 
    // Set up rule index.
-   RUL_INDX = RT_INDX + 1;
+   ruleIndex = rightIndex + 1;
 
-   if (currentRule[RUL_INDX] != '=')
+   if (currentRule[ruleIndex] != '=')
    {
       if ((englishBufferIndex + referenceString.length()) < englishBufferLength)
       {
          // Set up running index.
-         R_INDEX = englishBufferIndex + referenceString.length();
+         runningIndex = englishBufferIndex + referenceString.length();
 
          // Set up for loop entry.
          done = false;
 
-         while ((!done) && (currentRule[RUL_INDX] != '='))
+         while ((!done) && (currentRule[ruleIndex] != '='))
          {          
-            switch (currentRule[RUL_INDX])
+            switch (currentRule[ruleIndex])
             {
                case '!':
                {
-                  withinRules = !isAlpha(englishBuffer[R_INDEX]);
+                  withinRules = !isAlpha(englishBuffer[runningIndex]);
                   break;
                } // case
 
                case '#':
                {
-                  rightPastVowel(R_INDEX,occurred);
+                  rightPastVowel(runningIndex,occurred);
                   break;
                } // case
 
                case ':':
                {
-                  rightPastConsonant(R_INDEX,occurred);
+                  rightPastConsonant(runningIndex,occurred);
                   break;
                } // case
 
 
                case '+':
                {
-                  withinRules = isFrontVowel(englishBuffer[R_INDEX]);
+                  withinRules = isFrontVowel(englishBuffer[runningIndex]);
                   break;
                } // case
 
                case '$':
                {
-                  withinRules = isConsonant(englishBuffer[R_INDEX]);
+                  withinRules = isConsonant(englishBuffer[runningIndex]);
                   break;
                } // case
 
                case '.':
                {
-                  withinRules = isVoicedConsonant(englishBuffer[R_INDEX]);
+                  withinRules = isVoicedConsonant(englishBuffer[runningIndex]);
                   break;
                } // case
 
                default:
                {
-                  withinRules = (currentRule[RUL_INDX] == englishBuffer[R_INDEX]);
+                  withinRules =
+                     (currentRule[ruleIndex] == englishBuffer[runningIndex]);
                   break;
                } // case
             } // switch
 
             // Bump rule index.
-            RUL_INDX = RUL_INDX + 1;
+            ruleIndex = ruleIndex + 1;
 
             if (withinRules)
             {
                // Bump running index.
-               R_INDEX = R_INDEX + 1;
+               runningIndex = runningIndex + 1;
             } // if
 
             // Accept either case.
@@ -1012,12 +1016,12 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
             withinRules = false;
             occurred = false;
 
-            if (R_INDEX > englishBufferLength)
+            if (runningIndex > englishBufferLength)
             {
                // Exit scan loop..
                done = true;
 
-               if (currentRule[RUL_INDX] != '=')
+               if (currentRule[ruleIndex] != '=')
                {
                   // Return false.
                   EITHER = false;
@@ -1056,11 +1060,11 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
   Purpose: The purpose of this function is to scan and evaluate the
   left-hand context of text to be evaluated.
 
-  Calling Sequence: scanLeftContext(LEF_INDX,found)
+  Calling Sequence: scanLeftContext(leftIndex,found)
 
   Inputs:
 
-    LEF_INDX - An index to storage to the current rule.
+    leftIndex - An index to storage to the current rule.
 
     found - A reference to storage for a flag that indicates that a
     left-context rule was satisfied.  A value of true indicates that
@@ -1075,16 +1079,16 @@ void PhonemMaker::scanRightContext(int RT_INDX, int& RUL_INDX, bool& found)
 
     currentRule - A string that contains the current rule being evaluated.
 
-    RUL_INDX - An index into the current rule being evaluated.
+    ruleIndex - An index into the current rule being evaluated.
 
-    englishBufferIndex - The current index into the English buffer for which text
-    is to be evaluated.
+    englishBufferIndex - The current index into the English buffer for which
+    text is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
+void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
 {
-   int R_INDEX;
-   int RUL_INDX;
+   int runningIndex;
+   int ruleIndex;
    bool EITHER;
    bool occurred;
    bool done;
@@ -1097,57 +1101,58 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
    if (englishBufferIndex > 0)
    {
       // Point to the left of parent.
-      RUL_INDX = LEF_INDX - 1;
+      ruleIndex = leftIndex - 1;
 
       // Set up running index in English buffer.
-      R_INDEX = englishBufferIndex - 1;
+      runningIndex = englishBufferIndex - 1;
 
       // Clear initially.
       done = false;
 
-      while ((!done) && (RUL_INDX >= 0))
+      while ((!done) && (ruleIndex >= 0))
       {
-         switch (currentRule[RUL_INDX])
+         switch (currentRule[ruleIndex])
          {
             case '!':
             {
-               withinRules = !isAlpha(englishBuffer[R_INDEX]);
+               withinRules = !isAlpha(englishBuffer[runningIndex]);
                break;
             }  // case
 
             case '#':
             {
-               leftPastVowel(R_INDEX,occurred);
+               leftPastVowel(runningIndex,occurred);
                break;
             }  // case
 
             case ':':
             {
-               leftPastConsonant(R_INDEX,occurred);
+               leftPastConsonant(runningIndex,occurred);
                break;
             }  // case
 
             case '+':
             {
-               withinRules = isFrontVowel(englishBuffer[R_INDEX]);
+               withinRules = isFrontVowel(englishBuffer[runningIndex]);
                break;
             }  // case
 
             case '$':
             {
-               withinRules = isConsonant(englishBuffer[R_INDEX]);
+               withinRules = isConsonant(englishBuffer[runningIndex]);
                break;
             }  // case
 
             case'.':
             {
-               withinRules = isVoicedConsonant(englishBuffer[R_INDEX]);
+               withinRules = isVoicedConsonant(englishBuffer[runningIndex]);
             }  // case
                break;
 
             default:
             {
-               withinRules = (currentRule[RUL_INDX] == englishBuffer[R_INDEX]);
+               withinRules = 
+                  (currentRule[ruleIndex] == englishBuffer[runningIndex]);
                break;
             }  // case
          } // switch
@@ -1155,7 +1160,7 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
          if (withinRules)
          {
             // Decrement running index.
-            R_INDEX = R_INDEX - 1;
+            runningIndex = runningIndex - 1;
          } // if
 
          // Save either true result.
@@ -1166,14 +1171,14 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
          occurred = false;
 
          // Decrement rule index.
-         RUL_INDX = RUL_INDX - 1;
+         ruleIndex = ruleIndex - 1;
 
-         if (R_INDEX < 0)
+         if (runningIndex < 0)
          {
             // Exit scan loop.
             done = true;
 
-            if (RUL_INDX >= 0)
+            if (ruleIndex >= 0)
             {
                EITHER = false;
             } // if
@@ -1220,8 +1225,8 @@ void PhonemMaker::scanLeftContext(int LEF_INDX, bool& found)
 
   Attributes (formerly globals):
 
-    englishBufferIndex - The current index into the English buffer for which text
-    is to be evaluated.
+    englishBufferIndex - The current index into the English buffer for which
+    text is to be evaluated.
 
     referenceString - The current reference string being constructed.  The
     reference string is the text that lies within the parenthesis of
@@ -1246,7 +1251,8 @@ bool PhonemMaker::compareReferenceString(void)
 
    while (!done)
    {
-      if (referenceString[INDEX] != (englishBuffer[englishBufferIndex + INDEX]))
+      if (referenceString[INDEX] != 
+            (englishBuffer[englishBufferIndex + INDEX]))
       {
          done = true;
       } // if
@@ -1285,14 +1291,14 @@ bool PhonemMaker::compareReferenceString(void)
   parantheses.  For ecample: (AB) implies that the reference string
   is "AB".
 
-  Calling Sequence: buildReferenceString(LEF_INDX,RT_INDX)
+  Calling Sequence: buildReferenceString(leftIndex,rightIndex)
 
   Inputs:
 
-    LEF_INDX - An index that indicates the position of the left
+    leftIndex - An index that indicates the position of the left
     '('.
 
-    RT_INDX - A reference to storage for the right-hand index into
+    rightIndex - A reference to storage for the right-hand index into
     the current rule entry.
 
   Outputs:
@@ -1308,22 +1314,22 @@ bool PhonemMaker::compareReferenceString(void)
     a rule.
 
 *****************************************************************************/
-void PhonemMaker::buildReferenceString(int LEF_INDX, int& RT_INDX)
+void PhonemMaker::buildReferenceString(int leftIndex, int& rightIndex)
 {
 
    // Clear initially.
    referenceString = "";
 
    // Bump past left parent.
-   RT_INDX = LEF_INDX + 1;
+   rightIndex = leftIndex + 1;
 
-   while (currentRule[RT_INDX] != ')')
+   while (currentRule[rightIndex] != ')')
    {
       // Build string.
-      referenceString = referenceString + currentRule[RT_INDX];
+      referenceString = referenceString + currentRule[rightIndex];
 
       // Bump right parent index.
-      RT_INDX = RT_INDX + 1;
+      rightIndex = rightIndex + 1;
    } // while
 
    return;
@@ -1337,11 +1343,11 @@ void PhonemMaker::buildReferenceString(int LEF_INDX, int& RT_INDX)
   Purpose: The purpose of this function is to scan the current rule
   until the left-hand '('. is found.
 
-  Calling Sequence: findLeftParent(LEF_INDX)
+  Calling Sequence: findLeftParent(leftIndex)
 
   Inputs:
 
-    LEF_INDX - A reference to storage for the index of the left '('.
+    leftIndex - A reference to storage for the index of the left '('.
 
    Outputs:
 
@@ -1352,16 +1358,16 @@ void PhonemMaker::buildReferenceString(int LEF_INDX, int& RT_INDX)
     currentRule - A string that contains the current rule being evaluated.
 
 *****************************************************************************/
-void PhonemMaker::findLeftParent(int& LEF_INDX)
+void PhonemMaker::findLeftParent(int& leftIndex)
 {
 
    // Point to beginning of buffer.
-   LEF_INDX = 0;
+   leftIndex = 0;
 
-   while (currentRule[LEF_INDX] != '(')
+   while (currentRule[leftIndex] != '(')
    {
       // Bump left parent index.
-      LEF_INDX = LEF_INDX + 1;
+      leftIndex = leftIndex + 1;
    } // while
 
    return;
@@ -1392,8 +1398,8 @@ void PhonemMaker::findLeftParent(int& LEF_INDX)
 
   Attributes (formerly globals):
 
-    englishBufferIndex - The current index into the English buffer for which text
-    is to be evaluated.
+    englishBufferIndex - The current index into the English buffer for which
+    text is to be evaluated.
 
     referenceString - The current reference string being constructed.  The
     reference string is the text that lies within the parenthesis of
@@ -1403,46 +1409,46 @@ void PhonemMaker::findLeftParent(int& LEF_INDX)
 bool PhonemMaker::evaluateContexts(void)
 {
    bool result;
-   int LEF_INDX;
-   int RT_INDX;
-   int RUL_INDX;
+   int leftIndex;
+   int rightIndex;
+   int ruleIndex;
    bool withinRules;
 
    // Clear initially.
    withinRules = false;
 
    // Find left parent.
-   findLeftParent(LEF_INDX);
+   findLeftParent(leftIndex);
 
    // Build reference string, and return right parent.
-   buildReferenceString(LEF_INDX,RT_INDX);
+   buildReferenceString(leftIndex,rightIndex);
 
    // Compare reference string to English.
    if (compareReferenceString())
    {
-      if (LEF_INDX > 0)
+      if (leftIndex > 0)
       {
          // Scan left context.
-         scanLeftContext(LEF_INDX,withinRules);
+         scanLeftContext(leftIndex,withinRules);
 
          // If there is a left context.
          if (withinRules)
          {
             // Scan right context.
-            scanRightContext(RT_INDX,RUL_INDX,withinRules);
+            scanRightContext(rightIndex,ruleIndex,withinRules);
          } // if
       } // if
       else
       {
          // Scan right context.
-         scanRightContext(RT_INDX,RUL_INDX,withinRules);
+         scanRightContext(rightIndex,ruleIndex,withinRules);
       } // else
    } // if
 
    if (withinRules)
    {
       // Build literal phonem string.
-      buildLiteralPhoneme(RUL_INDX);
+      buildLiteralPhoneme(ruleIndex);
 
       // Convert to phonem codes.
       convertPhonemesToCode();
@@ -1556,8 +1562,8 @@ bool PhonemMaker::evaluateContexts(void)
 
     currentRule - A string that contains the current rule being evaluated.
 
-    englishBufferIndex - The current index into the English buffer for which text
-    is to be evaluated.
+    englishBufferIndex - The current index into the English buffer for which
+    text is to be evaluated.
 
 *****************************************************************************/
 void PhonemMaker::searchRuleList(std::list<std::string> rules)
@@ -1625,8 +1631,8 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
     phonemeTable - A table that maps the textual representation of phonems to
     the binary representation.
 
-    phonemeBufferIndex - The index into the next storage location in the phonem
-    buffer. 
+    phonemeBufferIndex - The index into the next storage location in the
+    phonem buffer. 
 
     phonemeBuffer - The buffer where the phonem stream is stored.   
 

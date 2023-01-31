@@ -37,7 +37,7 @@ class PhonemMaker
 
    ~PhonemMaker(void);
 
-   void translateEnglishText(std::string& INBUF, uint8_t*& phonemBuffer,
+   void translateEnglishText(std::string& text, uint8_t*& phonemBuffer,
                              uint32_t& phonemCount);
 
 
@@ -53,17 +53,17 @@ class PhonemMaker
    bool isFrontVowel(char c);
    bool isConsonant(char c);
    bool isVoicedConsonant(char c);
-   void rightPastVowel(int& R_INDEX, bool& occurred);
-   void leftPastVowel(int& R_INDEX, bool& occurred);
-   void rightPastConsonant(int& R_INDEX, bool& occurred);
-   void leftPastConsonant(int& R_INDEX, bool& occurred);
+   void rightPastVowel(int& runningIndex, bool& occurred);
+   void leftPastVowel(int& runningIndex, bool& occurred);
+   void rightPastConsonant(int& runningIndex, bool& occurred);
+   void leftPastConsonant(int& runningIndex, bool& occurred);
 
-   void buildLiteralPhoneme(int RUL_INDX);
-   void scanRightContext(int RT_INDX, int& RUL_INDX, bool& found);
-   void scanLeftContext(int LEF_INDX, bool& found);
+   void buildLiteralPhoneme(int ruleIndex);
+   void scanRightContext(int rightIndex, int& ruleIndex, bool& found);
+   void scanLeftContext(int leftIndex, bool& found);
    bool compareReferenceString(void);
-   void buildReferenceString(int LEF_INDX, int& RT_INDX);
-   void findLeftParent(int& LEF_INDX);
+   void buildReferenceString(int leftIndex, int& rightIndex);
+   void findLeftParent(int& leftIndex);
    bool evaluateContexts(void);
    void searchRuleList(std::list<std::string> rules);
 

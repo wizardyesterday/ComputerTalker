@@ -1,9 +1,9 @@
 //**********************************************************************
-// file name: PhonemMaker.h
+// file name: PhonemeMaker.h
 //**********************************************************************
 
-#ifndef _PHONEMMAKER_H_
-#define _PHONEMMAKER_H_
+#ifndef _PHONEMEMAKER_H_
+#define _PHONEMEMAKER_H_
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -19,11 +19,11 @@
 #define MAXLINE (80)                  // Maximum length of input buffer.
 #define PHOENEME_BUFFER_SIZE (1000)   // 
 #define NUMBER_OF_PHONEMES (64)       // Number of phonems
-#define NUMBER_OF_PHONEME_TOKENS (30) // Maximum number of phonem tokens.
+#define NUMBER_OF_PHONEME_TOKENS (30) // Maximum number of phoneme tokens.
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-class PhonemMaker
+class PhonemeMaker
 {
    public:
 
@@ -33,9 +33,9 @@ class PhonemMaker
       uint8_t phonemeCode;
    };
 
-   PhonemMaker(bool& success);
+   PhonemeMaker(bool& success);
 
-   ~PhonemMaker(void);
+   ~PhonemeMaker(void);
 
    void translateEnglishText(std::string& text, uint8_t*& phonemBuffer,
                              uint32_t& phonemCount);
@@ -66,7 +66,7 @@ class PhonemMaker
    void buildReferenceString(int leftIndex, int& rightIndex);
    void findLeftParent(int& leftIndex);
    bool evaluateContexts(void);
-   void searchRuleList(std::list<std::string> rules);
+   void evaluateRules(std::list<std::string> rules);
 
    void convertPhonemeToCode(std::string phonemeToken);
    void convertPhonemesToCode(void);
@@ -105,4 +105,4 @@ class PhonemMaker
    int phonemeBufferIndex;
 };
 
-#endif // _PHONEMMAKER_H_
+#endif // _PHONEMEMAKER_H_

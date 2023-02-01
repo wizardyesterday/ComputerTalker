@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-# This script creates the wav files from the phonem files, EH3,
+# This script creates the wav files from the phoneme files, EH3,
 # EH2, etc.  The heavy lifting is performed by the wordToWav.sh
 # file.
 #_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -8,10 +8,10 @@ speech synthesizer box to the parallel port of one of my Linux systems,
 I decided to make the synthesizer software-based.
 
 There will be two C++ classes:
-1. PhonemMaker - Converts text to a phonem stream.
-2. SpeechSynthesizer - Plays the phonem stream.
+1. PhonemeMaker - Converts text to a phoneme stream.
+2. SpeechSynthesizer - Plays the phoneme stream.
 
-If I find PCM files for the phonems, the speech synthesizer part will be
+If I find PCM files for the phonemes, the speech synthesizer part will be
 fairly easy.  As of right now, the PhonemMaker works, although there is a
 segfault now and then.
 
@@ -31,7 +31,7 @@ If you want input from a file, you type:
 --------------------------------------------------------------------
 01/21/2023
 --------------------------------------------------------------------
-We now have a functioning system.  The phonem files really need
+We now have a functioning system.  The phoneme files really need
 to be replaced though.  Their duration is excessive to the point
 that speech sounds really slow.  With a stretch of the imagination,
 you can hear some words.  I'll have to capture the utterings of my
@@ -44,7 +44,7 @@ though.
 --------------------------------------------------------------------
 01/22/2023
 --------------------------------------------------------------------
-Today, I decided to create my own phonems with the aid of
+Today, I decided to create my own phonemes with the aid of
 festital, using their text2wave script to create the example
 words from the Votrax SC-01 data sheet.  I was then able to select
 the speech samples of interest, using Audacity.  The sample rate of
@@ -62,4 +62,10 @@ illustrate how a phoneme sounds when spoken.  The PCM files for
 the example words are in the research/speechFiles directory.
 Additionally, the festivalScripts directory has been moved
 to the research directory.
+
+--------------------------------------------------------------------
+02/01/2023
+--------------------------------------------------------------------
+File names have been changed, and content has been fixed so that
+phoneme is properly spelled.
 

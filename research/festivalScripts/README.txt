@@ -1,7 +1,7 @@
 This directory contains scripts for the creation of phoneme wav files.  The
 files are listed below.
 
-phonemToWord.sh - Creates textual files that contain the example words
+phonemeToWord.sh - Creates textual files that contain the example words
 in the Votrax SC-01 data sheet.  The textual files are named with upper
 case phoneme names from the Votrax SC-01 data sheet.
 

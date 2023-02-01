@@ -2,8 +2,8 @@
 // file name: PhonemeMaker.h
 //**********************************************************************
 
-#ifndef _PHONEMMAKER_H_
-#define _PHONEMMAKER_H_
+#ifndef _PHONEMEMAKER_H_
+#define _PHONEMEMAKER_H_
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -105,4 +105,4 @@ class PhonemeMaker
    int phonemeBufferIndex;
 };
 
-#endif // _PHONEMMAKER_H_
+#endif // _PHONEMEMAKER_H_

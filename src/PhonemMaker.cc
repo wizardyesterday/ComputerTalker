@@ -50,10 +50,10 @@ synthesizerInitialized
 
     numberOfRules - The number of phonetic rules.
 
-    phonemTable - An array of structures that maps textual phonems to
-    the binary phonem code that is presented to the voice synthesizer.
+    phonemTable - An array of structures that maps textual phonemes to
+    the binary phoneme code that is presented to the voice synthesizer.
 
-    numberOfPhonems - The number of phonems in the phonem table.
+    numberOfPhonems - The number of phonemes in the phoneme table.
 
   Outputs:
 
@@ -73,7 +73,7 @@ PhonemMaker::~PhonemMaker(void)
   Name: getSystemParameters
 
   Purpose: The purpose of this function is to retrieve the parameters
-  from the phonem file and rules file.
+  from the phoneme file and rules file.
 
   Calling Sequence: success = getSystemParameters()
 
@@ -111,12 +111,12 @@ bool PhonemMaker::getSystemParameters(void)
    // We're using zero-based arrays.
    phonemCount = 0;
 
-   // Open the textual phonem to binary code mapping file.
+   // Open the textual phoneme to binary code mapping file.
    phonemStream = fopen("configuration/phonems.txt","r");
 
    if (phonemStream != NULL)
    {
-      // The phonem file exists.
+      // The phoneme file exists.
       numberOfExistingFiles++;
 
       // Set up for loop entry.
@@ -130,7 +130,7 @@ bool PhonemMaker::getSystemParameters(void)
          {
             sscanf(buffer,"%d %s",&code,name);
 
-            // Populate the phonem structure.
+            // Populate the phoneme structure.
             phonemeTable[phonemCount].phonemeName = name;
             phonemeTable[phonemCount].phonemeCode = code;
 
@@ -193,13 +193,12 @@ bool PhonemMaker::getSystemParameters(void)
       fclose(ruleStream);
    } // if
 
-   // Does the phonem file and the phonetic rules exist?
+   // Does the phoneme file and the phonetic rules exist?
    if (numberOfExistingFiles == 2)
    {
       // We're good to go!
       success = true;
    } // if
-
 
    return (success);
 
@@ -219,13 +218,13 @@ bool PhonemMaker::getSystemParameters(void)
 
   Inputs:
 
-    text - The text which is to be converted to phonem strings.
+    text - The text which is to be converted to phoneme strings.
 
-    phonemBuffer - A reference to memory for which phonems are to be
+    phonemBuffer - A reference to memory for which phonemes are to be
     stored.
 
     phonemCount - A reference to memory for which the number of
-    phonems is to be stored.
+    phonemes is to be stored.
 
   Outputs:
 
@@ -234,12 +233,12 @@ bool PhonemMaker::getSystemParameters(void)
   Attributes:
 
     phonemeBufferIndex - The index into the next storage location in the
-    phonem buffer. 
+    phoneme buffer. 
 
     englishBufferIndex - The current index into the English buffer for which
     text is to be evaluated.
 
-    phonemeBuffer - The buffer where the phonem stream is stored.
+    phonemeBuffer - The buffer where the phoneme stream is stored.
 
     ruleTable - The table of text-to-phoneme rules.
 
@@ -798,13 +797,13 @@ void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
   Name: buildLiteralPhoneme
 
   Purpose: The purpose of this function is to advance the extract the
-  phonem string on the right side of the equation for a particular
+  phoneme string on the right side of the equation for a particular
   rule that is being processed.
   Calling Sequence: buildLiteralPhoneme(int ruleIndex)
 
   Inputs:
 
-    ruleIndex - An index into the curent rule for which a phonem string
+    ruleIndex - An index into the curent rule for which a phoneme string
     is to be extracted.
 
   Outputs:
@@ -815,7 +814,7 @@ void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
 
     currentRule - A string that contains the current rule being evaluated.
 
-    phonemeTokens = The current array of phonem tokens being constructed.
+    phonemeTokens = The current array of phoneme tokens being constructed.
     For example, if a rule happens to be "(AR)=AH1,R;" phonemeTokens will
     be set to "AH1","R",";".
 
@@ -837,7 +836,7 @@ void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
    {
       for (i = 0; i < NUMBER_OF_PHONEME_TOKENS; i++)
       {
-         // Clear phonem string array.
+         // Clear phoneme string array.
          phonemeTokens[i] = "";
       } // for
 
@@ -1381,8 +1380,8 @@ void PhonemMaker::findLeftParent(int& leftIndex)
   Purpose: The purpose of this function is to evaluate the current
   position of the English text when compared to the current rule.
   Both left and right contexts will be evaluated (if they exist), If
-  the current rule is satisfied, more phonems will be added to the
-  phonem stream.
+  the current rule is satisfied, more phonemes will be added to the
+  phoneme stream.
 
   Calling Sequence: result = evaluateContexts()
 
@@ -1447,10 +1446,10 @@ bool PhonemMaker::evaluateContexts(void)
 
    if (withinRules)
    {
-      // Build literal phonem string.
+      // Build literal phoneme string.
       buildLiteralPhoneme(ruleIndex);
 
-      // Convert to phonem codes.
+      // Convert to phoneme codes.
       convertPhonemesToCode();
 
       // Bump English index.
@@ -1469,7 +1468,7 @@ bool PhonemMaker::evaluateContexts(void)
   Name: searchRuleList
 
   Purpose: The purpose of this function is to scan the rules of a
-  letter in the English text and generate a phonem stream.  This text
+  letter in the English text and generate a phoneme stream.  This text
   (extracted from the original code follows.
 
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -1611,16 +1610,16 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
   Name: convertPhonemeToCode
 
   Purpose: The purpose of this function is to convert a string
-  representation of a phonem into it's binary code.  The code will
-  be added to the phonem buffer.
+  representation of a phoneme into it's binary code.  The code will
+  be added to the phoneme buffer.
 
   Calling Sequence: convertPhonemeToCode(phonemeToken)
 
   Inputs:
 
-    phonemeToken - A string representation of a phonem for which its binary
+    phonemeToken - A string representation of a phoneme for which its binary
     equivalent is to be created.  This parameter differs from the
-    attribute, phonemeTokens[], which is an array of phonem strings.
+    attribute, phonemeTokens[], which is an array of phoneme strings.
 
    Outputs:
 
@@ -1628,13 +1627,13 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
 
   Attributes:
 
-    phonemeTable - A table that maps the textual representation of phonems to
+    phonemeTable - A table that maps the textual representation of phonemes to
     the binary representation.
 
     phonemeBufferIndex - The index into the next storage location in the
-    phonem buffer. 
+    phoneme buffer. 
 
-    phonemeBuffer - The buffer where the phonem stream is stored.   
+    phonemeBuffer - The buffer where the phoneme stream is stored.   
 
 *****************************************************************************/
 void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
@@ -1642,7 +1641,7 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
    int i;
    bool match;
 
-   // Point to begining of phonem table.
+   // Point to begining of phoneme table.
    i = 0;
 
    // Clear initially.
@@ -1652,10 +1651,10 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
    {
       if (phonemeToken == phonemeTable[i].phonemeName)
       {
-         // Store phonem code.
+         // Store phoneme code.
          phonemeBuffer[phonemeBufferIndex] = phonemeTable[i].phonemeCode;
 
-         // Reference the next phonem buffer location.
+         // Reference the next phoneme buffer location.
          phonemeBufferIndex = phonemeBufferIndex + 1;
 
          // Exit loop.
@@ -1678,8 +1677,8 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
 
   Purpose: The purpose of this function is to convert an array of
   string
-  representations of a phonems into it's binary codes.  The code stream
-  will be placed in the phonem buffer.
+  representations of a phonemes into it's binary codes.  The code stream
+  will be placed in the phoneme buffer.
 
   Calling Sequence: convertPhonemesToCode()
 
@@ -1693,21 +1692,21 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
 
   Attributes:
 
-     phonemeTokens = The current array of phonem tokens being evaluated.  For
-    example, if a rule happens to be "(AR)=AH1,R;" phonemeTokens will be set
-    to "AH1","R",";".
+     phonemeTokens = The current array of phoneme tokens being evaluated.
+     For example, if a rule happens to be "(AR)=AH1,R;" phonemeTokens will
+     be set to "AH1","R",";".
 
 *****************************************************************************/
 void PhonemMaker::convertPhonemesToCode(void)
 {
    int i;
 
-   // Point to beginning of array of phonem strings.
+   // Point to beginning of array of phoneme strings.
    i = 0;
 
    while (phonemeTokens[i] != ";")
    {
-      // Convert phonems to codes.
+      // Convert phonemes to codes.
       convertPhonemeToCode(phonemeTokens[i]);
 
       // Reference next entry.

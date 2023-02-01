@@ -249,7 +249,7 @@ void PhonemMaker::translateEnglishText(std::string& text,
 
 {
    int j;
-   std::map <char, std::list <std::string> >::iterator i;
+   std::map <char, std::list <std::string> >::iterator iItr;
    char key;
 
    // Set to the beginning of the buffers.
@@ -270,12 +270,12 @@ void PhonemMaker::translateEnglishText(std::string& text,
       key = englishBuffer[englishBufferIndex];
 
       // Determine if we have a rule.
-      i = ruleTable.find(key);
+      iItr = ruleTable.find(key);
 
-      if (i != ruleTable.end())
+      if (iItr != ruleTable.end())
       {
          // Process the rules.
-         searchRuleList(i->second);
+         searchRuleList(iItr->second);
       } // if
       else
       {
@@ -1569,26 +1569,26 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
 {
    bool done;
    bool found;
-   std::list<std::string>::iterator i;
+   std::list<std::string>::iterator iItr;
 
    // Set up for loop entry.
    done = false;
 
    // Reference the first rule in the list.
-   i = rules.begin();
+   iItr = rules.begin();
 
    while (!done)
    {
       // Get current rule.
-      currentRule = *i;
+      currentRule = *iItr;
 
       // Scan using current rule.
       found = evaluateContexts();
 
       // Reference the next rule.
-      i++;
+      iItr++;
 
-      if ((i == rules.end()) || found)
+      if ((iItr == rules.end()) || found)
       {
          // Exit scan.
          done = true;

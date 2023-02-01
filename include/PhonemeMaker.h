@@ -19,7 +19,7 @@
 #define MAXLINE (80)                  // Maximum length of input buffer.
 #define PHOENEME_BUFFER_SIZE (1000)   // 
 #define NUMBER_OF_PHONEMES (64)       // Number of phonems
-#define NUMBER_OF_PHONEME_TOKENS (30) // Maximum number of phonem tokens.
+#define NUMBER_OF_PHONEME_TOKENS (30) // Maximum number of phoneme tokens.
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 

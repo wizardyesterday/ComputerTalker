@@ -84,7 +84,6 @@ bool PhonemeMaker::getSystemParameters(void)
    bool done;
    FILE *phonemeStream;
    FILE *ruleStream;
-   int phonemeCount;
    char *statusPtr;
    char buffer[1000];
    char rule[100];
@@ -98,9 +97,12 @@ bool PhonemeMaker::getSystemParameters(void)
    success = false;
    numberOfExistingFiles = 0;
 
-   // We're using zero-based arrays.
-   phonemeCount = 0;
-
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+   // Read the phoneme file, and store the contents into a map
+   // data structure.  The key of this map is the string value
+   // for the phonem name, and the mapped value is the binary
+   // representation of the phoneme.
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
    // Open the textual phoneme to binary code mapping file.
    phonemeStream = fopen("configuration/phonemes.txt","r");
 
@@ -120,13 +122,8 @@ bool PhonemeMaker::getSystemParameters(void)
          {
             sscanf(buffer,"%d %s",&code,name);
 
-            // Populate the phoneme structure.
-            phonemeTable[phonemeCount].phonemeName = name;
-            phonemeTable[phonemeCount].phonemeCode = code;
-
-            // Reference the next storage element.
-            phonemeCount++;
-         } // if
+            phonemeTable[name] = code;
+        } // if
          else
          {
             // Bail out.
@@ -138,7 +135,16 @@ bool PhonemeMaker::getSystemParameters(void)
       // We're done with this file.
       fclose(phonemeStream);
    } // if
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+   // Read the rules file, and store the contents into a map
+   // data structure.  The key of this map is the first letter
+   // of the reference string, and the mapped value is the rule.
+   // For example, if the rule is "!(IN)=I1,N;", the reference
+   // string is "IN".  The letter 'I' would be the key in this
+   // case. 
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
    // Open the phonetic rules file.
    ruleStream = fopen("configuration/rules.txt","r");
 
@@ -182,6 +188,7 @@ bool PhonemeMaker::getSystemParameters(void)
       // We're done with this file.
       fclose(ruleStream);
    } // if
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
    // Does the phoneme file and the phonetic rules exist?
    if (numberOfExistingFiles == 2)
@@ -1622,34 +1629,20 @@ void PhonemeMaker::evaluateRules(std::list<std::string> rules)
 *****************************************************************************/
 void PhonemeMaker::convertPhonemeToCode(std::string phonemeToken)
 {
-   int i;
-   bool match;
+   std::map <std::string, uint8_t>::iterator iItr;
 
-   // Point to begining of phoneme table.
-   i = 0;
+   // Determine if we have a valid phoneme.
+   iItr = phonemeTable.find(phonemeToken);
 
-   // Clear initially.
-   match = false;
-
-   while (!match)
+   if (iItr != phonemeTable.end())
    {
-      if (phonemeToken == phonemeTable[i].phonemeName)
-      {
-         // Store phoneme code.
-         phonemeBuffer[phonemeBufferIndex] = phonemeTable[i].phonemeCode;
+      // Store phoneme code.
+      phonemeBuffer[phonemeBufferIndex] = iItr->second;
 
-         // Reference the next phoneme buffer location.
-         phonemeBufferIndex = phonemeBufferIndex + 1;
+      // Reference the next phoneme buffer location.
+      phonemeBufferIndex = phonemeBufferIndex + 1;
 
-         // Exit loop.
-         match = true;
-      } // if
-      else
-      {
-         // Reference the next item.
-         i = i + 1;
-      } // else
-   } // while
+   } // if
 
   return;
 

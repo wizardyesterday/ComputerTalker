@@ -66,7 +66,7 @@ class PhonemeMaker
    void buildReferenceString(int leftIndex, int& rightIndex);
    void findLeftParent(int& leftIndex);
    bool evaluateContexts(void);
-   void searchRuleList(std::list<std::string> rules);
+   void evaluateRules(std::list<std::string> rules);
 
    void convertPhonemeToCode(std::string phonemeToken);
    void convertPhonemesToCode(void);

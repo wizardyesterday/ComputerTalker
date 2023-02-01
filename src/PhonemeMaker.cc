@@ -39,21 +39,11 @@ PhonemeMaker::PhonemeMaker(bool& success)
   Purpose: The purpose of this function is to serve as the constructor
   of a PhonemeMaker object.
 synthesizerInitialized
-  Calling Sequence: PhonemeMaker(rules,
-                                numberOfRules,
-                                phonemMapPtr,
-                                numberOfPhonems)
+  Calling Sequence: PhonemeMaker()
 
   Inputs:
 
-    rules - An array of strings that represent the phonetic rules.
-
-    numberOfRules - The number of phonetic rules.
-
-    phonemTable - An array of structures that maps textual phonemes to
-    the binary phoneme code that is presented to the voice synthesizer.
-
-    numberOfPhonems - The number of phonemes in the phoneme table.
+    None.
 
   Outputs:
 
@@ -92,9 +82,9 @@ bool PhonemeMaker::getSystemParameters(void)
 {
    bool success;
    bool done;
-   FILE *phonemStream;
+   FILE *phonemeStream;
    FILE *ruleStream;
-   int phonemCount;
+   int phonemeCount;
    char *statusPtr;
    char buffer[1000];
    char rule[100];
@@ -109,12 +99,12 @@ bool PhonemeMaker::getSystemParameters(void)
    numberOfExistingFiles = 0;
 
    // We're using zero-based arrays.
-   phonemCount = 0;
+   phonemeCount = 0;
 
    // Open the textual phoneme to binary code mapping file.
-   phonemStream = fopen("configuration/phonemes.txt","r");
+   phonemeStream = fopen("configuration/phonemes.txt","r");
 
-   if (phonemStream != NULL)
+   if (phonemeStream != NULL)
    {
       // The phoneme file exists.
       numberOfExistingFiles++;
@@ -124,18 +114,18 @@ bool PhonemeMaker::getSystemParameters(void)
 
       while (!done)
       {
-         statusPtr = fgets(buffer,80,phonemStream);
+         statusPtr = fgets(buffer,80,phonemeStream);
 
          if (statusPtr != NULL)
          {
             sscanf(buffer,"%d %s",&code,name);
 
             // Populate the phoneme structure.
-            phonemeTable[phonemCount].phonemeName = name;
-            phonemeTable[phonemCount].phonemeCode = code;
+            phonemeTable[phonemeCount].phonemeName = name;
+            phonemeTable[phonemeCount].phonemeCode = code;
 
             // Reference the next storage element.
-            phonemCount++;
+            phonemeCount++;
          } // if
          else
          {
@@ -146,7 +136,7 @@ bool PhonemeMaker::getSystemParameters(void)
       } // while */
 
       // We're done with this file.
-      fclose(phonemStream);
+      fclose(phonemeStream);
    } // if
 
    // Open the phonetic rules file.
@@ -213,14 +203,14 @@ bool PhonemeMaker::getSystemParameters(void)
   interface to the analysis code in this system.
 
   Calling Sequence: translateEnglishText(text,
-                                         phonemBuffer,
-                                         phonemCount)
+                                         phonemeBuffer,
+                                         phonemeCount)
 
   Inputs:
 
     text - The text which is to be converted to phoneme strings.
 
-    phonemBuffer - A reference to memory for which phonemes are to be
+    phonemeBuffer - A reference to memory for which phonemes are to be
     stored.
 
     phonemCount - A reference to memory for which the number of
@@ -244,8 +234,8 @@ bool PhonemeMaker::getSystemParameters(void)
 
 *****************************************************************************/
 void PhonemeMaker::translateEnglishText(std::string& text,
-                                       uint8_t*& phonemBuffer,
-                                       uint32_t& phonemCount)
+                                       uint8_t*& phonemeBuffer,
+                                       uint32_t& phonemeCount)
 
 {
    int j;
@@ -275,7 +265,7 @@ void PhonemeMaker::translateEnglishText(std::string& text,
       if (iItr != ruleTable.end())
       {
          // Process the rules.
-         searchRuleList(iItr->second);
+         evaluateRules(iItr->second);
       } // if
       else
       {
@@ -286,8 +276,8 @@ void PhonemeMaker::translateEnglishText(std::string& text,
    } // while
 
    // Set return values.  Note that references are being used.
-   phonemCount = phonemeBufferIndex;
-   phonemBuffer = phonemeBuffer;
+   phonemeCount = this->phonemeBufferIndex;
+   phonemeBuffer = this->phonemeBuffer;
 
    return;
 
@@ -918,10 +908,6 @@ void PhonemeMaker::buildLiteralPhoneme(int ruleIndex)
     englishBufferIndex - The current index into the English buffer for which
     text is to be evaluated.
 
-    referenceString - The current reference string being constructed.  The
-    reference string is the text that lies within the parenthesis of
-    a rule.
-
 *****************************************************************************/
 void PhonemeMaker::scanRightContext(int rightIndex,
                                    int& ruleIndex,
@@ -1465,7 +1451,7 @@ bool PhonemeMaker::evaluateContexts(void)
 
 /************************************************************************
 
-  Name: searchRuleList
+  Name: evaluateRules
 
   Purpose: The purpose of this function is to scan the rules of a
   letter in the English text and generate a phoneme stream.  This text
@@ -1547,7 +1533,7 @@ bool PhonemeMaker::evaluateContexts(void)
   by the number of characters inside of the parenthesis of the rule.
   /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-  Calling Sequence: searchRuleList(rules)
+  Calling Sequence: evaluateRules(rules)
 
   Inputs:
 
@@ -1565,7 +1551,7 @@ bool PhonemeMaker::evaluateContexts(void)
     text is to be evaluated.
 
 *****************************************************************************/
-void PhonemeMaker::searchRuleList(std::list<std::string> rules)
+void PhonemeMaker::evaluateRules(std::list<std::string> rules)
 {
    bool done;
    bool found;
@@ -1603,7 +1589,7 @@ void PhonemeMaker::searchRuleList(std::list<std::string> rules)
 
    return;
 
-} // searchRuleList
+} // evaluateRules
 
 /************************************************************************
 
@@ -1618,9 +1604,7 @@ void PhonemeMaker::searchRuleList(std::list<std::string> rules)
   Inputs:
 
     phonemeToken - A string representation of a phoneme for which its binary
-    equivalent is to be created.  This parameter differs from the
-    attribute, phonemeTokens[], which is an array of phoneme strings.
-
+    equivalent is to be created.
    Outputs:
 
     None.
@@ -1673,7 +1657,7 @@ void PhonemeMaker::convertPhonemeToCode(std::string phonemeToken)
 
 /************************************************************************
 
-  Name: convertPhonemeToCode
+  Name: convertPhonemesToCode
 
   Purpose: The purpose of this function is to convert an array of
   string
@@ -1706,7 +1690,7 @@ void PhonemeMaker::convertPhonemesToCode(void)
 
    while (phonemeTokens[i] != ";")
    {
-      // Convert phonemes to codes.
+      // Convert phoneme to codes.
       convertPhonemeToCode(phonemeTokens[i]);
 
       // Reference next entry.

@@ -1,5 +1,5 @@
 //**********************************************************************
-// file name: PhonemMaker.h
+// file name: PhonemeMaker.h
 //**********************************************************************
 
 #ifndef _PHONEMMAKER_H_
@@ -23,7 +23,7 @@
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-class PhonemMaker
+class PhonemeMaker
 {
    public:
 
@@ -33,9 +33,9 @@ class PhonemMaker
       uint8_t phonemeCode;
    };
 
-   PhonemMaker(bool& success);
+   PhonemeMaker(bool& success);
 
-   ~PhonemMaker(void);
+   ~PhonemeMaker(void);
 
    void translateEnglishText(std::string& text, uint8_t*& phonemBuffer,
                              uint32_t& phonemCount);

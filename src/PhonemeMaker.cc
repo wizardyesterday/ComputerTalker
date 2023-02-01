@@ -1,17 +1,17 @@
 //**********************************************************************
-// file name: PhonemMaker.cc
+// file name: PhonemeMaker.cc
 //**********************************************************************
 
-#include "PhonemMaker.h"
+#include "PhonemeMaker.h"
 
 /************************************************************************
 
-  Name: PhonemMaker
+  Name: PhonemeMaker
 
   Purpose: The purpose of this function is to serve as the constructor
-  of a PhonemMaker object.
+  of a PhonemeMaker object.
 
-  Calling Sequence: PhonemMaker(success)
+  Calling Sequence: PhonemeMaker(success)
 
   Inputs:
 
@@ -24,22 +24,22 @@
     None.
 
 **************************************************************************/
-PhonemMaker::PhonemMaker(bool& success)
+PhonemeMaker::PhonemeMaker(bool& success)
 {
 
-   // Retrieve the inputs to the PhonemMaker constructure.
+   // Retrieve the inputs to the PhonemeMaker constructure.
    success = getSystemParameters();
 
-} // PhonemMaker
+} // PhonemeMaker
 
 /************************************************************************
 
-  Name: ~PhonemMaker
+  Name: ~PhonemeMaker
 
   Purpose: The purpose of this function is to serve as the constructor
-  of a PhonemMaker object.
+  of a PhonemeMaker object.
 synthesizerInitialized
-  Calling Sequence: PhonemMaker(rules,
+  Calling Sequence: PhonemeMaker(rules,
                                 numberOfRules,
                                 phonemMapPtr,
                                 numberOfPhonems)
@@ -60,13 +60,13 @@ synthesizerInitialized
     None.
 
 **************************************************************************/
-PhonemMaker::~PhonemMaker(void)
+PhonemeMaker::~PhonemeMaker(void)
 {
 
    // Release storage
    ruleTable.clear();
 
-} // ~PhonemMaker
+} // ~PhonemeMaker
 
 /**************************************************************************
 
@@ -88,7 +88,7 @@ PhonemMaker::~PhonemMaker(void)
     and a value of false indicates failure.
 
 **************************************************************************/
-bool PhonemMaker::getSystemParameters(void)
+bool PhonemeMaker::getSystemParameters(void)
 {
    bool success;
    bool done;
@@ -112,7 +112,7 @@ bool PhonemMaker::getSystemParameters(void)
    phonemCount = 0;
 
    // Open the textual phoneme to binary code mapping file.
-   phonemStream = fopen("configuration/phonems.txt","r");
+   phonemStream = fopen("configuration/phonemes.txt","r");
 
    if (phonemStream != NULL)
    {
@@ -243,7 +243,7 @@ bool PhonemMaker::getSystemParameters(void)
     ruleTable - The table of text-to-phoneme rules.
 
 *****************************************************************************/
-void PhonemMaker::translateEnglishText(std::string& text,
+void PhonemeMaker::translateEnglishText(std::string& text,
                                        uint8_t*& phonemBuffer,
                                        uint32_t& phonemCount)
 
@@ -313,7 +313,7 @@ void PhonemMaker::translateEnglishText(std::string& text,
     false indicates that the character is not alphabetic.
 
 *****************************************************************************/
-bool PhonemMaker::isAlpha(char c)
+bool PhonemeMaker::isAlpha(char c)
 {
    bool result;
 
@@ -344,7 +344,7 @@ bool PhonemMaker::isAlpha(char c)
     false indicates that the character is not a vowel.
 
 *****************************************************************************/
-bool PhonemMaker::isVowel(char c)
+bool PhonemeMaker::isVowel(char c)
 {
    bool result;
 
@@ -394,7 +394,7 @@ bool PhonemMaker::isVowel(char c)
     false indicates that the character is not a front vowel.
 
 *****************************************************************************/
-bool PhonemMaker::isFrontVowel(char c)
+bool PhonemeMaker::isFrontVowel(char c)
 {
    bool result;
 
@@ -441,7 +441,7 @@ bool PhonemMaker::isFrontVowel(char c)
     false indicates that the character is not a consonant.
 
 *****************************************************************************/
-bool PhonemMaker::isConsonant(char c)
+bool PhonemeMaker::isConsonant(char c)
 {
    bool result;
 
@@ -478,7 +478,7 @@ bool PhonemMaker::isConsonant(char c)
     value of false indicates that the character is not a voiced consonant.
 
 *****************************************************************************/
-bool PhonemMaker::isVoicedConsonant(char c)
+bool PhonemeMaker::isVoicedConsonant(char c)
 {
    bool result;
 
@@ -545,7 +545,7 @@ bool PhonemMaker::isVoicedConsonant(char c)
     englishBufferLength - The length of the English string.   
 
 *****************************************************************************/
-void PhonemMaker::rightPastVowel(int& runningIndex, bool& occurred)
+void PhonemeMaker::rightPastVowel(int& runningIndex, bool& occurred)
 {
    bool done;
 
@@ -616,7 +616,7 @@ void PhonemMaker::rightPastVowel(int& runningIndex, bool& occurred)
     englishBufferLength - The length of the English string.   
 
 *****************************************************************************/
-void PhonemMaker::rightPastConsonant(int& runningIndex, bool& occurred)
+void PhonemeMaker::rightPastConsonant(int& runningIndex, bool& occurred)
 {
    bool done;
 
@@ -684,7 +684,7 @@ void PhonemMaker::rightPastConsonant(int& runningIndex, bool& occurred)
     englishBuffer - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
-void PhonemMaker::leftPastVowel(int& runningIndex, bool& occurred)
+void PhonemeMaker::leftPastVowel(int& runningIndex, bool& occurred)
 {
    bool done;
 
@@ -755,7 +755,7 @@ void PhonemMaker::leftPastVowel(int& runningIndex, bool& occurred)
     englishBuffer - The buffer of English text that is to be evaluated.  
 
 *****************************************************************************/
-void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
+void PhonemeMaker::leftPastConsonant(int& runningIndex, bool& occurred)
 {
    bool done;
 
@@ -819,7 +819,7 @@ void PhonemMaker::leftPastConsonant(int& runningIndex, bool& occurred)
     be set to "AH1","R",";".
 
 *****************************************************************************/
-void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
+void PhonemeMaker::buildLiteralPhoneme(int ruleIndex)
 {
    int i;
    int resultIndex;
@@ -923,7 +923,7 @@ void PhonemMaker::buildLiteralPhoneme(int ruleIndex)
     a rule.
 
 *****************************************************************************/
-void PhonemMaker::scanRightContext(int rightIndex,
+void PhonemeMaker::scanRightContext(int rightIndex,
                                    int& ruleIndex,
                                    bool& found)
 {
@@ -1084,7 +1084,7 @@ void PhonemMaker::scanRightContext(int rightIndex,
     text is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
+void PhonemeMaker::scanLeftContext(int leftIndex, bool& found)
 {
    int runningIndex;
    int ruleIndex;
@@ -1232,7 +1232,7 @@ void PhonemMaker::scanLeftContext(int leftIndex, bool& found)
     a rule.
 
 *****************************************************************************/
-bool PhonemMaker::compareReferenceString(void)
+bool PhonemeMaker::compareReferenceString(void)
 {
    bool result;
    int i;
@@ -1313,7 +1313,7 @@ bool PhonemMaker::compareReferenceString(void)
     a rule.
 
 *****************************************************************************/
-void PhonemMaker::buildReferenceString(int leftIndex, int& rightIndex)
+void PhonemeMaker::buildReferenceString(int leftIndex, int& rightIndex)
 {
 
    // Clear initially.
@@ -1357,7 +1357,7 @@ void PhonemMaker::buildReferenceString(int leftIndex, int& rightIndex)
     currentRule - A string that contains the current rule being evaluated.
 
 *****************************************************************************/
-void PhonemMaker::findLeftParent(int& leftIndex)
+void PhonemeMaker::findLeftParent(int& leftIndex)
 {
 
    // Point to beginning of buffer.
@@ -1405,7 +1405,7 @@ void PhonemMaker::findLeftParent(int& leftIndex)
     a rule.
 
 *****************************************************************************/
-bool PhonemMaker::evaluateContexts(void)
+bool PhonemeMaker::evaluateContexts(void)
 {
    bool result;
    int leftIndex;
@@ -1565,7 +1565,7 @@ bool PhonemMaker::evaluateContexts(void)
     text is to be evaluated.
 
 *****************************************************************************/
-void PhonemMaker::searchRuleList(std::list<std::string> rules)
+void PhonemeMaker::searchRuleList(std::list<std::string> rules)
 {
    bool done;
    bool found;
@@ -1636,7 +1636,7 @@ void PhonemMaker::searchRuleList(std::list<std::string> rules)
     phonemeBuffer - The buffer where the phoneme stream is stored.   
 
 *****************************************************************************/
-void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
+void PhonemeMaker::convertPhonemeToCode(std::string phonemeToken)
 {
    int i;
    bool match;
@@ -1697,7 +1697,7 @@ void PhonemMaker::convertPhonemeToCode(std::string phonemeToken)
      be set to "AH1","R",";".
 
 *****************************************************************************/
-void PhonemMaker::convertPhonemesToCode(void)
+void PhonemeMaker::convertPhonemesToCode(void)
 {
    int i;
 

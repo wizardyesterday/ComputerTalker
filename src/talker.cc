@@ -6,7 +6,7 @@
 #include <string>
 #include <stdint.h>
 
-#include "PhonemMaker.h"
+#include "PhonemeMaker.h"
 #include "SpeechSynthesizer.h"
 
 //*************************************************************************
@@ -36,15 +36,15 @@ int main(int argc, char **argv)
    std::string englishText;
    uint32_t phonemBufferLength;
    uint8_t *phonemCodePtr;
-   PhonemMaker *makerPtr;
+   PhonemeMaker *makerPtr;
    SpeechSynthesizer *synthesizerPtr;
 
    // We don't like dangling pointers.
-   makerPtr = (PhonemMaker *)NULL;
+   makerPtr = (PhonemeMaker *)NULL;
    synthesizerPtr = (SpeechSynthesizer *)NULL;
 
    // Instantiate the text to phonem convertor.
-   makerPtr = new PhonemMaker(makerInitialized);
+   makerPtr = new PhonemeMaker(makerInitialized);
 
    if (makerInitialized)
    {

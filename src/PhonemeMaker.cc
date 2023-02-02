@@ -81,71 +81,70 @@ PhonemeMaker::~PhonemeMaker(void)
 bool PhonemeMaker::getSystemParameters(void)
 {
    bool success;
+
+   // Load the rules into the system.
+   success = loadRules();
+
+   if (success)
+   {
+      // load the phonems into the system.
+      success = loadPhonemes();
+   } // if
+
+   return (success);
+
+} // getSystemParameters
+
+/**************************************************************************
+
+  Name: loadRules
+
+  Purpose: The purpose of this function is to retrieve the parameters
+  from the rules file.
+
+  Calling Sequence: success = loadRules()
+
+  Inputs:
+
+    None.
+
+  Outputs:
+
+    success - An indicator of the outcome of this function.  A value of
+    true indicates that the rules parameters were successfully retrieved,
+    and a value of false indicates failure.
+
+**************************************************************************/
+bool PhonemeMaker::loadRules(void)
+{
+   bool success;
    bool done;
-   FILE *phonemeStream;
    FILE *ruleStream;
-   int phonemeCount;
    char *statusPtr;
    char buffer[1000];
    char rule[100];
-   int code;
-   char name[100];
-   int numberOfExistingFiles;
    char key;
    char *keyPtr;
 
    // Default to failure.
    success = false;
-   numberOfExistingFiles = 0;
 
-   // We're using zero-based arrays.
-   phonemeCount = 0;
-
-   // Open the textual phoneme to binary code mapping file.
-   phonemeStream = fopen("configuration/phonemes.txt","r");
-
-   if (phonemeStream != NULL)
-   {
-      // The phoneme file exists.
-      numberOfExistingFiles++;
-
-      // Set up for loop entry.
-      done = false;
-
-      while (!done)
-      {
-         statusPtr = fgets(buffer,80,phonemeStream);
-
-         if (statusPtr != NULL)
-         {
-            sscanf(buffer,"%d %s",&code,name);
-
-            // Populate the phoneme structure.
-            phonemeTable[phonemeCount].phonemeName = name;
-            phonemeTable[phonemeCount].phonemeCode = code;
-
-            // Reference the next storage element.
-            phonemeCount++;
-         } // if
-         else
-         {
-            // Bail out.
-            done = true;
-         } // else
-
-      } // while */
-
-      // We're done with this file.
-      fclose(phonemeStream);
-   } // if
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+   // Read the rules file, and store the contents into a map
+   // data structure.  The key of this map is the first letter
+   // of the reference string, and the mapped value is the rule.
+   // For example, if the rule is "!(IN)=I1,N;", the reference
+   // string is "IN".  The letter 'I' would be the key in this
+   // case. 
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
    // Open the phonetic rules file.
    ruleStream = fopen("configuration/rules.txt","r");
 
    if (ruleStream != NULL)
    {
-      // The rules file exists.
-      numberOfExistingFiles++;
+      // Indicate success.
+      success = true;
 
       // Set up for loop entry.
       done = false;
@@ -169,31 +168,102 @@ bool PhonemeMaker::getSystemParameters(void)
                // Populate the rule since it is valid.
                ruleTable[keyPtr[1]].push_back(rule);
             } // if
-
          } // if
          else
          {
             // Bail out.
             done = true;
          } // else
-
       } // while */
 
       // We're done with this file.
       fclose(ruleStream);
    } // if
-
-   // Does the phoneme file and the phonetic rules exist?
-   if (numberOfExistingFiles == 2)
-   {
-      // We're good to go!
-      success = true;
-   } // if
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
    return (success);
 
-} // getSystemParameters
+} // loadRules
 
+/**************************************************************************
+
+  Name: loadPhonemes
+
+  Purpose: The purpose of this function is to retrieve the parameters
+  from the phonems file.
+
+  Calling Sequence: success = loadRules()
+
+  Inputs:
+
+    None.
+
+  Outputs:
+
+    success - An indicator of the outcome of this function.  A value of
+    true indicates that the phonem parameters were successfully retrieved,
+    and a value of false indicates failure.
+
+**************************************************************************/
+bool PhonemeMaker::loadPhonemes(void)
+{
+   bool success;
+   bool done;
+   FILE *phonemeStream;
+   char *statusPtr;
+   char buffer[1000];
+   int code;
+   char name[100];
+
+   // Default to failure.
+   success = false;
+
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+   // Read the phoneme file, and store the contents into a map
+   // data structure.  The key of this map is the string value
+   // for the phonem name, and the mapped value is the binary
+   // representation of the phoneme.
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+   // Open the textual phoneme to binary code mapping file.
+   phonemeStream = fopen("configuration/phonemes.txt","r");
+
+   if (phonemeStream != NULL)
+   {
+      // Indicate success.
+      success = true;
+
+      // Set up for loop entry.
+      done = false;
+
+      while (!done)
+      {
+         statusPtr = fgets(buffer,80,phonemeStream);
+
+         if (statusPtr != NULL)
+         {
+            // Retrieve parameters.
+            sscanf(buffer,"%d %s",&code,name);
+
+            // Save table entry.
+            phonemeTable[name] = code;
+        } // if
+         else
+         {
+            // Bail out.
+            done = true;
+         } // else
+      } // while */
+
+      // We're done with this file.
+      fclose(phonemeStream);
+   } // if
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+   return (success);
+
+} // loadPhonemes
+ 
 /************************************************************************
 
   Name: translateEnglishText
@@ -1622,34 +1692,20 @@ void PhonemeMaker::evaluateRules(std::list<std::string> rules)
 *****************************************************************************/
 void PhonemeMaker::convertPhonemeToCode(std::string phonemeToken)
 {
-   int i;
-   bool match;
+   std::map <std::string, uint8_t>::iterator iItr;
 
-   // Point to begining of phoneme table.
-   i = 0;
+   // Determine if we have a valid phoneme.
+   iItr = phonemeTable.find(phonemeToken);
 
-   // Clear initially.
-   match = false;
-
-   while (!match)
+   if (iItr != phonemeTable.end())
    {
-      if (phonemeToken == phonemeTable[i].phonemeName)
-      {
-         // Store phoneme code.
-         phonemeBuffer[phonemeBufferIndex] = phonemeTable[i].phonemeCode;
+      // Store phoneme code.
+      phonemeBuffer[phonemeBufferIndex] = iItr->second;
 
-         // Reference the next phoneme buffer location.
-         phonemeBufferIndex = phonemeBufferIndex + 1;
+      // Reference the next phoneme buffer location.
+      phonemeBufferIndex = phonemeBufferIndex + 1;
 
-         // Exit loop.
-         match = true;
-      } // if
-      else
-      {
-         // Reference the next item.
-         i = i + 1;
-      } // else
-   } // while
+   } // if
 
   return;
 

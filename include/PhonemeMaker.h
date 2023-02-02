@@ -47,6 +47,8 @@ class PhonemeMaker
    // Utility functions.
    //*****************************************
    bool getSystemParameters(void);
+   bool loadRules(void);
+   bool loadPhonemes(void);
 
    bool isAlpha(char c);
    bool isVowel(char c);
@@ -84,7 +86,7 @@ class PhonemeMaker
    std::map <char, std::list <std::string> > ruleTable;
 
    // This table is used to map phoneme names to binary values.
-   PhonemToCodeEntry phonemeTable[NUMBER_OF_PHONEMES];
+   std::map <std::string, uint8_t> phonemeTable;
 
    // Storage for the current rule being evaluated.
    std::string currentRule;

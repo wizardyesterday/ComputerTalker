@@ -66,6 +66,9 @@ to the research directory.
 --------------------------------------------------------------------
 02/01/2023
 --------------------------------------------------------------------
-File names have been changed, and content has been fixed so that
+1. File names have been changed, and content has been fixed so that
 phoneme is properly spelled.
+
+2. The phoneme table is now implemented as a map.
+
 

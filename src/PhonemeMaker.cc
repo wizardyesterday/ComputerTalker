@@ -1709,7 +1709,6 @@ void PhonemeMaker::convertPhonemeToCode(std::string phonemeToken)
 
       // Reference the next phoneme buffer location.
       phonemeBufferIndex = phonemeBufferIndex + 1;
-
    } // if
 
   return;

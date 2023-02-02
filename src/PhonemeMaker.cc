@@ -1550,7 +1550,7 @@ bool PhonemeMaker::evaluateContexts(void)
 
       ! - Invokes a procedure that attempts to match any nonalphabetic
           character in English input string. If match failes, reports
-          feilure. If match succeeds, moves rule string pointer by
+          failure. If match succeeds, moves rule string pointer by
           one character in rule and moves input string pointer by
           one character in the English string. The direction of
           movement is determined as:

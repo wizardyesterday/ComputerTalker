@@ -53,8 +53,13 @@ synthesizerInitialized
 PhonemeMaker::~PhonemeMaker(void)
 {
 
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
    // Release storage
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
    ruleTable.clear();
+
+   phonemeTable.clear();
+   //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 } // ~PhonemeMaker
 

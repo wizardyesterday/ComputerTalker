@@ -47,6 +47,8 @@ class PhonemeMaker
    // Utility functions.
    //*****************************************
    bool getSystemParameters(void);
+   bool loadRules(void);
+   bool loadPhonemes(void);
 
    bool isAlpha(char c);
    bool isVowel(char c);

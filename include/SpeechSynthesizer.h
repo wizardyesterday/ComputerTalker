@@ -28,7 +28,8 @@ class SpeechSynthesizer
    //*****************************************
    // Attributes.
    //*****************************************
-
+   // This provides bounds checking support.
+   uint32_t maximumPhonemValue;
 };
 
 #endif // _SPEECHSYNTHESIZER_H_

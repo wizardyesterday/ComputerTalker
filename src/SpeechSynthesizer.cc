@@ -148,6 +148,9 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
       } // else
    } // for
 
+   // We need this for bounds checking in the talk() method.
+   maximumPhonemValue = (sizeof(pcmBuffers) / sizeof(pcmEntry)) - 1;
+
    return;
  
 } // SpeechSynthesizer
@@ -205,16 +208,20 @@ void SpeechSynthesizer::talk(uint8_t*& phonemBuffer,uint32_t phonemCount)
    uint32_t i;
    uint8_t phonemCode;
 
-  for (i = 0; i < phonemCount; i++)
-  {
+   for (i = 0; i < phonemCount; i++)
+   {
       // Retrieve the phonem code from the buffer.
       phonemCode = phonemBuffer[i];
 
-      // Write the PCM samples to stdout.
-      fwrite(pcmBuffers[phonemCode].data,
-             sizeof(int16_t),
-             pcmBuffers[phonemCode].numberOfSamples,
-             stdout);
+      // Make sure we're in bounds.
+      if (phonemCode <= maximumPhonemValue)
+      {
+         // Write the PCM samples to stdout.
+         fwrite(pcmBuffers[phonemCode].data,
+                sizeof(int16_t),
+                pcmBuffers[phonemCode].numberOfSamples,
+                stdout);
+      } // if
    } // for
   
    return;

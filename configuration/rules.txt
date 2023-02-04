@@ -1,13 +1,178 @@
+//************************************************************************
+// This file defines the phonetic rules for the English language that
+// are evaluated by the RetroTalker.
+//
+// The format of the rules is described below.
+//
+/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+//
+//  Rule format - #(SED)!=Z,D;
+//
+//    # - Left context
+//    ( - Left context delimiter
+//    SED - String to be matched
+//    ) - Right context delimiter
+//    ! - Right context
+//    = - Right context terminator
+//    Z - Phoneme code
+//    , - Phoneme separator
+//    D - Phoneme code
+//    ; - Rule terminator
+//
+//  Meaning of rule symbols:
+//
+//    ! - Invokes a procedure that attempts to match any nonalphabetic
+//        character in English input string. If match failes, reports
+//        failure. If match succeeds, moves rule string pointer by
+//        one character in rule and moves input string pointer by
+//        one character in the English string. The direction of
+//        movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      # - Invokes a procedure that attempts to match one or more
+//          vowels (A,E,I,O,U, OR Y). If match fails, reports failure.
+//          If match succeeds, moves rule pointer by one character in
+//          rules and moves string pointer by the number of vowels
+//          matched in English string. The direction of movement is
+//          determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      : - Invokes a procedure that attempts to match zero or more
+//          consonants. Match always succeeds. Moves rule pointer by
+//          one character in rules and moves string pointer by the
+//          number of consonants matched in English input string. The
+//          direction of movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      + - Invokes a procedure that attempts to match a front vowel
+//          (E,I, OR Y). If match fails, reports failure. If match
+//          succeeds, moves rule pointer by one character in rules
+//          and moves string pointer by one character in input string.
+//          The direction of movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      $ - Invokes a procedure that attempts to match one consonant. If
+//          match fails, reports failure. If match succeeds, moves rule
+//          pointer by one character in rules and moves string pointer
+//          by one character in English input string. Direction of movement
+//          is determined as:
+
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      . - Invokes a procedure that attempts to match a voiced consonant
+//          (B,D,G,J,L,M,N,R,V,W, OR Z). If match fails, reports failure.
+//          If match succeeds, moves rule pointer by one character in rules
+//          and moves string pointer by one character in English input
+//          string. Direction of movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//  After a match is found, the index into the English buffer is incremented
+//  Rule format - #(SED)!=Z,D;
+//
+//    # - Left context
+//    ( - Left context delimiter
+//    SED - String to be matched
+//    ) - Right context delimiter
+//    ! - Right context
+//    = - Right context terminator
+//    Z - Phoneme code
+//    , - Phoneme separator
+//    D - Phoneme code
+//    ; - Rule terminator
+//
+//  Meaning of rule symbols:
+//
+//    ! - Invokes a procedure that attempts to match any nonalphabetic
+//        character in English input string. If match failes, reports
+//        failure. If match succeeds, moves rule string pointer by
+//        one character in rule and moves input string pointer by
+//        one character in the English string. The direction of
+//        movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      # - Invokes a procedure that attempts to match one or more
+//          vowels (A,E,I,O,U, OR Y). If match fails, reports failure.
+//          If match succeeds, moves rule pointer by one character in
+//          rules and moves string pointer by the number of vowels
+//          matched in English string. The direction of movement is
+//          determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      : - Invokes a procedure that attempts to match zero or more
+//          consonants. Match always succeeds. Moves rule pointer by
+//          one character in rules and moves string pointer by the
+//          number of consonants matched in English input string. The
+//          direction of movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      + - Invokes a procedure that attempts to match a front vowel
+//          (E,I, OR Y). If match fails, reports failure. If match
+//          succeeds, moves rule pointer by one character in rules
+//          and moves string pointer by one character in input string.
+//          The direction of movement is determined as:
+//
+//            1. Forward if right context is being scanned
+//            2. Backward if left context is being scanned
+//
+//      $ - Invokes a procedure that attempts to match one consonant. If
+//          match fails, reports failure. If match succeeds, moves rule
+//          pointer by one character in rules and moves string pointer
+//          by one character iby the number of characters inside of the
+//          parenthesis of the rule.
+/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+//
+//************************************************************************
+
+//********************************************************
+// A rules.
+//********************************************************
 (A)!=UH2;
 (AR)=AH1,R;
 #:(AL)!=UH,L;
 (AL)$=AW1,UH3,L;
 (A)=AE1;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// B rules.
+//********************************************************
 (B)=B;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// C rules.
+//********************************************************
 (CH)=T,CH;
 (C)+=S;
 (C)=K;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// D rules.
+//********************************************************
 (D)=D;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// E rules.
+//********************************************************
 #:(E)!=;
 !:(E)!=E1;
 #:(E)D!=;
@@ -16,50 +181,162 @@
 (EE)=E;
 (EA)=E;
 (E)=EH1;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// F rules.
+//********************************************************
 (F)=F;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// G rules.
+//********************************************************
 (G)=G;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// H rules.
+//********************************************************
 (H)#=H;
 (H)=;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// I rules.
+//********************************************************
 !(IN)=I1,N;
 (I)$+:#=I;
 (I)$+=AH2,I2;
 (I)=I1;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// J rules.
+//********************************************************
 (J)=D,J;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// K rules.
+//********************************************************
 (K)=K;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// L rules.
+//********************************************************
 (L)L=;
 (L)=L;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// M rules.
+//********************************************************
 (M)=M;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// N rules.
+//********************************************************
 (NG)=NG;
 (N)=N;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// O rules.
+//********************************************************
 (OF)!=UH2,V;
 (OR)=AW,R;
 I(ON)=UH2,N;
 (O)=O;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// P rules.
+//********************************************************
 (P)=P;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// Q rules.
+//********************************************************
 (QU)=K,W;
 (Q)=K;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// R rules.
+//********************************************************
 (R)=R;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// S rules.
+//********************************************************
 (SH)=SH;
 #(SED)!=Z,D;
 (S)S=;
 .(S)=Z;
 (S)=S;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// T rules.
+//********************************************************
 !(THE)!=THV,UH2;
 (TO)!=T,IU,U1;
 (THAT)!=THV,AE,T;
 (TH)=TH;
 (TI)O=SH;
 (T)=T;
-(U)$$!=UH1;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// U rules.
+//********************************************************
+(U)$$!=UH1;;
+(U)$$=UH1;
+(U)$!=UH1;
 (U)=Y1,IU,U1;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// V rules.
+//********************************************************
 (V)=V;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// W rules.
+//********************************************************
 !(WAS)!=W,AH1,Z;
 (W)=W;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// X rules.
+//********************************************************
 (X)=K,S;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// Y rules.
+//********************************************************
 #:$(Y)!=E1,E1;
 (Y)=Y;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// Z rules.
+//********************************************************
 (Z)=Z;
 (0)=Z,I1,R,O;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// Digit rules.
+//********************************************************
 (1)=W,UH1,N;
 (2)=T,U;
 (3)=TH,ER,E;
@@ -69,8 +346,15 @@ I(ON)=UH2,N;
 (7)=S,EH1,V,EH1,N;
 (8)=A,T;
 (9)=N,AH2,I2,N,ER;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+//********************************************************
+// Punctuation rules.
+//********************************************************
 (,)=PA0;
 (;)=PA0;
 (:)=PA0;
 ( )=PA0;
 (.)=PA1,STOP;
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+

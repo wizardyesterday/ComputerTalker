@@ -166,12 +166,16 @@ bool PhonemeMaker::loadRules(void)
             // Nuke the \n.
             rule[strlen(rule)-1] = '\0';
 
-            keyPtr = index(rule,'(');
-
-            if (keyPtr !=  NULL)
+            // Ignore comments.
+            if (buffer[0] != '/')
             {
-               // Populate the rule since it is valid.
-               ruleTable[keyPtr[1]].push_back(rule);
+               keyPtr = index(rule,'(');
+
+               if (keyPtr !=  NULL)
+               {
+                  // Populate the rule since it is valid.
+                  ruleTable[keyPtr[1]].push_back(rule);
+               } // if
             } // if
          } // if
          else
@@ -268,7 +272,7 @@ bool PhonemeMaker::loadPhonemes(void)
    return (success);
 
 } // loadPhonemes
- 
+
 /************************************************************************
 
   Name: translateEnglishText

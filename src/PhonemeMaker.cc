@@ -1562,48 +1562,48 @@ bool PhonemeMaker::evaluateContexts(void)
               1. Forward if right context is being scanned
               2. Backward if left context is being scanned
 
-        # - Invokes a procedure that attempts to match one or more
-            vowels (A,E,I,O,U,Y). If match fails, reports failure.
-            If match succeeds, moves rule pointer by one character in
-            rules and moves string pointer by the number of vowels
-            matched in English string. The direction of movement is
-            determined as:
+      # - Invokes a procedure that attempts to match one or more
+          vowels (A,E,I,O,U,Y). If match fails, reports failure.
+          If match succeeds, moves rule pointer by one character in
+          rules and moves string pointer by the number of vowels
+          matched in English string. The direction of movement is
+          determined as:
 
               1. Forward if right context is being scanned
               2. Backward if left context is being scanned
 
-        : - Invokes a procedure that attempts to match zero or more
-            consonants. Match always succeeds. Moves rule pointer by
-            one character in rules and moves string pointer by the
-            number of consonants matched in English input string. The
-            direction of movement is determined as:
+      : - Invokes a procedure that attempts to match zero or more
+          consonants. Match always succeeds. Moves rule pointer by
+          one character in rules and moves string pointer by the
+          number of consonants matched in English input string. The
+          direction of movement is determined as:
 
               1. Forward if right context is being scanned
               2. Backward if left context is being scanned
 
-        + - Invokes a procedure that attempts to match a front vowel
-            (E,I,Y). If match fails, reports failure. If match
-            succeeds, moves rule pointer by one character in rules
-            and moves string pointer by one character in input string.
-            The direction of movement is determined as:
+      + - Invokes a procedure that attempts to match a front vowel
+          (E,I,Y). If match fails, reports failure. If match
+          succeeds, moves rule pointer by one character in rules
+          and moves string pointer by one character in input string.
+          The direction of movement is determined as:
 
               1. Forward if right context is being scanned
               2. Backward if left context is being scanned
 
-        $ - Invokes a procedure that attempts to match one consonant. If
-            match fails, reports failure. If match succeeds, moves rule
-            pointer by one character in rules and moves string pointer
-            by one character in English input string. Direction of movement
-            is determined as:
+      $ - Invokes a procedure that attempts to match one consonant. If
+          match fails, reports failure. If match succeeds, moves rule
+          pointer by one character in rules and moves string pointer
+          by one character in English input string. Direction of movement
+          is determined as:
 
               1. Forward if right context is being scanned
               2. Backward if left context is being scanned
 
-        . - Invokes a procedure that attempts to match a voiced consonant
-            (B,D,G,J,L,M,N,R,V,W,Z). If match fails, reports failure.
-            If match succeeds, moves rule pointer by one character in rules
-            and moves string pointer by one character in English input
-            string. Direction of movement is determined as:
+      . - Invokes a procedure that attempts to match a voiced consonant
+          (B,D,G,J,L,M,N,R,V,W,Z). If match fails, reports failure.
+          If match succeeds, moves rule pointer by one character in rules
+          and moves string pointer by one character in English input
+          string. Direction of movement is determined as:
 
               1. Forward if right context is being scanned
               2. Backward if left context is being scanned

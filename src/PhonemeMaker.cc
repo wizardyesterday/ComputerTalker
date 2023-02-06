@@ -123,6 +123,7 @@ bool PhonemeMaker::getSystemParameters(void)
 bool PhonemeMaker::loadRules(void)
 {
    bool success;
+   bool ruleIsValid;
    bool done;
    FILE *ruleStream;
    char *statusPtr;
@@ -169,12 +170,17 @@ bool PhonemeMaker::loadRules(void)
             // Ignore comments.
             if (buffer[0] != '/')
             {
-               keyPtr = index(rule,'(');
+               ruleIsValid = validateRule(buffer);
 
-               if (keyPtr !=  NULL)
+               if (ruleIsValid)
                {
-                  // Populate the rule since it is valid.
-                  ruleTable[keyPtr[1]].push_back(rule);
+                  keyPtr = index(rule,'(');
+
+                  if (keyPtr !=  NULL)
+                  {
+                     // Populate the rule since it is valid.
+                     ruleTable[keyPtr[1]].push_back(rule);
+                  } // if
                } // if
             } // if
          } // if
@@ -272,6 +278,78 @@ bool PhonemeMaker::loadPhonemes(void)
    return (success);
 
 } // loadPhonemes
+
+/**************************************************************************
+
+  Name: validateRule
+
+  Purpose: The purpose of this function is to test whether or not a
+  phoneme rule is approximately valid.  This check ensures that
+  the program will not crash if subjected to invalid rules.
+
+  Calling Sequence: valid = validateRule(bufferPtr)
+
+  Inputs:
+
+    bufferPtr - A pointer to a character string that represents a
+    phoneme rule.
+
+  Outputs:
+
+    valid - An indicator of the outcome of this function.  A value of
+    true indicates that the rule is approximately correct, and a value
+    of false indicates that the rule is incorredt.
+
+**************************************************************************/
+bool PhonemeMaker::validateRule(char *bufferPtr)
+{
+   bool valid;
+   char characterToBeMatched;
+   char *ruleScanPtr;
+
+   // Default to an invalid rule.
+   valid = false;
+
+   if (strlen(bufferPtr) > 5)
+   {
+      // Check for first token of interest.
+      ruleScanPtr = index(bufferPtr,'(');
+
+      if (ruleScanPtr != NULL)
+      {
+         // Retrieve the character after the left parent.
+         characterToBeMatched = ruleScanPtr[1];
+
+         // We don't only want a pair of parentheses
+         if (characterToBeMatched != ')');
+         {
+            // Check for second token of interest.
+            ruleScanPtr = index(ruleScanPtr,')');
+
+            if (ruleScanPtr != NULL)
+            {
+               // Check for third token of interest.
+               ruleScanPtr = index(ruleScanPtr,'=');
+
+               if (ruleScanPtr != NULL)
+               {
+                  // Check for fourth token of interest.
+                  ruleScanPtr = index(ruleScanPtr,';');
+
+                  if (ruleScanPtr != NULL)
+                  {
+                     // The rule is approximately valid.
+                     valid = true;
+                  } // if
+               } // if
+            } // if
+         } // if
+      } // if
+   } // if
+   
+   return (valid);
+
+} // validateRule
 
 /************************************************************************
 

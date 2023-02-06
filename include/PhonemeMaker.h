@@ -49,6 +49,7 @@ class PhonemeMaker
    bool getSystemParameters(void);
    bool loadRules(void);
    bool loadPhonemes(void);
+   bool validateRule(char *bufferPtr);
 
    bool isAlpha(char c);
    bool isVowel(char c);

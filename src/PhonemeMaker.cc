@@ -4,6 +4,80 @@
 
 #include "PhonemeMaker.h"
 
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+// This array is used for the construction of the phoneme table.
+// The phoneme code is used as the index into this array.
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+static char *phonemes[] =
+{
+   // Name    Votrax SC-01 code
+   "EH3",  // 00
+   "EH2",  // 01
+   "EH1",  // 02
+   "PA0",  // 03
+   "DT",   // 04
+   "A2",   // 05
+   "A1",   // 06
+   "ZH",   // 07
+   "AH2",  // 08
+   "I3",   // 09
+   "I2",   // 0A
+   "I1",   // 0B
+   "M",    // 0C
+   "N",    // 0D
+   "B",    // 0E
+   "V",    // 0F
+   "CH",   // 10
+   "SH",   // 11
+   "Z",    // 12
+   "AW1",  // 13
+   "NG",   // 14
+   "AH1",  // 15
+   "OO1",  // 16
+   "OO",   // 17
+   "L",    // 18
+   "K",    // 19
+   "J",    // 1A
+   "H",    // 1B
+   "G",    // 1C
+   "F",    // 1D
+   "D",    // 1E
+   "S",    // 1F
+   "A",    // 20
+   "AY",   // 21
+   "Y1",   // 22
+   "UH3",  // 23
+   "AH",   // 24
+   "P",    // 25
+   "O",    // 26
+   "I",    // 27
+   "U",    // 28
+   "Y",    // 29
+   "T",    // 2A
+   "R",    // 2B
+   "E",    // 2C
+   "W",    // 2D
+   "AE",   // 2E
+   "AE1",  // 2F
+   "AW2",  // 30
+   "UH2",  // 31
+   "UH1",  // 32
+   "UH",   // 33
+   "O2",   // 34
+   "O1",   // 35
+   "IU",   // 36
+   "U1",   // 37
+   "THV",  // 38
+   "TH",   // 39
+   "ER",   // 3A
+   "EH",   // 3B
+   "E1",   // 3C
+   "AW",   // 3D
+   "PA1",  // 3E,
+   "STOP"  // 3F
+};
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
 /************************************************************************
 
   Name: PhonemeMaker
@@ -93,7 +167,7 @@ bool PhonemeMaker::getSystemParameters(void)
    if (success)
    {
       // load the phonems into the system.
-      success = loadPhonemes();
+      loadPhonemes();
    } // if
 
    return (success);
@@ -205,9 +279,9 @@ bool PhonemeMaker::loadRules(void)
   Name: loadPhonemes
 
   Purpose: The purpose of this function is to retrieve the parameters
-  from the phonems file.
+  from the phoneme array.
 
-  Calling Sequence: success = loadRules()
+  Calling Sequence: loadPhonemes()
 
   Inputs:
 
@@ -215,67 +289,36 @@ bool PhonemeMaker::loadRules(void)
 
   Outputs:
 
-    success - An indicator of the outcome of this function.  A value of
-    true indicates that the phonem parameters were successfully retrieved,
-    and a value of false indicates failure.
+    None.
 
 **************************************************************************/
-bool PhonemeMaker::loadPhonemes(void)
+void PhonemeMaker::loadPhonemes(void)
 {
-   bool success;
-   bool done;
-   FILE *phonemeStream;
-   char *statusPtr;
-   char buffer[1000];
-   int code;
-   char name[100];
+   std::string name;
+   uint8_t code;
+   uint8_t numberOfPhonemes;
 
-   // Default to failure.
-   success = false;
+   // Compute this to keep things safe.
+   numberOfPhonemes = sizeof(phonemes) / sizeof(*phonemes);
 
    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-   // Read the phoneme file, and store the contents into a map
+   // Read the phonemes array, and store the contents into a map
    // data structure.  The key of this map is the string value
    // for the phonem name, and the mapped value is the binary
    // representation of the phoneme.
    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-   // Open the textual phoneme to binary code mapping file.
-   phonemeStream = fopen("configuration/phonemes.txt","r");
-
-   if (phonemeStream != NULL)
+   for (code = 0; code < numberOfPhonemes; code++)
    {
-      // Indicate success.
-      success = true;
+      // Perform this step to improve readability.
+      name = phonemes[code];
 
-      // Set up for loop entry.
-      done = false;
-
-      while (!done)
-      {
-         statusPtr = fgets(buffer,80,phonemeStream);
-
-         if (statusPtr != NULL)
-         {
-            // Retrieve parameters.
-            sscanf(buffer,"%d %s",&code,name);
-
-            // Save table entry.
-            phonemeTable[name] = code;
-        } // if
-         else
-         {
-            // Bail out.
-            done = true;
-         } // else
-      } // while */
-
-      // We're done with this file.
-      fclose(phonemeStream);
-   } // if
+      // Save table entry.
+      phonemeTable[name] = code;
+   } // for
    //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-   return (success);
+   return;
 
 } // loadPhonemes
 

@@ -27,12 +27,6 @@ class PhonemeMaker
 {
    public:
 
-   struct PhonemToCodeEntry
-   {
-      std::string phonemeName;
-      uint8_t phonemeCode;
-   };
-
    PhonemeMaker(bool& success);
 
    ~PhonemeMaker(void);
@@ -48,7 +42,8 @@ class PhonemeMaker
    //*****************************************
    bool getSystemParameters(void);
    bool loadRules(void);
-   bool loadPhonemes(void);
+   void loadPhonemes(void);
+   bool validateRule(char *bufferPtr);
 
    bool isAlpha(char c);
    bool isVowel(char c);

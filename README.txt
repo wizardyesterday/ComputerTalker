@@ -72,3 +72,14 @@ phoneme is properly spelled.
 2. The phoneme table is now implemented as a map.
 
 
+--------------------------------------------------------------------
+02/06/2023
+--------------------------------------------------------------------
+1. The phoneme.txt file has been removed.  It isn't really
+necessary since this system already knows that Votrax SC-01
+phnemes are being generated.
+
+2. Rules are being approximately validated when reading in the
+rules file.  Validation is nothing fancy, but enough checks are
+being made to avoid buffer overflows.
+

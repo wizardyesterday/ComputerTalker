@@ -4,7 +4,7 @@
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 // This class attempts to emulate a Votrax SC-01 speech
 // synthesizer.  To achieve this, when presented with a stream of
-// phonem codes, each phonem code is mapped to a PCM buffer.  The
+// phoneme codes, each phoneme code is mapped to a PCM buffer.  The
 // contents of this buffer is written to stdout where the output
 // can be piped to your favorite audio player.  The format of the
 // audio files are 16-bit signed little endian quantities.  The
@@ -15,7 +15,7 @@
 
 #include "SpeechSynthesizer.h"
 
-// Phonem code context.
+// Phoneme code context.
 struct pcmEntry
 {
    char *fileNamePtr;
@@ -24,9 +24,9 @@ struct pcmEntry
 };
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-// Each entry of this array represents the context of each phonem
+// Each entry of this array represents the context of each phoneme
 // code.  The comments on the far right indicate the Votrax SC-01
-// phonem code.
+// phoneme code.
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 static pcmEntry pcmBuffers[] =
 {
@@ -103,8 +103,8 @@ static pcmEntry pcmBuffers[] =
 
   Purpose: The purpose of this function is to serve as the constructor
   of an SpeechSynthesizer object.  The function loads the contents
-  of each phonem into each entry of the phonemBuffers[] array so that
-  the phonem PCM samples can be output at a later time. 
+  of each phoneme into each entry of the phonemeBuffers[] array so that
+  the phoneme PCM samples can be output at a later time. 
 
   Calling Sequence: SpeechSynthesizer(bool& success)
 
@@ -129,7 +129,7 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
 
    for (i = 0; i < 64; i++)
    {
-      // Open the current phonem PCM file.
+      // Open the current phoneme PCM file.
       streamPtr = fopen(pcmBuffers[i].fileNamePtr,"r");
 
       if (streamPtr != NULL)
@@ -138,7 +138,7 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
          pcmBuffers[i].numberOfSamples =
             fread(pcmBuffers[i].data,sizeof(int16_t),40000,streamPtr);
 
-         // We're done with this phonem PCM file.
+         // We're done with this phoneme PCM file.
          fclose(streamPtr);
       } // if
       else
@@ -149,7 +149,7 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
    } // for
 
    // We need this for bounds checking in the talk() method.
-   maximumPhonemValue = (sizeof(pcmBuffers) / sizeof(pcmEntry)) - 1;
+   maximumPhonemeValue = (sizeof(pcmBuffers) / sizeof(pcmEntry)) - 1;
 
    return;
  
@@ -185,41 +185,42 @@ SpeechSynthesizer::~SpeechSynthesizer(void)
   Name: talk
 
   Purpose: The purpose of this function is to send PCM data to stdiout
-  based upon phonem codes.  Presently, a phonem code in the
-  phonem buffer will be used to index into a structure that contains
+  based upon phoneme codes.  Presently, a phoneme code in the
+  phoneme buffer will be used to index into a structure that contains
   a buffer, and a buffer length.
 
-  Calling Sequence: talk(uint8_t*& phonemBuffer,uint32_t phonemCount)
+  Calling Sequence: talk(uint8_t*& phonemeBuffer,uint32_t phonemeCount)
 
   Inputs:
 
-    phonemBuffer - A reference to storage of a binary representation
-    of phonems.
+    phonemeBuffer - A reference to storage of a binary representation
+    of phonemes.
 
-    phonemCount - The number of phonems to decode.
+    phonemeCount - The number of phonemes to decode.
 
   Outputs:
 
     None.
 
 **************************************************************************/
-void SpeechSynthesizer::talk(uint8_t*& phonemBuffer,uint32_t phonemCount)
+void SpeechSynthesizer::talk(uint8_t*& phonemeBuffer,
+                             uint32_t phonemeCount)
 {
    uint32_t i;
-   uint8_t phonemCode;
+   uint8_t phonemeCode;
 
-   for (i = 0; i < phonemCount; i++)
+   for (i = 0; i < phonemeCount; i++)
    {
-      // Retrieve the phonem code from the buffer.
-      phonemCode = phonemBuffer[i];
+      // Retrieve the phoneme code from the buffer.
+      phonemeCode = phonemeBuffer[i];
 
       // Make sure we're in bounds.
-      if (phonemCode <= maximumPhonemValue)
+      if (phonemeCode <= maximumPhonemeValue)
       {
          // Write the PCM samples to stdout.
-         fwrite(pcmBuffers[phonemCode].data,
+         fwrite(pcmBuffers[phonemeCode].data,
                 sizeof(int16_t),
-                pcmBuffers[phonemCode].numberOfSamples,
+                pcmBuffers[phonemeCode].numberOfSamples,
                 stdout);
       } // if
    } // for

@@ -17,7 +17,7 @@ class SpeechSynthesizer
 
    ~SpeechSynthesizer(void);
 
-   void talk(uint8_t*& phonemBuffer,uint32_t phonemCount);
+   void talk(uint8_t*& phonemeBuffer,uint32_t phonemeCount);
 
    private:
 
@@ -29,7 +29,7 @@ class SpeechSynthesizer
    // Attributes.
    //*****************************************
    // This provides bounds checking support.
-   uint32_t maximumPhonemValue;
+   uint32_t maximumPhonemeValue;
 };
 
 #endif // _SPEECHSYNTHESIZER_H_

@@ -248,7 +248,7 @@ bool PhonemeMaker::loadRules(void)
 
                if (ruleIsValid)
                {
-                  keyPtr = index(rule,'(');
+                  keyPtr = strchr(rule,'(');
 
                   if (keyPtr !=  NULL)
                   {
@@ -356,7 +356,7 @@ bool PhonemeMaker::validateRule(char *bufferPtr)
    if (strlen(bufferPtr) > 5)
    {
       // Check for first token of interest.
-      ruleScanPtr = index(bufferPtr,'(');
+      ruleScanPtr = strchr(bufferPtr,'(');
 
       if (ruleScanPtr != NULL)
       {
@@ -367,17 +367,17 @@ bool PhonemeMaker::validateRule(char *bufferPtr)
          if (characterToBeMatched != ')');
          {
             // Check for second token of interest.
-            ruleScanPtr = index(ruleScanPtr,')');
+            ruleScanPtr = strchr(ruleScanPtr,')');
 
             if (ruleScanPtr != NULL)
             {
                // Check for third token of interest.
-               ruleScanPtr = index(ruleScanPtr,'=');
+               ruleScanPtr = strchr(ruleScanPtr,'=');
 
                if (ruleScanPtr != NULL)
                {
                   // Check for fourth token of interest.
-                  ruleScanPtr = index(ruleScanPtr,';');
+                  ruleScanPtr = strchr(ruleScanPtr,';');
 
                   if (ruleScanPtr != NULL)
                   {

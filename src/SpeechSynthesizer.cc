@@ -122,12 +122,19 @@ static pcmEntry pcmBuffers[] =
 SpeechSynthesizer::SpeechSynthesizer(bool& success)
 {
    int i;
+   uint32_t numberOfPhonemes;
    FILE *streamPtr;
+
+   // This makes code clearer.
+   numberOfPhonemes = sizeof(pcmBuffers) / sizeof(pcmEntry);
+
+   // We need this for bounds checking in the talk() method.
+   maximumPhonemeValue = numberOfPhonemes - 1;
 
    // Default to success.
    success = true;
 
-   for (i = 0; i < 64; i++)
+   for (i = 0; i < numberOfPhonemes; i++)
    {
       // Open the current phoneme PCM file.
       streamPtr = fopen(pcmBuffers[i].fileNamePtr,"r");
@@ -147,9 +154,6 @@ SpeechSynthesizer::SpeechSynthesizer(bool& success)
          success = false;
       } // else
    } // for
-
-   // We need this for bounds checking in the talk() method.
-   maximumPhonemeValue = (sizeof(pcmBuffers) / sizeof(pcmEntry)) - 1;
 
    return;
  

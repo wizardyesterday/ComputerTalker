@@ -1039,20 +1039,24 @@ void PhonemeMaker::buildLiteralPhoneme(int ruleIndex)
          {
             if (currentRule[runningIndex] != ';')
             {
-               phonemeTokens[resultIndex] =
-                  phonemeTokens[resultIndex] + currentRule[runningIndex];
-
-               // Bump rule index.
-               runningIndex = runningIndex + 1;
-
-               if (currentRule[runningIndex] == ',')
+               // Watch out for buffer overflow!
+               if (resultIndex < (NUMBER_OF_PHONEME_TOKENS - 1))
                {
-                  // bump index past comma.
+                  phonemeTokens[resultIndex] =
+                     phonemeTokens[resultIndex] + currentRule[runningIndex];
+
+                  // Bump rule index.
                   runningIndex = runningIndex + 1;
 
-                  // Exit comma scan.
-                  done = true;
-               } // if
+                  if (currentRule[runningIndex] == ',')
+                  {
+                     // bump index past comma.
+                     runningIndex = runningIndex + 1;
+
+                     // Exit comma scan.
+                     done = true;
+                  } // if
+               } // if yoyo
             } // if
             else
             {

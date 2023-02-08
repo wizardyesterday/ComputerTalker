@@ -121,7 +121,7 @@ echo mission > UH3
 # m_O_p, Duration: 250ms
 echo mop > AH
 
-# p_A_st, Duration: 103ms
+# p_A_st (should be P_ast), Duration: 103ms
 echo past > P
 
 # c_O_ld, Duration: 185ms

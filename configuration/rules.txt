@@ -85,7 +85,7 @@
 // (A)=AE1; first, no other rules would be tested since there is neither
 // a left context nor a right context for this case.  That is, any text,
 // with the letter 'A' contained in it, would result in the letter 'A'
-// rendering as the phonem, AE1.
+// rendering as the phoneme, AE1.
 //************************************************************************
 //
 //********************************************************

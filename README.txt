@@ -80,7 +80,7 @@ phoneme is properly spelled.
 --------------------------------------------------------------------
 1. The phoneme.txt file has been removed.  It isn't really
 necessary since this system already knows that Votrax SC-01
-phnemes are being generated.
+phonemes are being generated.
 
 2. Rules are being approximately validated when reading in the
 rules file.  Validation is nothing fancy, but enough checks are
